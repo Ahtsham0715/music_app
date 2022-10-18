@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/auth/login_ui.dart';
+import 'package:window_manager/window_manager.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await windowManager.ensureInitialized();
+  // windowManager.waitUntilReadyToShow().then((_) async {
+  //   await windowManager.setAsFrameless();
+  // });
   runApp(const MyApp());
 }
 
