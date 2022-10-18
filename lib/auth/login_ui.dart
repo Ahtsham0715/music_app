@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:music_app/auth/register_ui.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
 
@@ -14,13 +16,28 @@ class _LoginUiState extends State<LoginUi> {
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
+  TextEditingController _confirmpassword = TextEditingController();
 
+  bool islogin = true;
+  bool confirmPasswordVisible = true;
   bool passwordVisible = true;
+  var args = Get.arguments;
   // Visibility of password
   void _passwordVisibility() {
     setState(() {
       passwordVisible = !passwordVisible;
     });
+  }
+
+  void _confirmPasswordVisibility() {
+    setState(() {
+      confirmPasswordVisible = !confirmPasswordVisible;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -156,44 +173,89 @@ class _LoginUiState extends State<LoginUi> {
                     SizedBox(
                       height: responsiveHW(context, ht: 3),
                     ),
-                    ButtonBar(
-                      alignment: MainAxisAlignment.end,
-                      children: [
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 15.0),
-                        //   child: TextButton(
-                        //     onPressed: () {
-                        //       // Get.to(
-                        //       //   () => const RegisterPage(),
-                        //       // );
-                        //     },
-                        //     child: const Text(
-                        //       'Register',
-                        //       style: TextStyle(
-                        //         fontSize: 21.0,
-                        //         fontWeight: FontWeight.w500,
-                        //         fontFamily: 'majalla',
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20.0),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Forgot password',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: font_family,
+                    !islogin
+                        ? customTextField(
+                            "Confirm Password",
+                            confirmPasswordVisible,
+                            IconButton(
+                              icon: Icon(
+                                //choose the icon on based of passwordVisibility
+                                confirmPasswordVisible
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                color: Colors.grey,
+                              ),
+                              onPressed: _confirmPasswordVisibility,
+                            ),
+                            _confirmpassword,
+                            (value) {
+                              if (value!.isEmpty) {
+                                return "Please Re-Enter Your Password";
+                              }
+                              if (value != _password.text) {
+                                return "Both Password Should Be Matched";
+                              }
+                            },
+                            (value) {
+                              _confirmpassword.text = value!;
+                            },
+                            responsiveHW(context, wd: 100),
+                            responsiveHW(context, ht: 100),
+                            const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
                               ),
                             ),
+                            pIcon: Icons.key,
+                          )
+                        : const Center(),
+                    islogin
+                        ? SizedBox(
+                            height: responsiveHW(context, ht: 2),
+                          )
+                        : SizedBox(
+                            height: responsiveHW(context, ht: 4),
                           ),
-                        ),
-                      ],
-                    ),
+                    !islogin
+                        ? const Center()
+                        : ButtonBar(
+                            alignment: MainAxisAlignment.end,
+                            children: [
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 15.0),
+                              //   child: TextButton(
+                              //     onPressed: () {
+                              //       // Get.to(
+                              //       //   () => const RegisterPage(),
+                              //       // );
+                              //     },
+                              //     child: const Text(
+                              //       'Register',
+                              //       style: TextStyle(
+                              //         fontSize: 21.0,
+                              //         fontWeight: FontWeight.w500,
+                              //         fontFamily: 'majalla',
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20.0),
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Forgot password',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 17.0,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: font_family,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.025,
                     ),
@@ -209,7 +271,7 @@ class _LoginUiState extends State<LoginUi> {
                       minWidth: MediaQuery.of(context).size.width * 0.4,
                       height: MediaQuery.of(context).size.height * 0.07,
                       child: Text(
-                        'Login',
+                        islogin ? 'Login' : 'Register',
                         style: TextStyle(
                             fontSize: 19.0,
                             fontWeight: FontWeight.w500,
@@ -224,7 +286,7 @@ class _LoginUiState extends State<LoginUi> {
                       textAlign: TextAlign.center,
                       text: TextSpan(children: [
                         TextSpan(
-                            text: 'New Here? ',
+                            text: islogin ? 'New Here? ' : 'Already a Member? ',
                             style: TextStyle(
                               fontSize: 17.0,
                               color: Colors.black,
@@ -232,10 +294,11 @@ class _LoginUiState extends State<LoginUi> {
                               fontWeight: FontWeight.w500,
                             )),
                         TextSpan(
-                            text: 'Create New Account',
+                            text: islogin ? 'Create New Account' : 'Login',
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                print('object');
+                                islogin = !islogin;
+                                setState(() {});
                               },
                             style: TextStyle(
                               fontSize: 17.0,
@@ -244,6 +307,9 @@ class _LoginUiState extends State<LoginUi> {
                               fontWeight: FontWeight.w500,
                             )),
                       ]),
+                    ),
+                    SizedBox(
+                      height: responsiveHW(context, ht: 6),
                     ),
                   ],
                 ),
