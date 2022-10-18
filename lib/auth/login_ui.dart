@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
@@ -204,17 +205,45 @@ class _LoginUiState extends State<LoginUi> {
                       },
                       color: Colors.amber.shade600,
                       elevation: 0.0,
-                      shape: StadiumBorder(),
+                      shape: const StadiumBorder(),
                       minWidth: MediaQuery.of(context).size.width * 0.4,
                       height: MediaQuery.of(context).size.height * 0.07,
                       child: Text(
                         'Login',
                         style: TextStyle(
-                            fontSize: 20.0,
+                            fontSize: 19.0,
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
                             fontFamily: font_family),
                       ),
+                    ),
+                    SizedBox(
+                      height: responsiveHW(context, ht: 2),
+                    ),
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: 'New Here? ',
+                            style: TextStyle(
+                              fontSize: 17.0,
+                              color: Colors.black,
+                              fontFamily: font_family,
+                              fontWeight: FontWeight.w500,
+                            )),
+                        TextSpan(
+                            text: 'Create New Account',
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                print('object');
+                              },
+                            style: TextStyle(
+                              fontSize: 17.0,
+                              color: Colors.black,
+                              fontFamily: font_family,
+                              fontWeight: FontWeight.w500,
+                            )),
+                      ]),
                     ),
                   ],
                 ),
