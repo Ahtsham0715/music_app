@@ -66,7 +66,7 @@ class _LoginUiState extends State<LoginUi> {
                     top: 40.0,
                     left: 50.0,
                     child: Text(
-                      'Login',
+                      islogin ? 'Login' : 'Register',
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: font_family,
@@ -244,9 +244,9 @@ class _LoginUiState extends State<LoginUi> {
                                 child: TextButton(
                                   onPressed: () {},
                                   child: Text(
-                                    'Forgot password',
+                                    'Forgot password?',
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.blue.shade700,
                                       fontSize: 17.0,
                                       fontWeight: FontWeight.w500,
                                       fontFamily: font_family,
@@ -264,7 +264,7 @@ class _LoginUiState extends State<LoginUi> {
                       color: Colors.amber.shade600,
                       elevation: 0.0,
                       shape: const StadiumBorder(),
-                      minWidth: MediaQuery.of(context).size.width * 0.4,
+                      minWidth: MediaQuery.of(context).size.width * 0.35,
                       height: MediaQuery.of(context).size.height * 0.07,
                       child: Text(
                         islogin ? 'Login' : 'Register',
@@ -298,7 +298,7 @@ class _LoginUiState extends State<LoginUi> {
                               },
                             style: TextStyle(
                               fontSize: 17.0,
-                              color: Colors.black,
+                              color: Colors.blue.shade700,
                               fontFamily: font_family,
                               fontWeight: FontWeight.w500,
                             )),
