@@ -96,10 +96,10 @@ class _LoginUiState extends State<LoginUi> {
               width: MediaQuery.of(context).size.width * 0.5,
               child: Form(
                 key: _formkey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
+                child: ListView(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  // mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(50.0),
