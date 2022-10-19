@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
+import 'package:music_app/music%20pages/categories_ui.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -148,8 +149,16 @@ class _MainWidgetState extends State<MainWidget> {
             title: Container(
               margin: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300.withOpacity(0.8),
+                      spreadRadius: 3,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
                   borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.grey.shade200.withOpacity(0.9)),
+                  color: Colors.grey.shade100.withOpacity(1.0)),
               height: MediaQuery.of(context).size.height * 0.4,
               // width: MediaQuery.of(context).size.width * 0.5,
               child: ListView.builder(
@@ -186,9 +195,7 @@ class _MainWidgetState extends State<MainWidget> {
                 Center(
                   child: Text('downloads'),
                 ),
-                Center(
-                  child: Text('Browse and Play'),
-                ),
+                CategoriesUi(),
                 Center(
                   child: Text('My Account'),
                 ),
