@@ -1,5 +1,8 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:music_app/constants.dart';
+import 'package:music_app/custom%20widgets/custom_formfield.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -10,6 +13,7 @@ class MainWidget extends StatefulWidget {
 
 class _MainWidgetState extends State<MainWidget> {
   static PageController page = PageController();
+  TextEditingController _search = TextEditingController();
 
   List<SideMenuItem> items = [
     SideMenuItem(
@@ -47,11 +51,65 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100.withOpacity(1.0),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0.0,
+        leadingWidth: 150.0,
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         toolbarHeight: 50.0,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Icon(
+                FontAwesomeIcons.music,
+                size: 30.0,
+                color: Colors.amber,
+              ),
+              Text(
+                'Music App',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontFamily: font_family,
+                ),
+              ),
+            ],
+          ),
+        ),
+        title: SizedBox(
+          height: 50,
+          width: MediaQuery.of(context).size.width * 0.4,
+          child: customsearchField(
+            "Search",
+            _search,
+            (value) {
+              // if (value!.isEmpty) {
+              //   return "Please Enter Your Email";
+              // }
+              // if (!RegExp(
+              //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              //     .hasMatch(value)) {
+              //   return "Please Enter Valid Email Address";
+              // }
+            },
+            (value) {
+              _search.text = value!;
+            },
+            responsiveHW(context, wd: 100),
+            responsiveHW(context, ht: 100),
+            OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50.0),
+              borderSide: const BorderSide(
+                style: BorderStyle.none,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -59,31 +117,33 @@ class _MainWidgetState extends State<MainWidget> {
           SideMenu(
             style: SideMenuStyle(
               // backgroundColor: Colors.grey,
-              openSideMenuWidth: 300.0,
+              openSideMenuWidth: 200.0,
+              selectedColor: Colors.grey.shade200.withOpacity(0.9),
+              hoverColor: Colors.grey.shade200.withOpacity(0.9),
             ),
             // Page controller to manage a PageView
             controller: page,
             // Will shows on top of all items, it can be a logo or a Title text
             title: Container(
-              margin: const EdgeInsets.all(5.0),
+              margin: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-                  // boxShadow: [
-                  //   BoxShadow(
-
-                  //   ),
-                  // ],
                   borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.grey.shade300.withOpacity(0.9)),
-              height: MediaQuery.of(context).size.height * 0.5,
+                  color: Colors.grey.shade200.withOpacity(0.9)),
+              height: MediaQuery.of(context).size.height * 0.4,
               // width: MediaQuery.of(context).size.width * 0.5,
               child: ListView.builder(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(5.0),
                 itemCount: 30,
                 itemBuilder: ((context, index) {
                   return ListTile(
+                    onTap: () {},
                     title: Text(
                       'Category ${index + 1}',
                       textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontFamily: font_family,
+                      ),
                     ),
                   );
                 }),

@@ -11,12 +11,49 @@ Widget customTextField(hintTitle, isPassword, sIcon, controllerName,
       obscureText: isPassword,
       decoration: InputDecoration(
           filled: filled,
+          labelStyle: TextStyle(
+            fontFamily: font_family,
+          ),
           fillColor: fillColor,
           labelText: labeltext,
           hintText: hintTitle,
           suffixIcon: sIcon,
           prefixIcon: Icon(
             pIcon,
+          ),
+          border: border,
+          contentPadding: EdgeInsets.symmetric(
+              horizontal: wSize * 2.5 / 100, vertical: hSize * 2 / 100)),
+      controller: controllerName,
+      validator: validationFunc,
+      onSaved: onSavedFunc,
+    ),
+  );
+}
+
+Widget customsearchField(hintTitle, controllerName, validationFunc, onSavedFunc,
+    wSize, hSize, border,
+    {filled, fillColor, labeltext}) {
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: wSize * 2 / 100, vertical: 5.0),
+    child: TextFormField(
+      toolbarOptions: const ToolbarOptions(
+        paste: true,
+      ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: InputDecoration(
+          alignLabelWithHint: true,
+          labelStyle: TextStyle(
+            fontFamily: font_family,
+          ),
+          disabledBorder: border,
+          enabledBorder: border,
+          filled: true,
+          fillColor: Colors.white,
+          labelText: labeltext,
+          hintText: hintTitle,
+          prefixIcon: const Icon(
+            Icons.search,
           ),
           border: border,
           contentPadding: EdgeInsets.symmetric(
