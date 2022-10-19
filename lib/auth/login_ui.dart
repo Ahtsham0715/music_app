@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:music_app/auth/register_ui.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
+import 'package:music_app/music%20pages/main_widget.dart';
 
 class LoginUi extends StatefulWidget {
   const LoginUi({super.key});
@@ -260,7 +261,13 @@ class _LoginUiState extends State<LoginUi> {
                       height: MediaQuery.of(context).size.height * 0.025,
                     ),
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: islogin
+                          ? () {
+                              Get.to(
+                                () => const MainWidget(),
+                              );
+                            }
+                          : () {},
                       color: Colors.amber.shade600,
                       elevation: 0.0,
                       shape: const StadiumBorder(),
