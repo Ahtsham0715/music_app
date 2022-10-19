@@ -98,12 +98,14 @@ class _LoginUiState extends State<LoginUi> {
               child: Form(
                 key: _formkey,
                 child: ListView(
+                  padding: const EdgeInsets.all(30.0),
                   // mainAxisAlignment: MainAxisAlignment.center,
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   // mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(50.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 30, horizontal: 50.0),
                       child: Image.network(
                         'https://blog.placeit.net/wp-content/uploads/2020/07/youtube-music-logo.png',
                         fit: BoxFit.contain,
@@ -260,26 +262,29 @@ class _LoginUiState extends State<LoginUi> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.025,
                     ),
-                    MaterialButton(
-                      onPressed: islogin
-                          ? () {
-                              Get.to(
-                                () => const MainWidget(),
-                              );
-                            }
-                          : () {},
-                      color: Colors.amber.shade600,
-                      elevation: 0.0,
-                      shape: const StadiumBorder(),
-                      minWidth: MediaQuery.of(context).size.width * 0.35,
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      child: Text(
-                        islogin ? 'Login' : 'Register',
-                        style: TextStyle(
-                            fontSize: 19.0,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontFamily: font_family),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                      child: MaterialButton(
+                        onPressed: islogin
+                            ? () {
+                                Get.to(
+                                  () => const MainWidget(),
+                                );
+                              }
+                            : () {},
+                        color: Colors.amber.shade600,
+                        elevation: 0.0,
+                        shape: const StadiumBorder(),
+                        minWidth: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        child: Text(
+                          islogin ? 'Login' : 'Register',
+                          style: TextStyle(
+                              fontSize: 19.0,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              fontFamily: font_family),
+                        ),
                       ),
                     ),
                     SizedBox(

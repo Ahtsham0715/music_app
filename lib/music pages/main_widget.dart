@@ -110,6 +110,27 @@ class _MainWidgetState extends State<MainWidget> {
             ),
           ),
         ),
+        actions: [
+          Center(
+            child: Text(
+              'Shami',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontFamily: font_family,
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: CircleAvatar(
+              // radius: 40.0,
+              backgroundImage: NetworkImage(
+                'https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile.png',
+              ),
+            ),
+          ),
+        ],
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
