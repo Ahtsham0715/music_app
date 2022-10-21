@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:music_app/constants.dart';
-import 'package:music_app/custom%20widgets/custom_formfield.dart';
 
 class CategoryUi extends StatelessWidget {
   const CategoryUi({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _search = TextEditingController();
     var args = Get.arguments;
-    return ListView(
-      // crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 15.0),
           child: Text("${args['category_name']}"),
         ),
         GridView.builder(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(5.0),
           physics: const AlwaysScrollableScrollPhysics(),
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
