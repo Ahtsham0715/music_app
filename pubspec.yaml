@@ -35,7 +35,7 @@ dependencies:
   get: any
   easy_sidemenu: any
   font_awesome_flutter: any
-  audioplayers_windows: any
+  file_picker: any
   just_audio: any
   just_audio_windows: any
 

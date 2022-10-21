@@ -1,9 +1,11 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
+import 'package:music_app/custom%20widgets/utils.dart';
 import 'package:music_app/music%20pages/dashboard_ui.dart';
 import 'package:music_app/music%20pages/category_ui.dart';
 
@@ -65,7 +67,7 @@ class _MainWidgetState extends State<MainWidget> {
     SideMenuItem(
       priority: 2,
       title: 'Browse & Play',
-      onTap: () => page.jumpToPage(2),
+      onTap: () => filepicker(filetype: FileType.audio),
       icon: const Icon(Icons.browse_gallery_outlined),
     ),
     SideMenuItem(

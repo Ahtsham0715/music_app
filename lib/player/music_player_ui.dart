@@ -19,16 +19,16 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         elevation: 0.0,
-        leadingWidth: 150.0,
+        // leadingWidth: 150.0,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         toolbarHeight: 50.0,
-        leading: Padding(
+        title: Padding(
           padding: const EdgeInsets.only(left: 10.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
                 FontAwesomeIcons.music,
@@ -264,7 +264,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             height: MediaQuery.of(context).size.height * 0.1,
             width: MediaQuery.of(context).size.width,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 CustomIconButton(
                   icon: FontAwesomeIcons.repeat,
@@ -287,7 +287,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                   ontap: () {},
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.25,
                 ),
                 Text(
                   "0:17/6:11",
@@ -303,6 +303,9 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                 CustomIconButton(
                   icon: FontAwesomeIcons.volumeHigh,
                   ontap: () {},
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.03,
                 ),
               ],
             ),
