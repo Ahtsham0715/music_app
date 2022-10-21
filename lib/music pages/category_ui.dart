@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryUi extends StatelessWidget {
-  const CategoryUi({super.key});
+  const CategoryUi({required items});
 
   @override
   Widget build(BuildContext context) {
