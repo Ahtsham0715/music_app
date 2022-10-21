@@ -17,7 +17,7 @@ class CategoriesUi extends StatelessWidget {
               child: Text("Title $index"),
             ),
             GridView.builder(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(5.0),
               physics: const AlwaysScrollableScrollPhysics(),
               shrinkWrap: true,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

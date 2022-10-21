@@ -1,9 +1,11 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
 import 'package:music_app/music%20pages/categories_ui.dart';
+import 'package:music_app/music%20pages/category_ui.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -14,33 +16,43 @@ class MainWidget extends StatefulWidget {
 
 class _MainWidgetState extends State<MainWidget> {
   static PageController page = PageController();
-  TextEditingController _search = TextEditingController();
+  final TextEditingController _search = TextEditingController();
 
   List<SideMenuItem> items = [
     SideMenuItem(
       // Priority of item to show on SideMenu, lower value is displayed at the top
       priority: 0,
-      title: 'Downloads',
+      title: 'Dashboard',
       onTap: () => page.jumpToPage(0),
+      icon: const Icon(
+        Icons.dashboard,
+        size: 25.0,
+      ),
+    ),
+    SideMenuItem(
+      // Priority of item to show on SideMenu, lower value is displayed at the top
+      priority: 1,
+      title: 'Downloads',
+      onTap: () => page.jumpToPage(1),
       icon: const Icon(
         Icons.download,
         size: 25.0,
       ),
     ),
     SideMenuItem(
-      priority: 1,
+      priority: 2,
       title: 'Browse & Play',
-      onTap: () => page.jumpToPage(1),
+      onTap: () => page.jumpToPage(2),
       icon: const Icon(Icons.browse_gallery_outlined),
     ),
     SideMenuItem(
-      priority: 2,
+      priority: 3,
       title: 'My Account',
-      onTap: () => page.jumpToPage(2),
+      onTap: () => page.jumpToPage(3),
       icon: const Icon(Icons.account_circle_outlined),
     ),
     SideMenuItem(
-      priority: 3,
+      priority: 4,
       title: 'Logout',
       onTap: () {
         print('logged out');
@@ -87,16 +99,7 @@ class _MainWidgetState extends State<MainWidget> {
           child: customsearchField(
             "Search",
             _search,
-            (value) {
-              // if (value!.isEmpty) {
-              //   return "Please Enter Your Email";
-              // }
-              // if (!RegExp(
-              //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-              //     .hasMatch(value)) {
-              //   return "Please Enter Valid Email Address";
-              // }
-            },
+            (value) {},
             (value) {
               _search.text = value!;
             },
@@ -154,7 +157,7 @@ class _MainWidgetState extends State<MainWidget> {
                       color: Colors.grey.shade300.withOpacity(0.8),
                       spreadRadius: 3,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3), // changes position of shadow
                     ),
                   ],
                   borderRadius: BorderRadius.circular(10.0),
@@ -166,7 +169,25 @@ class _MainWidgetState extends State<MainWidget> {
                 itemCount: 30,
                 itemBuilder: ((context, index) {
                   return ListTile(
-                    onTap: () {},
+                    onLongPress: (() {}),
+                    onTap: () {
+                      print('pressed');
+                      // page.jumpToPage(0);
+                      Get.to(() => const CategoryUi(), arguments: {
+                        'category_name': 'Category ${index + 1}',
+                        'items_list': [
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
+                          'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
+                          'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
+                          'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
+                          'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
+                          'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
+                          'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
+                        ],
+                      });
+                    },
+                    hoverColor: Colors.grey.shade300,
+                    tileColor: Colors.grey.shade100.withOpacity(1.0),
                     title: Text(
                       'Category ${index + 1}',
                       textAlign: TextAlign.center,
@@ -179,19 +200,14 @@ class _MainWidgetState extends State<MainWidget> {
                 }),
               ),
             ),
-            // Will show on bottom of SideMenu when displayMode was SideMenuDisplayMode.open
-            // footer: Text('demo'),
-            // // Notify when display mode changed
-            // onDisplayModeChanged: (mode) {
-            //   print(mode);
-            // },
-            // List of SideMenuItem to show them on SideMenu
+            showToggle: true,
             items: items,
           ),
           Expanded(
             child: PageView(
               controller: page,
               children: const [
+                CategoriesUi(),
                 Center(
                   child: Text('downloads'),
                 ),
