@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
-import 'package:music_app/music%20pages/categories_ui.dart';
+import 'package:music_app/music%20pages/dashboard_ui.dart';
 import 'package:music_app/music%20pages/category_ui.dart';
 
 class MainWidget extends StatefulWidget {
@@ -17,6 +17,17 @@ class MainWidget extends StatefulWidget {
 class _MainWidgetState extends State<MainWidget> {
   static PageController page = PageController();
   final TextEditingController _search = TextEditingController();
+
+  List pages = const [
+    CategoriesUi(),
+    Center(
+      child: Text('downloads'),
+    ),
+    CategoriesUi(),
+    Center(
+      child: Text('My Account'),
+    ),
+  ];
 
   List<SideMenuItem> items = [
     SideMenuItem(
@@ -60,6 +71,20 @@ class _MainWidgetState extends State<MainWidget> {
       icon: const Icon(Icons.logout_outlined),
     ),
   ];
+
+  List categories = [
+    'Top Music',
+    'Romantic',
+    'Hip Hop',
+    'Classical',
+    'Artists',
+  ];
+
+  @override
+  void initState() {
+    // pages.add(value);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +175,7 @@ class _MainWidgetState extends State<MainWidget> {
             controller: page,
             // Will shows on top of all items, it can be a logo or a Title text
             title: Container(
-              margin: const EdgeInsets.all(8.0),
+              margin: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -172,19 +197,19 @@ class _MainWidgetState extends State<MainWidget> {
                     onLongPress: (() {}),
                     onTap: () {
                       print('pressed');
-                      // page.jumpToPage(0);
-                      Get.to(() => const CategoryUi(), arguments: {
-                        'category_name': 'Category ${index + 1}',
-                        'items_list': [
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
-                          'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
-                          'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
-                          'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
-                          'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
-                          'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
-                          'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
-                        ],
-                      });
+                      // page.jumpToPage();
+                      // Get.to(() => const CategoryUi(), arguments: {
+                      //   'category_name': 'Category ${index + 1}',
+                      //   'items_list': [
+                      //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
+                      //     'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
+                      //     'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
+                      //     'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
+                      //     'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
+                      //     'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
+                      //     'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
+                      //   ],
+                      // });
                     },
                     hoverColor: Colors.grey.shade300,
                     tileColor: Colors.grey.shade100.withOpacity(1.0),
@@ -204,18 +229,11 @@ class _MainWidgetState extends State<MainWidget> {
             items: items,
           ),
           Expanded(
-            child: PageView(
+            child: PageView.builder(
+              itemBuilder: (context, index) {
+                return pages[index];
+              },
               controller: page,
-              children: const [
-                CategoriesUi(),
-                Center(
-                  child: Text('downloads'),
-                ),
-                CategoriesUi(),
-                Center(
-                  child: Text('My Account'),
-                ),
-              ],
             ),
           ),
         ],
