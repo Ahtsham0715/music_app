@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
+import 'package:music_app/custom%20widgets/custom_icon_button.dart';
 
 class MusicPlayerUi extends StatefulWidget {
   const MusicPlayerUi({super.key});
@@ -12,7 +14,7 @@ class MusicPlayerUi extends StatefulWidget {
 
 class _MusicPlayerUiState extends State<MusicPlayerUi> {
   final TextEditingController _search = TextEditingController();
-
+  final _player = AudioPlayer();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,27 +46,27 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             ],
           ),
         ),
-        title: SizedBox(
-          height: 50,
-          width: MediaQuery.of(context).size.width * 0.4,
-          child: customsearchField(
-            "Search",
-            _search,
-            (value) {},
-            (value) {
-              _search.text = value!;
-            },
-            responsiveHW(context, wd: 100),
-            responsiveHW(context, ht: 100),
-            OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.0),
-              borderSide: const BorderSide(
-                style: BorderStyle.none,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
+        // title: SizedBox(
+        //   height: 50,
+        //   width: MediaQuery.of(context).size.width * 0.4,
+        //   child: customsearchField(
+        //     "Search",
+        //     _search,
+        //     (value) {},
+        //     (value) {
+        //       _search.text = value!;
+        //     },
+        //     responsiveHW(context, wd: 100),
+        //     responsiveHW(context, ht: 100),
+        //     OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(50.0),
+        //       borderSide: const BorderSide(
+        //         style: BorderStyle.none,
+        //         color: Colors.white,
+        //       ),
+        //     ),
+        //   ),
+        // ),
         actions: [
           Center(
             child: Text(
@@ -160,7 +162,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                             padding: const EdgeInsets.only(right: 50.0),
                             child: MaterialButton(
                               onPressed: () {},
-                              color: Colors.teal.shade600,
+                              color: Colors.amber.shade600,
                               elevation: 0.0,
                               shape: const StadiumBorder(),
                               minWidth:
@@ -171,7 +173,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                                 style: TextStyle(
                                     fontSize: 12.0,
                                     // fontWeight: FontWeight.w500,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontFamily: font_family),
                               ),
                             ),
@@ -250,8 +252,60 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.005,
             width: MediaQuery.of(context).size.width,
+            child: LinearProgressIndicator(
+              backgroundColor: Colors.grey.shade200,
+              color: Colors.amber.shade600,
+              value: 0.5,
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomIconButton(
+                  icon: FontAwesomeIcons.repeat,
+                  ontap: () {},
+                ),
+                CustomIconButton(
+                  icon: FontAwesomeIcons.backwardStep,
+                  ontap: () {},
+                ),
+                CustomIconButton(
+                  icon: FontAwesomeIcons.play,
+                  ontap: () {},
+                ),
+                CustomIconButton(
+                  icon: FontAwesomeIcons.forwardStep,
+                  ontap: () {},
+                ),
+                CustomIconButton(
+                  icon: FontAwesomeIcons.shuffle,
+                  ontap: () {},
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                ),
+                Text(
+                  "0:17/6:11",
+                  style: TextStyle(
+                    fontSize: 13.0,
+                    fontFamily: font_family,
+                  ),
+                ),
+                CustomIconButton(
+                  icon: FontAwesomeIcons.ellipsis,
+                  ontap: () {},
+                ),
+                CustomIconButton(
+                  icon: FontAwesomeIcons.volumeHigh,
+                  ontap: () {},
+                ),
+              ],
+            ),
           ),
         ],
       ),

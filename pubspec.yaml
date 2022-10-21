@@ -35,6 +35,9 @@ dependencies:
   get: any
   easy_sidemenu: any
   font_awesome_flutter: any
+  audioplayers_windows: any
+  just_audio: any
+  just_audio_windows: any
 
 
   # The following adds the Cupertino Icons font to your application.
