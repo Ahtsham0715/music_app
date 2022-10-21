@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:music_app/constants.dart';
+import 'package:music_app/player/music_player_ui.dart';
 
 class CategoryUi extends StatelessWidget {
-  const CategoryUi({required items});
-
+  Map args = {};
+  CategoryUi({super.key, required items}) {
+    args = items;
+  }
   @override
   Widget build(BuildContext context) {
-    var args = Get.arguments;
-    return Column(
+    return ListView(
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 15.0),
-          child: Text("${args['category_name']}"),
+          child: Text(
+            "${args['category_name']}",
+            style: TextStyle(
+              fontSize: 20.0,
+              fontFamily: font_family_bold,
+            ),
+          ),
         ),
         GridView.builder(
           padding: const EdgeInsets.all(5.0),
@@ -25,7 +34,11 @@ class CategoryUi extends StatelessWidget {
           itemCount: args['items_list'].length,
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.to(
+                  () => const MusicPlayerUi(),
+                );
+              },
               onHover: ((ishovering) {
                 if (ishovering) {
                   print('hovering');

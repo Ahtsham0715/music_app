@@ -9,3 +9,4 @@ double? responsiveHW(ctx, {ht, wd}) {
 }
 
 var font_family = 'Poppins-Regular';
+var font_family_bold = 'Poppins-Bold';

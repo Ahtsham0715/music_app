@@ -18,15 +18,27 @@ class _MainWidgetState extends State<MainWidget> {
   static PageController page = PageController();
   final TextEditingController _search = TextEditingController();
 
-  List pages = const [
-    CategoriesUi(),
-    Center(
+  List pages = [
+    const CategoriesUi(),
+    const Center(
       child: Text('downloads'),
     ),
-    CategoriesUi(),
-    Center(
+    const CategoriesUi(),
+    const Center(
       child: Text('My Account'),
     ),
+    CategoryUi(items: const {
+      'category_name': 'Category ',
+      'items_list': [
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
+        'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
+        'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
+        'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
+        'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
+        'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
+        'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
+      ],
+    }),
   ];
 
   List<SideMenuItem> items = [
@@ -82,7 +94,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   void initState() {
-    // pages.add(value);
     super.initState();
   }
 
@@ -197,18 +208,18 @@ class _MainWidgetState extends State<MainWidget> {
                     onLongPress: (() {}),
                     onTap: () {
                       // print('pressed');
-                      // page.jumpToPage();
+                      page.jumpToPage(4);
                       // Get.to(() => const CategoryUi(), arguments: {
-                      //   'category_name': 'Category ${index + 1}',
-                      //   'items_list': [
-                      //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
-                      //     'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
-                      //     'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
-                      //     'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
-                      //     'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
-                      //     'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
-                      //     'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
-                      //   ],
+                      // 'category_name': 'Category ${index + 1}',
+                      // 'items_list': [
+                      //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
+                      //   'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
+                      //   'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
+                      //   'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
+                      //   'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
+                      //   'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
+                      //   'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
+                      // ],
                       // });
                     },
                     hoverColor: Colors.grey.shade300,
