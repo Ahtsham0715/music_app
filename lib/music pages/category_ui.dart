@@ -2,12 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:music_app/constants.dart';
+import 'package:music_app/custom%20widgets/custom_formfield.dart';
+import 'package:music_app/custom%20widgets/custom_icon_button.dart';
 import 'package:music_app/player/music_player_ui.dart';
 
-class CategoryUi extends StatelessWidget {
+class CategoryUi extends StatefulWidget {
   CategoryUi({super.key}) {}
 
+  @override
+  State<CategoryUi> createState() => _CategoryUiState();
+}
+
+class _CategoryUiState extends State<CategoryUi> {
+  final TextEditingController _search = TextEditingController();
+
+  List visibiltyvar = [];
+
   var args = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +64,13 @@ class CategoryUi extends StatelessWidget {
         //     },
         //     responsiveHW(context, wd: 100),
         //     responsiveHW(context, ht: 100),
-        // OutlineInputBorder(
-        //   borderRadius: BorderRadius.circular(50.0),
-        //   borderSide: const BorderSide(
-        //     style: BorderStyle.none,
-        //     color: Colors.white,
-        //   ),
-        // ),
+        //     OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(50.0),
+        //       borderSide: const BorderSide(
+        //         style: BorderStyle.none,
+        //         color: Colors.white,
+        //       ),
+        //     ),
         //   ),
         // ),
         actions: [
@@ -112,27 +124,59 @@ class CategoryUi extends StatelessWidget {
             ),
             itemCount: args['items_list'].length,
             itemBuilder: (context, index) {
+              visibiltyvar.add(false);
               return InkWell(
-                onTap: () {
-                  Get.to(
-                    () => const MusicPlayerUi(),
-                  );
-                },
+                onTap: () {},
                 onHover: ((ishovering) {
                   if (ishovering) {
+                    setState(() {
+                      visibiltyvar[index] = true;
+                    });
                     print('hovering');
                   } else {
+                    visibiltyvar[index] = false;
+                    setState(() {});
                     print('not hovering');
                   }
                 }),
-                child: Container(
-                  margin: const EdgeInsets.all(2.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.blueGrey,
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              args['items_list'][index].toString()))),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(2.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.blueGrey,
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  args['items_list'][index].toString()))),
+                    ),
+                    Visibility(
+                      visible: visibiltyvar[index],
+                      child: Positioned(
+                        // top: 0,
+                        child: Container(
+                          margin: const EdgeInsets.all(2.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.blueGrey.withOpacity(0.5),
+                          ),
+                          child: Center(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black54,
+                              child: CustomIconButton(
+                                  ontap: () {
+                                    Get.to(
+                                      () => const MusicPlayerUi(),
+                                    );
+                                  },
+                                  icon: Icons.play_arrow),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
