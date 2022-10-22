@@ -9,6 +9,7 @@ import 'package:music_app/custom%20widgets/custom_formfield.dart';
 import 'package:music_app/custom%20widgets/utils.dart';
 import 'package:music_app/music%20pages/dashboard_ui.dart';
 import 'package:music_app/music%20pages/category_ui.dart';
+import 'package:music_app/music%20pages/profile_ui.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -36,9 +37,7 @@ class _MainWidgetState extends State<MainWidget> {
       ],
     }),
     const CategoriesUi(),
-    const Center(
-      child: Text('My Account'),
-    ),
+    const ProfileUi(),
     CategoryUi(items: const {
       'category_name': 'Category ',
       'items_list': [
