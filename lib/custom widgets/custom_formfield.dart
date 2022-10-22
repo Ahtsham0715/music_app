@@ -105,30 +105,56 @@ Widget customsearchField(hintTitle, controllerName, validationFunc, onSavedFunc,
 }
 
 Widget customDropDownFormField(
-    fieldTitle, dropDownValue, List<String> listOfItems, onChangedFunc, ctx) {
+    {required fieldTitle,
+    required dropDownValue,
+    required List<String> listOfItems,
+    required onChangedFunc,
+    required ctx}) {
   return Padding(
     padding: EdgeInsets.symmetric(
         horizontal: responsiveHW(ctx, wd: 4)!.toDouble(),
-        vertical: responsiveHW(ctx, wd: 2)!.toDouble()),
+        vertical: responsiveHW(ctx, wd: 1)!.toDouble()),
     child: DropdownButtonFormField(
         isExpanded: true,
         isDense: true,
+        elevation: 0,
+        onTap: null,
+        focusColor: Colors.grey.shade100.withOpacity(1.0),
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        decoration: const InputDecoration(
-          // labelText: fieldTitle,
-          focusColor: Colors.teal,
-          border: InputBorder.none,
+        decoration: InputDecoration(
+          hoverColor: Colors.grey.shade100.withOpacity(1.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50.0),
+            borderSide: const BorderSide(
+              style: BorderStyle.none,
+              color: Colors.white,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50.0),
+            borderSide: const BorderSide(
+              style: BorderStyle.none,
+              color: Colors.white,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50.0),
+            borderSide: const BorderSide(
+              style: BorderStyle.none,
+              color: Colors.white,
+            ),
+          ),
           filled: true,
-          fillColor: Colors.transparent,
+          fillColor: Colors.white,
         ),
         validator: (value) => value == null ? 'Required*' : null,
         icon: const Icon(
-          Icons.arrow_drop_down,
+          Icons.arrow_drop_down_sharp,
           color: Colors.grey,
         ),
-        // hint: Text(
-        //   'Select $fieldTitle',
-        // ),
+        hint: Text(
+          'Select $fieldTitle',
+        ),
         value: dropDownValue,
         items: listOfItems.map((String value) {
           return DropdownMenuItem<String>(value: value, child: Text(value));

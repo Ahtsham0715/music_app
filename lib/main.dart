@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Music App',
       theme: ThemeData(
+        hoverColor: Colors.grey.shade100.withOpacity(1.0),
         // scaffoldBackgroundColor: Colors.grey.shade400,
         primarySwatch: Colors.amber,
         brightness: Brightness.light,

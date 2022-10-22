@@ -272,7 +272,7 @@ class _LoginUiState extends State<LoginUi> {
                                 );
                               }
                             : () {},
-                        color: Colors.amber.shade600,
+                        color: Colors.teal.shade200,
                         elevation: 0.0,
                         shape: const StadiumBorder(),
                         minWidth: MediaQuery.of(context).size.width * 0.35,

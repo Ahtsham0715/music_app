@@ -162,7 +162,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                             padding: const EdgeInsets.only(right: 50.0),
                             child: MaterialButton(
                               onPressed: () {},
-                              color: Colors.amber.shade600,
+                              color: Colors.teal.shade200,
                               elevation: 0.0,
                               shape: const StadiumBorder(),
                               minWidth:
