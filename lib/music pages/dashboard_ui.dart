@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:music_app/player/music_player_ui.dart';
 
 class CategoriesUi extends StatelessWidget {
   const CategoriesUi({super.key});
@@ -28,7 +30,11 @@ class CategoriesUi extends StatelessWidget {
               itemCount: 10,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(
+                      () => const MusicPlayerUi(),
+                    );
+                  },
                   onHover: ((ishovering) {
                     if (ishovering) {
                       print('hovering');

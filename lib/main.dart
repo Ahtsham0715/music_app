@@ -22,7 +22,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         hoverColor: Colors.grey.shade100.withOpacity(1.0),
         // scaffoldBackgroundColor: Colors.grey.shade400,
+        // iconTheme: IconThemeData(color: Colors.black),
         primarySwatch: Colors.teal,
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+        ),
         brightness: Brightness.light,
       ),
       home: const LoginUi(),

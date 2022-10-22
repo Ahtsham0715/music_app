@@ -41,6 +41,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                 style: TextStyle(
                   fontSize: 18.0,
                   fontFamily: font_family,
+                  color: Colors.black,
                 ),
               ),
             ],
@@ -75,15 +76,21 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
               style: TextStyle(
                 fontSize: 18.0,
                 fontFamily: font_family,
+                color: Colors.black,
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: CircleAvatar(
+              backgroundColor: Colors.grey.shade300,
               // radius: 40.0,
-              backgroundImage: NetworkImage(
-                'https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile.png',
+              // foregroundImage: NetworkImage(
+              //   'https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile.png',
+              // ),
+              child: const Icon(
+                Icons.person,
+                color: Colors.black45,
               ),
             ),
           ),
@@ -256,7 +263,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             width: MediaQuery.of(context).size.width,
             child: LinearProgressIndicator(
               backgroundColor: Colors.grey.shade200,
-              color: Colors.amber.shade600,
+              color: Colors.teal.shade300,
               value: 0.5,
             ),
           ),

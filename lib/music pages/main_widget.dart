@@ -9,6 +9,7 @@ import 'package:music_app/custom%20widgets/custom_formfield.dart';
 import 'package:music_app/custom%20widgets/utils.dart';
 import 'package:music_app/music%20pages/dashboard_ui.dart';
 import 'package:music_app/music%20pages/category_ui.dart';
+import 'package:music_app/music%20pages/downloads_ui.dart';
 import 'package:music_app/music%20pages/profile_ui.dart';
 
 class MainWidget extends StatefulWidget {
@@ -24,21 +25,8 @@ class _MainWidgetState extends State<MainWidget> {
 
   List pages = [
     const CategoriesUi(),
-    CategoryUi(items: const {
-      'category_name': 'Downloads',
-      'items_list': [
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
-        'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
-        'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
-        'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
-        'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
-        'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
-        'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
-      ],
-    }),
     const CategoriesUi(),
-    const ProfileUi(),
-    CategoryUi(items: const {
+    DownloadUi(items: const {
       'category_name': 'Category ',
       'items_list': [
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
@@ -50,6 +38,7 @@ class _MainWidgetState extends State<MainWidget> {
         'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
       ],
     }),
+    const ProfileUi(),
   ];
 
   List<SideMenuItem> items = [
@@ -67,7 +56,7 @@ class _MainWidgetState extends State<MainWidget> {
       // Priority of item to show on SideMenu, lower value is displayed at the top
       priority: 1,
       title: 'Downloads',
-      onTap: () => page.jumpToPage(1),
+      onTap: () => page.jumpToPage(2),
       icon: const Icon(
         Icons.download,
         size: 25.0,
@@ -139,6 +128,7 @@ class _MainWidgetState extends State<MainWidget> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18.0,
+                  color: Colors.black,
                   fontFamily: font_family,
                 ),
               ),
@@ -174,15 +164,21 @@ class _MainWidgetState extends State<MainWidget> {
               style: TextStyle(
                 fontSize: 18.0,
                 fontFamily: font_family,
+                color: Colors.black,
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: CircleAvatar(
+              backgroundColor: Colors.grey.shade300,
               // radius: 40.0,
-              backgroundImage: NetworkImage(
-                'https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile.png',
+              // foregroundImage: NetworkImage(
+              //   'https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile.png',
+              // ),
+              child: const Icon(
+                Icons.person,
+                color: Colors.black45,
               ),
             ),
           ),
@@ -224,19 +220,18 @@ class _MainWidgetState extends State<MainWidget> {
                     onLongPress: (() {}),
                     onTap: () {
                       // print('pressed');
-                      page.jumpToPage(4);
-                      // Get.to(() => const CategoryUi(), arguments: {
-                      // 'category_name': 'Category ${index + 1}',
-                      // 'items_list': [
-                      //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
-                      //   'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
-                      //   'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
-                      //   'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
-                      //   'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
-                      //   'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
-                      //   'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
-                      // ],
-                      // });
+                      Get.to(() => CategoryUi(), arguments: {
+                        'category_name': 'Category ${index + 1}',
+                        'items_list': [
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
+                          'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
+                          'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
+                          'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
+                          'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
+                          'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
+                          'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
+                        ],
+                      });
                     },
                     hoverColor: Colors.grey.shade300,
                     tileColor: Colors.grey.shade100.withOpacity(1.0),
