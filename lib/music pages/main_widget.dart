@@ -19,7 +19,7 @@ class MainWidget extends StatefulWidget {
 }
 
 class _MainWidgetState extends State<MainWidget> {
-  static PageController page = PageController();
+  static PageController page = PageController(initialPage: 0);
   final TextEditingController _search = TextEditingController();
 
   List pages = [
@@ -90,9 +90,11 @@ class _MainWidgetState extends State<MainWidget> {
       title: 'Logout',
       onTap: () {
         print('logged out');
-        Get.to(
-          () => const LoginUi(),
-        );
+        // Get.to(
+        //   () => const LoginUi(),
+        // );
+        Get.back();
+        // page.keepPage;
       },
       icon: const Icon(Icons.logout_outlined),
     ),

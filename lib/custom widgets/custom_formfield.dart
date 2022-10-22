@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/constants.dart';
 
-Widget customTextField(hintTitle, isPassword, sIcon, controllerName,
-    validationFunc, onSavedFunc, wSize, hSize, border,
-    {pIcon, filled, fillColor, labeltext}) {
+Widget customTextField(
+  hintTitle,
+  isPassword,
+  sIcon,
+  controllerName,
+  validationFunc,
+  onSavedFunc,
+  wSize,
+  hSize,
+  border, {
+  pIcon,
+  filled,
+  fillColor,
+  labeltext,
+}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: wSize * 4 / 100),
     child: TextFormField(
@@ -14,6 +26,8 @@ Widget customTextField(hintTitle, isPassword, sIcon, controllerName,
           labelStyle: TextStyle(
             fontFamily: font_family,
           ),
+          disabledBorder: border,
+          enabledBorder: border,
           fillColor: fillColor,
           labelText: labeltext,
           hintText: hintTitle,
@@ -27,6 +41,31 @@ Widget customTextField(hintTitle, isPassword, sIcon, controllerName,
       controller: controllerName,
       validator: validationFunc,
       onSaved: onSavedFunc,
+    ),
+  );
+}
+
+Widget customDatePickerField(hintTitle, controllerName, wSize, hSize, border,
+    {filled, fillColor, suffixWidget}) {
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: wSize * 4 / 100),
+    child: TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      readOnly: true,
+      decoration: InputDecoration(
+          filled: filled,
+          labelStyle: TextStyle(
+            fontFamily: font_family,
+          ),
+          disabledBorder: border,
+          enabledBorder: border,
+          fillColor: fillColor,
+          hintText: hintTitle,
+          suffix: suffixWidget,
+          border: border,
+          contentPadding: EdgeInsets.symmetric(
+              horizontal: wSize * 2.5 / 100, vertical: hSize * 2 / 100)),
+      controller: controllerName,
     ),
   );
 }

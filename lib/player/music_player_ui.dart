@@ -58,13 +58,13 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
         //     },
         //     responsiveHW(context, wd: 100),
         //     responsiveHW(context, ht: 100),
-        //     OutlineInputBorder(
-        //       borderRadius: BorderRadius.circular(50.0),
-        //       borderSide: const BorderSide(
-        //         style: BorderStyle.none,
-        //         color: Colors.white,
-        //       ),
-        //     ),
+        // OutlineInputBorder(
+        //   borderRadius: BorderRadius.circular(50.0),
+        //   borderSide: const BorderSide(
+        //     style: BorderStyle.none,
+        //     color: Colors.white,
+        //   ),
+        // ),
         //   ),
         // ),
         actions: [

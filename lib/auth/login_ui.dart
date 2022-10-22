@@ -118,13 +118,13 @@ class _LoginUiState extends State<LoginUi> {
                       _email,
                       (value) {
                         if (value!.isEmpty) {
-                          return "Please Enter Your Email";
+                          return "Please Enter Your Username";
                         }
-                        if (!RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(value)) {
-                          return "Please Enter Valid Email Address";
-                        }
+                        // if (!RegExp(
+                        //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        //     .hasMatch(value)) {
+                        //   return "Please Enter Valid Email Address";
+                        // }
                       },
                       (value) {
                         _email.text = value!;

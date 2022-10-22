@@ -20,11 +20,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Music App',
       theme: ThemeData(
-          primarySwatch: Colors.amber,
-          brightness: Brightness.light,
-          iconTheme: IconThemeData(
-            color: Colors.black,
-          )),
+        // scaffoldBackgroundColor: Colors.grey.shade400,
+        primarySwatch: Colors.amber,
+        brightness: Brightness.light,
+      ),
       home: const LoginUi(),
     );
   }

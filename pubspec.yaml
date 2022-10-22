@@ -38,6 +38,8 @@ dependencies:
   file_picker: any
   just_audio: any
   just_audio_windows: any
+  intl: any
+  provider: any
 
 
   # The following adds the Cupertino Icons font to your application.
