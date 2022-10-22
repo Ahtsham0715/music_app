@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         hoverColor: Colors.grey.shade100.withOpacity(1.0),
         // scaffoldBackgroundColor: Colors.grey.shade400,
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.teal,
         brightness: Brightness.light,
       ),
       home: const LoginUi(),

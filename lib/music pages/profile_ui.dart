@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/constants.dart';
+import 'package:music_app/custom%20widgets/change_password.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
 import 'package:music_app/custom%20widgets/custom_icon_button.dart';
 import 'package:music_app/custom%20widgets/custom_text.dart';
@@ -88,7 +89,9 @@ class _ProfileUiState extends State<ProfileUi> {
           ),
           Center(
             child: MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                changepassword(context);
+              },
               color: Colors.teal.shade200,
               elevation: 5.0,
               shape: RoundedRectangleBorder(
