@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_app/auth/login_ui.dart';
+import 'package:music_app/provider/auth_provider.dart';
 import 'package:music_app/provider/hover_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => HoverProvider())],
+      providers: [
+        // ChangeNotifierProvider(create: (_) => HoverProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Music App',

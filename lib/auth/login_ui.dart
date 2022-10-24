@@ -5,6 +5,8 @@ import 'package:music_app/auth/register_ui.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
 import 'package:music_app/music%20pages/main_widget.dart';
+import 'package:music_app/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginUi extends StatefulWidget {
   const LoginUi({super.key});
@@ -43,6 +45,7 @@ class _LoginUiState extends State<LoginUi> {
 
   @override
   Widget build(BuildContext context) {
+    final authprovider = Provider.of<AuthProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -265,26 +268,38 @@ class _LoginUiState extends State<LoginUi> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50.0),
                       child: MaterialButton(
-                        onPressed: islogin
-                            ? () {
-                                Get.to(
-                                  () => const MainWidget(),
-                                );
-                              }
-                            : () {},
+                        onPressed: authprovider.isloading
+                            ? null
+                            : islogin
+                                ? () async {
+                                    await authprovider.login(
+                                        _email.text.toString().trim(),
+                                        _password.text.toString());
+                                  }
+                                : () async {
+                                    await authprovider.register(
+                                        email: _email.text.toString().trim(),
+                                        password: _password.text.toString(),
+                                        username: 'shami',
+                                        phonenNumber: '+911234567891',
+                                        gender: 'Male',
+                                        dob: '05/06/1980');
+                                  },
                         color: Colors.teal.shade200,
                         elevation: 0.0,
                         shape: const StadiumBorder(),
                         minWidth: MediaQuery.of(context).size.width * 0.35,
                         height: MediaQuery.of(context).size.height * 0.07,
-                        child: Text(
-                          islogin ? 'Login' : 'Register',
-                          style: TextStyle(
-                              fontSize: 19.0,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              fontFamily: font_family),
-                        ),
+                        child: authprovider.isloading
+                            ? const CircularProgressIndicator()
+                            : Text(
+                                islogin ? 'Login' : 'Register',
+                                style: TextStyle(
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                    fontFamily: font_family),
+                              ),
                       ),
                     ),
                     SizedBox(
