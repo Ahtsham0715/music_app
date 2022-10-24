@@ -16,12 +16,13 @@ class CategoryUi extends StatefulWidget {
 class _CategoryUiState extends State<CategoryUi> {
   final TextEditingController _search = TextEditingController();
 
-  List visibiltyvar = [];
+  ValueNotifier<List<bool>> visibiltyvar = ValueNotifier<List<bool>>([]);
 
   var args = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -124,18 +125,19 @@ class _CategoryUiState extends State<CategoryUi> {
             ),
             itemCount: args['items_list'].length,
             itemBuilder: (context, index) {
-              visibiltyvar.add(false);
+              visibiltyvar.value.add(false);
               return InkWell(
                 onTap: () {},
                 onHover: ((ishovering) {
                   if (ishovering) {
-                    setState(() {
-                      visibiltyvar[index] = true;
-                    });
+                    // setState(() {
+                    visibiltyvar.value[index] = true;
+                    visibiltyvar.notifyListeners();
+                    // });
                     print('hovering');
                   } else {
-                    visibiltyvar[index] = false;
-                    setState(() {});
+                    visibiltyvar.value[index] = false;
+                    visibiltyvar.notifyListeners();
                     print('not hovering');
                   }
                 }),
@@ -151,31 +153,35 @@ class _CategoryUiState extends State<CategoryUi> {
                               image: NetworkImage(
                                   args['items_list'][index].toString()))),
                     ),
-                    Visibility(
-                      visible: visibiltyvar[index],
-                      child: Positioned(
-                        // top: 0,
-                        child: Container(
-                          margin: const EdgeInsets.all(2.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.blueGrey.withOpacity(0.5),
-                          ),
-                          child: Center(
-                            child: CircleAvatar(
-                              backgroundColor: Colors.black54,
-                              child: CustomIconButton(
-                                  ontap: () {
-                                    Get.to(
-                                      () => const MusicPlayerUi(),
-                                    );
-                                  },
-                                  icon: Icons.play_arrow),
+                    ValueListenableBuilder(
+                        valueListenable: visibiltyvar,
+                        builder: (context, val, _) {
+                          return Visibility(
+                            visible: val[index],
+                            child: Positioned(
+                              // top: 0,
+                              child: Container(
+                                margin: const EdgeInsets.all(2.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.blueGrey.withOpacity(0.5),
+                                ),
+                                child: Center(
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.black54,
+                                    child: CustomIconButton(
+                                        ontap: () {
+                                          Get.to(
+                                            () => const MusicPlayerUi(),
+                                          );
+                                        },
+                                        icon: Icons.play_arrow),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
+                          );
+                        }),
                   ],
                 ),
               );
