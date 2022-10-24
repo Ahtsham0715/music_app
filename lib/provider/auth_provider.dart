@@ -46,13 +46,12 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future register(
-      {required String email,
-      required password,
-      required username,
-      required phonenNumber,
-      required gender,
-      required dob}) async {
+  Future register({
+    required String email,
+    required password,
+    required username,
+    required phonenNumber,
+  }) async {
     setLoading(true);
     try {
       var response = await post(Uri.parse('https://reqres.in/api/register'),

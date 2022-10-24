@@ -18,6 +18,8 @@ class LoginUi extends StatefulWidget {
 class _LoginUiState extends State<LoginUi> {
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController _email = TextEditingController();
+  TextEditingController _contactno = TextEditingController();
+  TextEditingController _username = TextEditingController();
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmpassword = TextEditingController();
 
@@ -118,7 +120,7 @@ class _LoginUiState extends State<LoginUi> {
                       "Username",
                       false,
                       null,
-                      _email,
+                      _username,
                       (value) {
                         if (value!.isEmpty) {
                           return "Please Enter Your Username";
@@ -130,7 +132,7 @@ class _LoginUiState extends State<LoginUi> {
                         // }
                       },
                       (value) {
-                        _email.text = value!;
+                        _username.text = value!;
                       },
                       responsiveHW(context, wd: 100),
                       responsiveHW(context, ht: 100),
@@ -144,6 +146,72 @@ class _LoginUiState extends State<LoginUi> {
                     SizedBox(
                       height: responsiveHW(context, ht: 3),
                     ),
+                    !islogin
+                        ? customTextField(
+                            "Email",
+                            false,
+                            null,
+                            _email,
+                            (value) {
+                              if (value!.isEmpty) {
+                                return "Please Enter Your email";
+                              }
+                              if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                                return "Please Enter Valid Email Address";
+                              }
+                            },
+                            (value) {
+                              _email.text = value!;
+                            },
+                            responsiveHW(context, wd: 100),
+                            responsiveHW(context, ht: 100),
+                            const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            pIcon: Icons.person,
+                          )
+                        : const Center(),
+                    islogin
+                        ? const Center()
+                        : SizedBox(
+                            height: responsiveHW(context, ht: 3),
+                          ),
+                    !islogin
+                        ? customTextField(
+                            "Phone Number",
+                            false,
+                            null,
+                            _contactno,
+                            (value) {
+                              if (value!.isEmpty) {
+                                return "Please Enter Your Phone Number";
+                              }
+                              // if (value != _password.text) {
+                              //   return "Both Password Should Be Matched";
+                              // }
+                            },
+                            (value) {
+                              _contactno.text = value!;
+                            },
+                            responsiveHW(context, wd: 100),
+                            responsiveHW(context, ht: 100),
+                            const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            pIcon: Icons.key,
+                          )
+                        : const Center(),
+                    islogin
+                        ? const Center()
+                        : SizedBox(
+                            height: responsiveHW(context, ht: 3),
+                          ),
                     customTextField(
                       "Password",
                       passwordVisible,
@@ -272,18 +340,23 @@ class _LoginUiState extends State<LoginUi> {
                             ? null
                             : islogin
                                 ? () async {
-                                    await authprovider.login(
-                                        _email.text.toString().trim(),
-                                        _password.text.toString());
+                                    if (_formkey.currentState!.validate()) {
+                                      await authprovider.login(
+                                          _username.text.toString().trim(),
+                                          _password.text.toString());
+                                    }
                                   }
                                 : () async {
-                                    await authprovider.register(
+                                    if (_formkey.currentState!.validate()) {
+                                      await authprovider.register(
                                         email: _email.text.toString().trim(),
                                         password: _password.text.toString(),
-                                        username: 'shami',
-                                        phonenNumber: '+911234567891',
-                                        gender: 'Male',
-                                        dob: '05/06/1980');
+                                        username:
+                                            _username.text.toString().trim(),
+                                        phonenNumber:
+                                            _contactno.text.toString().trim(),
+                                      );
+                                    }
                                   },
                         color: Colors.teal.shade200,
                         elevation: 0.0,
