@@ -262,6 +262,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                 max: playerpro.maxduration,
                 value: playerpro.seekpossec,
                 onChanged: (value) {
+                  playerpro.seekDuration(value.toInt());
                   print(value);
                 },
                 activeColor: Colors.teal.shade200,

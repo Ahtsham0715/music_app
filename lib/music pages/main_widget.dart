@@ -10,6 +10,7 @@ import 'package:music_app/custom%20widgets/utils.dart';
 import 'package:music_app/music%20pages/dashboard_ui.dart';
 import 'package:music_app/music%20pages/category_ui.dart';
 import 'package:music_app/music%20pages/downloads_ui.dart';
+import 'package:music_app/music%20pages/playlist_ui.dart';
 import 'package:music_app/music%20pages/profile_ui.dart';
 import 'package:music_app/player/music_player_ui.dart';
 
@@ -26,9 +27,18 @@ class _MainWidgetState extends State<MainWidget> {
 
   List pages = [
     const CategoriesUi(),
-    const Center(
-      child: Text('Playlist'),
-    ),
+    PlaylistUi(items: const {
+      'category_name': 'Category ',
+      'items_list': [
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
+        'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
+        'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
+        'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
+        'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
+        'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
+        'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
+      ],
+    }),
     DownloadUi(items: const {
       'category_name': 'Category ',
       'items_list': [

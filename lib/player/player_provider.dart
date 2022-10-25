@@ -76,7 +76,13 @@ class AudioPlayerProvider with ChangeNotifier {
     }
   }
 
-  // Future playAudio() async {}
+  Future seekDuration(val) async {
+    print(val);
+    await _player.seek(Duration(
+      seconds: val,
+    ));
+    setSeekPosSec(val);
+  }
 
   Future changeVolume(vol) async {
     await _player.setVolume(vol);
@@ -101,16 +107,3 @@ class AudioPlayerProvider with ChangeNotifier {
     _player.resume();
   }
 }
-
-// class ProgressBarState {
-//   ProgressBarState({
-//     required this.current,
-//     required this.buffered,
-//     required this.total,
-//   });
-//   final Duration current;
-//   final Duration buffered;
-//   final Duration total;
-// }
-
-// enum ButtonState { paused, playing, stopped }
