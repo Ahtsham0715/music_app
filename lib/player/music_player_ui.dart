@@ -17,15 +17,17 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
   final TextEditingController _search = TextEditingController();
   var args = Get.arguments;
   double _slidervalue = 0.0;
+  dynamic playerprovider;
   @override
   void initState() {
+    playerprovider = Provider.of<AudioPlayerProvider>(context, listen: false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     print('build');
-    final playerprovider = Provider.of<AudioPlayerProvider>(context);
+
     if (args['isAsset']) {
       playerprovider.playfromAsset(args['filepath']);
     }
@@ -253,75 +255,79 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.005,
             width: MediaQuery.of(context).size.width,
-            child: Slider(
-              min: 0,
-              max: 100,
-              value: _slidervalue,
-              onChanged: (value) {
-                // setState(() {
-                //   _slidervalue = value;
-                // });
-              },
-              activeColor: Colors.grey.shade200,
-              // color: Colors.teal.shade300,
-            ),
+            child:
+                Consumer<AudioPlayerProvider>(builder: (context, playerpro, _) {
+              return Slider(
+                min: 0,
+                max: playerpro.maxduration,
+                value: 50,
+                onChanged: (value) {
+                  // print(value);
+                },
+                activeColor: Colors.grey.shade200,
+                // color: Colors.teal.shade300,
+              );
+            }),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
             width: MediaQuery.of(context).size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomIconButton(
-                  icon: FontAwesomeIcons.repeat,
-                  ontap: () {},
-                ),
-                CustomIconButton(
-                  icon: FontAwesomeIcons.backwardStep,
-                  ontap: () {},
-                ),
-                CustomIconButton(
-                  icon: playerprovider.isplaying == 'loading'
-                      ? FontAwesomeIcons.pause
-                      : FontAwesomeIcons.play,
-                  ontap: () {
-                    // setState(() {});
-                    playerprovider.isplaying == 'loading'
-                        ? playerprovider.pauseAudio()
-                        : playerprovider.resumeAudio();
-                  },
-                ),
-                CustomIconButton(
-                  icon: FontAwesomeIcons.forwardStep,
-                  ontap: () {},
-                ),
-                CustomIconButton(
-                  icon: FontAwesomeIcons.shuffle,
-                  ontap: () {},
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                ),
-                Text(
-                  "0:17/6:11",
-                  style: TextStyle(
-                    fontSize: 13.0,
-                    fontFamily: font_family,
+            child:
+                Consumer<AudioPlayerProvider>(builder: (context, playerpro, _) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomIconButton(
+                    icon: FontAwesomeIcons.repeat,
+                    ontap: () {},
                   ),
-                ),
-                CustomIconButton(
-                  icon: FontAwesomeIcons.ellipsis,
-                  ontap: () {},
-                ),
-                CustomIconButton(
-                  icon: FontAwesomeIcons.volumeHigh,
-                  ontap: () {},
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.03,
-                ),
-              ],
-            ),
+                  CustomIconButton(
+                    icon: FontAwesomeIcons.backwardStep,
+                    ontap: () {},
+                  ),
+                  CustomIconButton(
+                    icon: playerpro.isplaying
+                        ? FontAwesomeIcons.pause
+                        : FontAwesomeIcons.play,
+                    ontap: () {
+                      // setState(() {});
+                      playerprovider.isplaying
+                          ? playerprovider.pauseAudio()
+                          : playerprovider.resumeAudio();
+                    },
+                  ),
+                  CustomIconButton(
+                    icon: FontAwesomeIcons.forwardStep,
+                    ontap: () {},
+                  ),
+                  CustomIconButton(
+                    icon: FontAwesomeIcons.shuffle,
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.25,
+                  ),
+                  Text(
+                    "${playerprovider.seekpos}/${playerprovider.duration} ",
+                    style: TextStyle(
+                      fontSize: 13.0,
+                      fontFamily: font_family,
+                    ),
+                  ),
+                  CustomIconButton(
+                    icon: FontAwesomeIcons.ellipsis,
+                    ontap: () {},
+                  ),
+                  CustomIconButton(
+                    icon: FontAwesomeIcons.volumeHigh,
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.03,
+                  ),
+                ],
+              );
+            }),
           ),
         ],
       ),
