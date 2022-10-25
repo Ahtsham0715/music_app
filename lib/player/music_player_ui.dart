@@ -337,20 +337,30 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                               0.0),
                           items: [
                             PopupMenuItem(
-                              child: StatefulBuilder(
-                                  builder: (context, innerstate) {
-                                return Slider(
-                                  min: 0,
-                                  max: 1,
-                                  inactiveColor: Colors.grey.shade400,
-                                  activeColor: Colors.green,
-                                  value: playerpro.volume,
-                                  onChanged: (value) {
-                                    playerpro.changeVolume(value.toDouble());
-                                    innerstate(() {});
-                                  },
-                                );
-                              }),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    FontAwesomeIcons.volumeLow,
+                                    color: Colors.amber.shade800,
+                                    size: 25.0,
+                                  ),
+                                  StatefulBuilder(
+                                      builder: (context, innerstate) {
+                                    return Slider(
+                                      min: 0,
+                                      max: 1,
+                                      inactiveColor: Colors.grey.shade400,
+                                      activeColor: Colors.green,
+                                      value: playerpro.volume,
+                                      onChanged: (value) {
+                                        playerpro
+                                            .changeVolume(value.toDouble());
+                                        innerstate(() {});
+                                      },
+                                    );
+                                  }),
+                                ],
+                              ),
                             )
                           ]);
                     },
