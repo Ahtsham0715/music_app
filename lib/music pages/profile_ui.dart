@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/change_password.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
 import 'package:music_app/custom%20widgets/custom_icon_button.dart';
 import 'package:music_app/custom%20widgets/custom_text.dart';
+import 'package:music_app/custom%20widgets/utils.dart';
+import 'package:music_app/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileUi extends StatefulWidget {
   const ProfileUi({super.key});
@@ -21,6 +25,7 @@ class _ProfileUiState extends State<ProfileUi> {
 
   @override
   Widget build(BuildContext context) {
+    final authprovider = Provider.of<AuthProvider>(context);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
@@ -61,7 +66,9 @@ class _ProfileUiState extends State<ProfileUi> {
               trailing: Padding(
                 padding: const EdgeInsets.only(right: 40.0),
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    authprovider.logout();
+                  },
                   color: Colors.white,
                   elevation: 0.0,
                   shape: RoundedRectangleBorder(

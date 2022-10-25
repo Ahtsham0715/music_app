@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/utils.dart';
 import 'package:music_app/music%20pages/main_widget.dart';
 
@@ -14,6 +15,18 @@ class AuthProvider with ChangeNotifier {
 
   setLoading(bool value) {
     _isloading = value;
+    notifyListeners();
+  }
+
+  Future logout() async {
+    customYesNoDialog(
+        titletext: 'Are you sure?',
+        contenttext: 'Do you want to logout?',
+        yesOnTap: () {
+          loginbox.write('islogin', false);
+          Get.back();
+          Get.back();
+        });
     notifyListeners();
   }
 
@@ -29,6 +42,7 @@ class AuthProvider with ChangeNotifier {
         var data = jsonDecode(response.body.toString());
         print(data['token']);
         print('Login successfully');
+        loginbox.write('islogin', true);
         Get.to(
           () => const MainWidget(),
         );
@@ -63,6 +77,7 @@ class AuthProvider with ChangeNotifier {
         var data = jsonDecode(response.body.toString());
         print(data['token']);
         print('Register successfully');
+        loginbox.write('islogin', true);
         Get.to(
           () => const MainWidget(),
         );

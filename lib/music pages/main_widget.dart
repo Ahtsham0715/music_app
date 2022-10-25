@@ -113,7 +113,15 @@ class _MainWidgetState extends State<MainWidget> {
         // Get.to(
         //   () => const LoginUi(),
         // );
-        Get.back();
+        customYesNoDialog(
+            titletext: 'Are you sure?',
+            contenttext: 'Do you want to logout?',
+            yesOnTap: () {
+              loginbox.write('islogin', false);
+              Get.back();
+              Get.back();
+            });
+
         // page.keepPage;
       },
       icon: const Icon(Icons.logout_outlined),

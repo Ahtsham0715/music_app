@@ -340,6 +340,7 @@ class _LoginUiState extends State<LoginUi> {
                             ? null
                             : islogin
                                 ? () async {
+                                    loginbox.write('islogin', true);
                                     Get.to(
                                       () => const MainWidget(),
                                     );

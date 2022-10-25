@@ -1,4 +1,14 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:music_app/auth/login_ui.dart';
+import 'package:music_app/constants.dart';
+import 'package:music_app/music%20pages/main_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -8,8 +18,115 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  @override
+  void initState() {
+    super.initState();
+    initTimer();
+  }
+
+  Future<bool> CheckConnection() async {
+    late ConnectivityResult result;
+    try {
+      result = await _connectivity.checkConnectivity();
+      //  var connectivityResult = await (Connectivity().checkConnectivity());
+      if (result == ConnectivityResult.mobile ||
+          result == ConnectivityResult.wifi) {
+        print('connection available');
+        return true;
+      } else {
+        print('connection unavailable');
+        return false;
+      }
+    } on PlatformException catch (e) {
+      print('Couldn\'t check connectivity status error: $e');
+      print('connection unavailable');
+      return false;
+    }
+  }
+
+  Future<void> initTimer() async {
+    if (await CheckConnection()) {
+      Timer(const Duration(seconds: 3), () async {
+        print(loginbox.read('islogin'));
+        if (loginbox.read('islogin') == true ||
+            loginbox.read('islogin') == null) {
+          // pehly != tha
+          Get.to(
+            () => const LoginUi(),
+          );
+        } else {
+          Get.to(() => const MainWidget());
+        }
+      });
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+            WillPopScope(onWillPop: () async => false, child: customAlert()),
+        barrierDismissible: false,
+      );
+      //  customAlert();
+    }
+  }
+
+  Widget customAlert() {
+    // SplashWidget().showSplashLogo();
+    return AlertDialog(
+      insetPadding: const EdgeInsets.all(10.0),
+      actionsPadding: const EdgeInsets.only(bottom: 10.0),
+      title: Icon(
+        CupertinoIcons.exclamationmark_circle_fill,
+        color: Colors.red[400],
+        size: 70.0,
+      ),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: const Text(
+          'No internet available! Please\n reconnect and try again',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 18.0,
+              // color: Colors.black,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 1.0),
+        ),
+      ),
+      actions: [
+        Center(
+          child: TextButton(
+            onPressed: () async {
+              SystemNavigator.pop();
+            },
+            child: const Text('ok'),
+            style: TextButton.styleFrom(
+              minimumSize: Size(MediaQuery.of(context).size.width * 0.7,
+                  MediaQuery.of(context).size.height * 0.06),
+              maximumSize: Size(MediaQuery.of(context).size.width * 0.75,
+                  MediaQuery.of(context).size.height * 0.06),
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.grey[350],
+              elevation: 2.0,
+              textStyle: const TextStyle(
+                  fontSize: 20, fontFamily: "Viga", color: Colors.black),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/splash.gif'),
+          ),
+        ),
+      ),
+    );
   }
 }

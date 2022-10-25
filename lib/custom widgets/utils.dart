@@ -35,3 +35,29 @@ void styledsnackbar({required txt, icon = Icons.wifi_sharp}) {
     duration: const Duration(seconds: 3),
   );
 }
+
+Future customYesNoDialog(
+    {required String titletext,
+    required String contenttext,
+    required yesOnTap}) async {
+  return Get.dialog(
+    AlertDialog(
+      // backgroundColor: Colors.teal,
+      title: Text(titletext),
+      content: Text(contenttext),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      actions: <Widget>[
+        MaterialButton(
+          onPressed: () => Get.back(),
+          child: const Text('No'),
+        ),
+        MaterialButton(
+          onPressed: yesOnTap,
+          child: const Text('Yes'),
+        ),
+      ],
+    ),
+  );
+}

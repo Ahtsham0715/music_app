@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:music_app/auth/login_ui.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:music_app/player/player_provider.dart';
 import 'package:music_app/provider/auth_provider.dart';
-import 'package:music_app/provider/hover_provider.dart';
+import 'package:music_app/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -12,6 +12,7 @@ void main() async {
   // windowManager.waitUntilReadyToShow().then((_) async {
   //   await windowManager.setAsFrameless();
   // });
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
           ),
           brightness: Brightness.light,
         ),
-        home: const LoginUi(),
+        home: const SplashScreen(),
       ),
     );
   }
