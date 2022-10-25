@@ -1,18 +1,19 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
+import 'package:music_app/custom%20widgets/utils.dart';
 
 class AudioPlayerProvider with ChangeNotifier {
-  static final _player = AudioPlayer();
+  static final _player = AudioPlayer(playerId: 'local');
 
-  bool _isplaying = false;
+  var _isplaying = 'loading';
   dynamic _duration = 0;
   dynamic _sliderval = 0;
 
-  bool get isplaying => _isplaying;
+  get isplaying => _isplaying;
 
-  setPlaying(bool value) {
+  setPlaying(value) {
     _isplaying = value;
-    notifyListeners();
+    // notifyListeners();
   }
 
   get duration => _duration;
@@ -20,33 +21,43 @@ class AudioPlayerProvider with ChangeNotifier {
 
   setDuration(durationVal) {
     _duration = durationVal;
-    notifyListeners();
+    // notifyListeners();
   }
 
   setSlidervalue(sliderVal) {
     _sliderval = sliderVal;
-    notifyListeners();
+    // notifyListeners();
   }
 
   Future playfromAsset(path) async {
     try {
-      Stream source = await _player.setSourceDeviceFile(path).asStream();
-      playAudio(src: _duration);
+      setPlaying('playing');
+      await _player.play(DeviceFileSource(path));
     } catch (e) {
+      setPlaying('loading');
+      styledsnackbar(txt: 'An occured while loading file');
       print(e);
     }
   }
 
-  Future playAudio({src}) async {
-    await _player.play(
-      src,
-      mode: PlayerMode.mediaPlayer,
-    );
-  }
+  // Future playAudio() async {}
 
   Future pauseAudio() async {
-    setPlaying(false);
-    await _player.pause();
+    print('paused');
+    setPlaying('paused');
+    _player.pause();
+  }
+
+  Future stopAudio() async {
+    print('stopped');
+    setPlaying('stop');
+    _player.stop();
+  }
+
+  Future resumeAudio() async {
+    print('resumed');
+    setPlaying('resume');
+    _player.resume();
   }
 }
 
@@ -61,4 +72,4 @@ class AudioPlayerProvider with ChangeNotifier {
 //   final Duration total;
 // }
 
-// enum ButtonState { paused, playing, loading }
+// enum ButtonState { paused, playing, stopped }

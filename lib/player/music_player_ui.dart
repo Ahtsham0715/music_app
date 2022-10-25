@@ -1,11 +1,8 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:music_app/constants.dart';
-import 'package:music_app/custom%20widgets/custom_formfield.dart';
 import 'package:music_app/custom%20widgets/custom_icon_button.dart';
-import 'package:music_app/custom%20widgets/utils.dart';
 import 'package:music_app/player/player_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +24,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     final playerprovider = Provider.of<AudioPlayerProvider>(context);
     if (args['isAsset']) {
       playerprovider.playfromAsset(args['filepath']);
@@ -61,27 +59,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             ],
           ),
         ),
-        // title: SizedBox(
-        //   height: 50,
-        //   width: MediaQuery.of(context).size.width * 0.4,
-        //   child: customsearchField(
-        //     "Search",
-        //     _search,
-        //     (value) {},
-        //     (value) {
-        //       _search.text = value!;
-        //     },
-        //     responsiveHW(context, wd: 100),
-        //     responsiveHW(context, ht: 100),
-        // OutlineInputBorder(
-        //   borderRadius: BorderRadius.circular(50.0),
-        //   borderSide: const BorderSide(
-        //     style: BorderStyle.none,
-        //     color: Colors.white,
-        //   ),
-        // ),
-        //   ),
-        // ),
+
         actions: [
           Center(
             child: Text(
@@ -280,9 +258,9 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
               max: 100,
               value: _slidervalue,
               onChanged: (value) {
-                setState(() {
-                  _slidervalue = value;
-                });
+                // setState(() {
+                //   _slidervalue = value;
+                // });
               },
               activeColor: Colors.grey.shade200,
               // color: Colors.teal.shade300,
@@ -303,13 +281,14 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                   ontap: () {},
                 ),
                 CustomIconButton(
-                  icon: playerprovider.isplaying
+                  icon: playerprovider.isplaying == 
                       ? FontAwesomeIcons.pause
                       : FontAwesomeIcons.play,
                   ontap: () {
+                    // setState(() {});
                     playerprovider.isplaying
                         ? playerprovider.pauseAudio()
-                        : playerprovider.playAudio();
+                        : playerprovider.resumeAudio();
                   },
                 ),
                 CustomIconButton(

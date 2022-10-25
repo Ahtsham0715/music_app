@@ -17,7 +17,7 @@ Future filepicker({required filetype, allowedextensions}) async {
 void styledsnackbar({required txt, icon = Icons.wifi_sharp}) {
   Get.rawSnackbar(
     margin: const EdgeInsets.all(15.0),
-    maxWidth: Get.width * 0.3,
+    maxWidth: Get.width * 0.35,
     messageText: Text(
       txt,
       style: const TextStyle(
