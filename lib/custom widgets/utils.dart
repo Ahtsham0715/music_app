@@ -8,7 +8,7 @@ Future filepicker({required filetype, allowedextensions}) async {
     allowedExtensions: allowedextensions,
   );
   if (result != null) {
-    return result.files.single.path.toString();
+    return result.files.single;
   } else {
     return '';
   }

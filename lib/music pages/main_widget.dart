@@ -11,6 +11,7 @@ import 'package:music_app/music%20pages/dashboard_ui.dart';
 import 'package:music_app/music%20pages/category_ui.dart';
 import 'package:music_app/music%20pages/downloads_ui.dart';
 import 'package:music_app/music%20pages/profile_ui.dart';
+import 'package:music_app/player/music_player_ui.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -65,7 +66,15 @@ class _MainWidgetState extends State<MainWidget> {
     SideMenuItem(
       priority: 2,
       title: 'Browse & Play',
-      onTap: () => filepicker(filetype: FileType.audio),
+      onTap: () async {
+        await filepicker(filetype: FileType.audio).then((filepath) {
+          print(filepath);
+          Get.to(() => const MusicPlayerUi(), arguments: {
+            'isAsset': true,
+            'filepath': filepath.path.toString(),
+          });
+        });
+      },
       icon: const Icon(Icons.browse_gallery_outlined),
     ),
     SideMenuItem(

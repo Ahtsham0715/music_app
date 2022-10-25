@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app/constants.dart';
-import 'package:music_app/custom%20widgets/custom_formfield.dart';
 import 'package:music_app/custom%20widgets/custom_icon_button.dart';
+import 'package:music_app/player/player_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 
 class MusicPlayerUi extends StatefulWidget {
   const MusicPlayerUi({super.key});
@@ -15,8 +18,19 @@ class MusicPlayerUi extends StatefulWidget {
 class _MusicPlayerUiState extends State<MusicPlayerUi> {
   final TextEditingController _search = TextEditingController();
   final _player = AudioPlayer();
+  var args = Get.arguments;
+  double _slidervalue = 0.0;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final playerprovider = Provider.of<AudioPlayerProvider>(context);
+    if (args['isAsset']) {
+      playerprovider.playfromAsset(args['filepath']);
+    }
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -261,10 +275,16 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.005,
             width: MediaQuery.of(context).size.width,
-            child: LinearProgressIndicator(
-              backgroundColor: Colors.grey.shade200,
-              color: Colors.teal.shade300,
-              value: 0.5,
+            child: ValueListenableBuilder<ProgressBarState>(
+              valueListenable: _pageManager.progressNotifier,
+              builder: (_, value, __) {
+                return ProgressBar(
+                  progress: value.current,
+                  buffered: value.buffered,
+                  total: value.total,
+                  onSeek: _pageManager.seek,
+                );
+              },
             ),
           ),
           SizedBox(
@@ -282,8 +302,14 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                   ontap: () {},
                 ),
                 CustomIconButton(
-                  icon: FontAwesomeIcons.play,
-                  ontap: () {},
+                  icon: playerprovider.isplaying
+                      ? FontAwesomeIcons.pause
+                      : FontAwesomeIcons.play,
+                  ontap: () {
+                    playerprovider.isplaying
+                        ? playerprovider.pauseAudio()
+                        : playerprovider.playAudio();
+                  },
                 ),
                 CustomIconButton(
                   icon: FontAwesomeIcons.forwardStep,
