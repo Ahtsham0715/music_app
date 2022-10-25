@@ -281,12 +281,12 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                   ontap: () {},
                 ),
                 CustomIconButton(
-                  icon: playerprovider.isplaying == 
+                  icon: playerprovider.isplaying == 'loading'
                       ? FontAwesomeIcons.pause
                       : FontAwesomeIcons.play,
                   ontap: () {
                     // setState(() {});
-                    playerprovider.isplaying
+                    playerprovider.isplaying == 'loading'
                         ? playerprovider.pauseAudio()
                         : playerprovider.resumeAudio();
                   },
