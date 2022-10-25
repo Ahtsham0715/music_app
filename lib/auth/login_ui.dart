@@ -340,11 +340,14 @@ class _LoginUiState extends State<LoginUi> {
                             ? null
                             : islogin
                                 ? () async {
-                                    if (_formkey.currentState!.validate()) {
-                                      await authprovider.login(
-                                          _username.text.toString().trim(),
-                                          _password.text.toString());
-                                    }
+                                    Get.to(
+                                      () => const MainWidget(),
+                                    );
+                                    // if (_formkey.currentState!.validate()) {
+                                    //   await authprovider.login(
+                                    //       _username.text.toString().trim(),
+                                    //       _password.text.toString());
+                                    // }
                                   }
                                 : () async {
                                     if (_formkey.currentState!.validate()) {
