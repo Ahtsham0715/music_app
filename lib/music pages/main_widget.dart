@@ -52,6 +52,7 @@ class _MainWidgetState extends State<MainWidget> {
       ],
     }),
     const ProfileUi(),
+    const ProfileUi(),
   ];
 
   List<SideMenuItem> items = [
@@ -102,7 +103,7 @@ class _MainWidgetState extends State<MainWidget> {
     SideMenuItem(
       priority: 4,
       title: 'My Account',
-      onTap: () => page.jumpToPage(3),
+      onTap: () => page.jumpToPage(4),
       icon: const Icon(Icons.account_circle_outlined),
     ),
     SideMenuItem(
@@ -118,8 +119,11 @@ class _MainWidgetState extends State<MainWidget> {
             contenttext: 'Do you want to logout?',
             yesOnTap: () {
               loginbox.write('islogin', false);
-              Get.back();
-              Get.back();
+              page.dispose();
+              Get.to(
+                () => const LoginUi(),
+                // preventDuplicates: true,
+              );
             });
 
         // page.keepPage;
@@ -143,6 +147,7 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return Scaffold(
       backgroundColor: Colors.grey.shade100.withOpacity(1.0),
       appBar: AppBar(

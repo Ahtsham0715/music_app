@@ -24,7 +24,7 @@ class AuthProvider with ChangeNotifier {
         contenttext: 'Do you want to logout?',
         yesOnTap: () {
           loginbox.write('islogin', false);
-          Get.back();
+          // Get.back();
           Get.back();
         });
     notifyListeners();

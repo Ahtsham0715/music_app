@@ -12,7 +12,8 @@ void main() async {
   // windowManager.waitUntilReadyToShow().then((_) async {
   //   await windowManager.setAsFrameless();
   // });
-  await GetStorage.init();
+  await GetStorage.init('login_session');
+  await GetStorage.init('playlist');
   runApp(const MyApp());
 }
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Music App',
         theme: ThemeData(
-          // hoverColor: Colors.grey.shade100.withOpacity(1.0),
+          hoverColor: Colors.grey.shade200.withOpacity(1.0),
           // scaffoldBackgroundColor: Colors.grey.shade400,
           // iconTheme: IconThemeData(color: Colors.black),
           primarySwatch: Colors.teal,

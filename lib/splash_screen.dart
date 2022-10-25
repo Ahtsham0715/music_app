@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (await CheckConnection()) {
       Timer(const Duration(seconds: 3), () async {
         print(loginbox.read('islogin'));
-        if (loginbox.read('islogin') == true ||
+        if (loginbox.read('islogin') == false ||
             loginbox.read('islogin') == null) {
           // pehly != tha
           Get.to(

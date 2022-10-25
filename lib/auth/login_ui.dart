@@ -341,6 +341,7 @@ class _LoginUiState extends State<LoginUi> {
                             : islogin
                                 ? () async {
                                     loginbox.write('islogin', true);
+                                    print(loginbox.read('islogin'));
                                     Get.to(
                                       () => const MainWidget(),
                                     );
