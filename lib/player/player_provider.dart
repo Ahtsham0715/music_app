@@ -8,9 +8,9 @@ class AudioPlayerProvider with ChangeNotifier {
   bool _isplaying = false;
   dynamic _duration = 0;
   dynamic _maxduration = 0;
-  dynamic _sliderval = 0;
   dynamic _seekpos = 0;
   dynamic _seekpossec = 0;
+  double _volume = 0.4;
 
   get isplaying => _isplaying;
 
@@ -21,12 +21,17 @@ class AudioPlayerProvider with ChangeNotifier {
 
   get duration => _duration;
   get maxduration => _maxduration;
-  get sliderval => _sliderval;
   get seekpos => _seekpos;
   get seekpossec => _seekpossec;
+  get volume => _volume;
 
   setDuration(durationVal) {
     _duration = durationVal;
+    notifyListeners();
+  }
+
+  setVolume(volume) {
+    _volume = volume;
     notifyListeners();
   }
 
@@ -45,13 +50,7 @@ class AudioPlayerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  setSlidervalue(sliderVal) {
-    _sliderval = sliderVal;
-    notifyListeners();
-  }
-
   Future playfromAsset(path) async {
-    var slider;
     try {
       setPlaying(true);
       await _player.play(DeviceFileSource(path));
@@ -61,20 +60,12 @@ class AudioPlayerProvider with ChangeNotifier {
         stopAudio();
       });
       _player.onPositionChanged.listen((Duration p) => {
-            // print('Current position: ${p.inSeconds}'),
-            // print('Current position: ${p.inMinutes}'),
-            // setSeekPos('${p.inHours}:${p.inMinutes}:${p.inSeconds}'),
-            // slider = p.compareTo(duration as Duration),
-            // print(slider),
-            // setSlidervalue(slider as int),
-            setSeekPosSec(p.inSeconds.toInt()),
+            setSeekPosSec(p.inSeconds.toDouble()),
             setSeekPos(p.toString().split('.')[0]),
           });
       _player.onDurationChanged.listen((Duration d) {
-        setMaxDuration(d.inSeconds.toInt());
+        setMaxDuration(d.inSeconds.toDouble());
         print('Max duration: ${d.abs()}');
-        // print('Max duration: ${d.inSeconds}');
-        // print('Max duration: ${d.inMinutes}');
         setDuration(d.toString().split('.')[0]);
         // setDuration('${d.inHours}:${d.inMinutes}:${d.inSeconds.floor()}');
       });
@@ -86,6 +77,11 @@ class AudioPlayerProvider with ChangeNotifier {
   }
 
   // Future playAudio() async {}
+
+  Future changeVolume(vol) async {
+    await _player.setVolume(vol);
+    setVolume(vol);
+  }
 
   Future pauseAudio() async {
     print('paused');

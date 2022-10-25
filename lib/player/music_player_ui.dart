@@ -260,11 +260,12 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
               return Slider(
                 min: 0,
                 max: playerpro.maxduration,
-                value: 50,
+                value: playerpro.seekpossec,
                 onChanged: (value) {
-                  // print(value);
+                  print(value);
                 },
-                activeColor: Colors.grey.shade200,
+                activeColor: Colors.teal.shade200,
+                inactiveColor: Colors.grey.shade300,
                 // color: Colors.teal.shade300,
               );
             }),
@@ -314,16 +315,48 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                       fontFamily: font_family,
                     ),
                   ),
-                  CustomIconButton(
-                    icon: FontAwesomeIcons.ellipsis,
-                    ontap: () {},
-                  ),
+                  // CustomIconButton(
+                  //   icon: FontAwesomeIcons.ellipsis,
+                  //   ontap: () {},
+                  // ),
                   CustomIconButton(
                     icon: FontAwesomeIcons.volumeHigh,
-                    ontap: () {},
+                    ontap: () {
+                      print('menu build');
+                      showMenu(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          // elevation: 0.0,
+                          color: Colors.grey.shade300,
+                          context: context,
+                          position: RelativeRect.fromLTRB(
+                              MediaQuery.of(context).size.width * 0.01,
+                              MediaQuery.of(context).size.height * 0.80,
+                              10,
+                              0.0),
+                          items: [
+                            PopupMenuItem(
+                              child: StatefulBuilder(
+                                  builder: (context, innerstate) {
+                                return Slider(
+                                  min: 0,
+                                  max: 1,
+                                  inactiveColor: Colors.grey.shade400,
+                                  activeColor: Colors.green,
+                                  value: playerpro.volume,
+                                  onChanged: (value) {
+                                    playerpro.changeVolume(value.toDouble());
+                                    innerstate(() {});
+                                  },
+                                );
+                              }),
+                            )
+                          ]);
+                    },
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.03,
+                    width: MediaQuery.of(context).size.width * 0.05,
                   ),
                 ],
               );

@@ -26,7 +26,9 @@ class _MainWidgetState extends State<MainWidget> {
 
   List pages = [
     const CategoriesUi(),
-    const CategoriesUi(),
+    const Center(
+      child: Text('Playlist'),
+    ),
     DownloadUi(items: const {
       'category_name': 'Category ',
       'items_list': [
@@ -56,6 +58,16 @@ class _MainWidgetState extends State<MainWidget> {
     SideMenuItem(
       // Priority of item to show on SideMenu, lower value is displayed at the top
       priority: 1,
+      title: 'Playlist',
+      onTap: () => page.jumpToPage(1),
+      icon: const Icon(
+        Icons.playlist_play,
+        size: 25.0,
+      ),
+    ),
+    SideMenuItem(
+      // Priority of item to show on SideMenu, lower value is displayed at the top
+      priority: 2,
       title: 'Downloads',
       onTap: () => page.jumpToPage(2),
       icon: const Icon(
@@ -64,7 +76,7 @@ class _MainWidgetState extends State<MainWidget> {
       ),
     ),
     SideMenuItem(
-      priority: 2,
+      priority: 3,
       title: 'Browse & Play',
       onTap: () async {
         await filepicker(filetype: FileType.audio).then((filepath) {
@@ -78,13 +90,13 @@ class _MainWidgetState extends State<MainWidget> {
       icon: const Icon(Icons.browse_gallery_outlined),
     ),
     SideMenuItem(
-      priority: 3,
+      priority: 4,
       title: 'My Account',
       onTap: () => page.jumpToPage(3),
       icon: const Icon(Icons.account_circle_outlined),
     ),
     SideMenuItem(
-      priority: 4,
+      priority: 5,
       title: 'Logout',
       onTap: () {
         print('logged out');
