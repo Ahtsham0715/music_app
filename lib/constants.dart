@@ -14,3 +14,4 @@ var font_family_bold = 'Poppins-Bold';
 
 final loginbox = GetStorage('login_session');
 final playlistbox = GetStorage('playlist');
+final playerbox = GetStorage('player');

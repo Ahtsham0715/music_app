@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_icon_button.dart';
-import 'package:music_app/player/player_provider.dart';
+import 'package:music_app/provider/player_provider.dart';
 import 'package:provider/provider.dart';
 
 class MusicPlayerUi extends StatefulWidget {
@@ -17,10 +17,9 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
   final TextEditingController _search = TextEditingController();
   var args = Get.arguments;
   double _slidervalue = 0.0;
-  dynamic playerprovider;
+  // dynamic playerprovider;
   @override
   void initState() {
-    playerprovider = Provider.of<AudioPlayerProvider>(context, listen: false);
     super.initState();
   }
 
@@ -28,7 +27,9 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
   Widget build(BuildContext context) {
     print('build');
 
-    if (args['isAsset']) {
+    if (args['isAsset'] && !playerbox.read('isplaying')) {
+      dynamic playerprovider =
+          Provider.of<AudioPlayerProvider>(context, listen: false);
       playerprovider.playfromAsset(args['filepath']);
     }
     return Scaffold(
@@ -93,7 +94,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
       body: Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.8,
+            height: MediaQuery.of(context).size.height * 0.75,
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
@@ -121,6 +122,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Text(
                           "Dil Cheez Hai Kya",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.w600,
@@ -132,6 +134,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                         padding: const EdgeInsets.only(top: 5.0),
                         child: Text(
                           "Khayam, Asha Bhosle",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15.0,
                             fontFamily: font_family,
@@ -253,12 +256,12 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.005,
+            height: MediaQuery.of(context).size.height * 0.001,
             width: MediaQuery.of(context).size.width,
             child:
                 Consumer<AudioPlayerProvider>(builder: (context, playerpro, _) {
               return Slider(
-                min: 0,
+                min: 1,
                 max: playerpro.maxduration,
                 value: playerpro.seekpossec,
                 onChanged: (value) {
@@ -272,45 +275,61 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             }),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width,
             child:
                 Consumer<AudioPlayerProvider>(builder: (context, playerpro, _) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CustomIconButton(
-                    icon: FontAwesomeIcons.repeat,
-                    ontap: () {},
+                    icon: playerpro.loop
+                        ? Icons.repeat_one_rounded
+                        : Icons.repeat_rounded,
+                    size: 28.0,
+                    ontap: () {
+                      playerpro.setLoop(!playerpro.loop);
+                      print(playerbox.read('loop'));
+                    },
                   ),
                   CustomIconButton(
                     icon: FontAwesomeIcons.backwardStep,
                     ontap: () {},
                   ),
-                  CustomIconButton(
-                    icon: playerpro.isplaying
-                        ? FontAwesomeIcons.pause
-                        : FontAwesomeIcons.play,
-                    ontap: () {
-                      // setState(() {});
-                      playerprovider.isplaying
-                          ? playerprovider.pauseAudio()
-                          : playerprovider.resumeAudio();
-                    },
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.teal.shade400.withOpacity(0.5),
+                      radius: 30.0,
+                      child: CustomIconButton(
+                        icon: playerpro.isplaying
+                            ? FontAwesomeIcons.pause
+                            : FontAwesomeIcons.play,
+                        size: 25.0,
+                        hovercolor: Colors.transparent,
+                        ontap: () {
+                          // setState(() {});
+                          playerpro.isplaying
+                              ? playerpro.pauseAudio()
+                              : playerpro.resumeAudio();
+                        },
+                      ),
+                    ),
                   ),
                   CustomIconButton(
                     icon: FontAwesomeIcons.forwardStep,
                     ontap: () {},
                   ),
-                  CustomIconButton(
-                    icon: FontAwesomeIcons.shuffle,
-                    ontap: () {},
-                  ),
+                  // CustomIconButton(
+                  //   icon: FontAwesomeIcons.shuffle,
+                  //   ontap: () {},
+                  // ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.25,
                   ),
                   Text(
-                    "${playerprovider.seekpos}/${playerprovider.duration} ",
+                    "${playerpro.seekpos}/${playerpro.duration} ",
                     style: TextStyle(
                       fontSize: 13.0,
                       fontFamily: font_family,
@@ -340,9 +359,9 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                             PopupMenuItem(
                               child: Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     FontAwesomeIcons.volumeLow,
-                                    color: Colors.amber.shade800,
+                                    color: Colors.black,
                                     size: 25.0,
                                   ),
                                   StatefulBuilder(

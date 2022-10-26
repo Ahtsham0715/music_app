@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:music_app/player/player_provider.dart';
+import 'package:music_app/constants.dart';
+import 'package:music_app/provider/player_provider.dart';
 import 'package:music_app/provider/auth_provider.dart';
 import 'package:music_app/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ void main() async {
   // });
   await GetStorage.init('login_session');
   await GetStorage.init('playlist');
+  await GetStorage.init('player');
   runApp(const MyApp());
 }
 
@@ -22,6 +24,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    playerbox.writeIfNull('isplaying', false);
+    playerbox.writeIfNull('loop', false);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AudioPlayerProvider()),
