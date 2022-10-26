@@ -31,7 +31,7 @@ class DownloadUi extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
-              "${args['category_name']}",
+              "Downloads",
               style: TextStyle(
                 fontSize: 20.0,
                 fontFamily: font_family_bold,
