@@ -3,7 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_icon_button.dart';
+import 'package:music_app/provider/download_provider.dart';
 import 'package:music_app/provider/player_provider.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 class MusicPlayerUi extends StatefulWidget {
@@ -26,7 +28,8 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
   @override
   Widget build(BuildContext context) {
     print('build');
-
+    final downloadprovider =
+        Provider.of<DownloadProvider>(context, listen: false);
     if (args['isAsset'] && !playerbox.read('isplaying')) {
       dynamic playerprovider =
           Provider.of<AudioPlayerProvider>(context, listen: false);
@@ -164,23 +167,50 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                           ),
                           trailing: Padding(
                             padding: const EdgeInsets.only(right: 50.0),
-                            child: MaterialButton(
-                              onPressed: () {},
-                              color: Colors.teal.shade200,
-                              elevation: 0.0,
-                              shape: const StadiumBorder(),
-                              minWidth:
-                                  MediaQuery.of(context).size.width * 0.01,
-                              // height: MediaQuery.of(context).size.height * 0.07,
-                              child: Text(
-                                'Download',
-                                style: TextStyle(
-                                    fontSize: 12.0,
-                                    // fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                    fontFamily: font_family),
-                              ),
-                            ),
+                            child: Consumer<DownloadProvider>(
+                                builder: (context, downloadpro, _) {
+                              return downloadpro.isloading
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 10.0),
+                                      child: CircularPercentIndicator(
+                                        radius: 20.0,
+                                        lineWidth: 3.0,
+                                        percent: downloadpro.percentageVal,
+                                        center: Text(
+                                          "${downloadpro.percentage}%",
+                                          style: TextStyle(
+                                              fontSize: 10.0,
+                                              // fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                              fontFamily: font_family),
+                                        ),
+                                        progressColor: Colors.teal,
+                                      ),
+                                    )
+                                  : MaterialButton(
+                                      onPressed: () {
+                                        downloadpro.downloadFile(
+                                            url:
+                                                'https://firebasestorage.googleapis.com/v0/b/passman-ccba5.appspot.com/o/128-Dil%20De%20Diya%20Hai%20-%20Thank%20God%20128%20Kbps.mp3?alt=media&token=84993d99-6368-45ed-8159-c6777585a726');
+                                      },
+                                      color: Colors.teal.shade200,
+                                      elevation: 0.0,
+                                      shape: const StadiumBorder(),
+                                      minWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.01,
+                                      // height: MediaQuery.of(context).size.height * 0.07,
+                                      child: Text(
+                                        'Download',
+                                        style: TextStyle(
+                                            fontSize: 12.0,
+                                            // fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            fontFamily: font_family),
+                                      ),
+                                    );
+                            }),
                           ),
                         ),
                       ),
@@ -261,7 +291,6 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             child:
                 Consumer<AudioPlayerProvider>(builder: (context, playerpro, _) {
               return Slider(
-                min: 1,
                 max: playerpro.maxduration,
                 value: playerpro.seekpossec,
                 onChanged: (value) {
