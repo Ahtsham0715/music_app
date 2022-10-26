@@ -9,7 +9,7 @@ class AudioPlayerProvider with ChangeNotifier {
   late bool _isplaying;
   bool _loop = playerbox.read('loop') ?? false;
   dynamic _duration = 0;
-  dynamic _maxduration = 0.0;
+  dynamic _maxduration = 1.0;
   dynamic _seekpos = 0;
   dynamic _seekpossec = 0.0;
   double _volume = 0.3;
