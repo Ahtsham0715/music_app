@@ -31,9 +31,10 @@ class CategoriesUi extends StatelessWidget {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    Get.to(
-                      () => const MusicPlayerUi(),
-                    );
+                    Get.to(() => const MusicPlayerUi(), arguments: {
+                      'isAsset': false,
+                      'filepath': '',
+                    });
                   },
                   onHover: ((ishovering) {
                     if (ishovering) {

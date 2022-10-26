@@ -171,9 +171,11 @@ class _CategoryUiState extends State<CategoryUi> {
                                     backgroundColor: Colors.black54,
                                     child: CustomIconButton(
                                         ontap: () {
-                                          Get.to(
-                                            () => const MusicPlayerUi(),
-                                          );
+                                          Get.to(() => const MusicPlayerUi(),
+                                              arguments: {
+                                                'isAsset': false,
+                                                'filepath': '',
+                                              });
                                         },
                                         icon: Icons.play_arrow),
                                   ),

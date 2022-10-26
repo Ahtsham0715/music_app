@@ -133,11 +133,15 @@ class _MainWidgetState extends State<MainWidget> {
   ];
 
   List categories = [
-    'Top Music',
-    'Romantic',
+    'Pop',
+    'Rock',
     'Hip Hop',
     'Classical',
-    'Artists',
+    'Jazz',
+    'Disco',
+    'Electronic',
+    'Traditional',
+    'Mixed Genre',
   ];
 
   @override
@@ -258,14 +262,14 @@ class _MainWidgetState extends State<MainWidget> {
               // width: MediaQuery.of(context).size.width * 0.5,
               child: ListView.builder(
                 padding: const EdgeInsets.all(5.0),
-                itemCount: 30,
+                itemCount: categories.length,
                 itemBuilder: ((context, index) {
                   return ListTile(
                     onLongPress: (() {}),
                     onTap: () {
                       // print('pressed');
                       Get.to(() => CategoryUi(), arguments: {
-                        'category_name': 'Category ${index + 1}',
+                        'category_name': '${categories[index]}',
                         'items_list': [
                           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
                           'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
@@ -280,7 +284,7 @@ class _MainWidgetState extends State<MainWidget> {
                     hoverColor: Colors.grey.shade300,
                     tileColor: Colors.grey.shade100.withOpacity(1.0),
                     title: Text(
-                      'Category ${index + 1}',
+                      '${categories[index]}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18.0,
