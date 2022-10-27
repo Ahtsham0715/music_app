@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
@@ -74,7 +75,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget customAlert() {
     // SplashWidget().showSplashLogo();
     return AlertDialog(
-      insetPadding: const EdgeInsets.all(10.0),
+      insetPadding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.width * 0.32,
+        // vertical: MediaQuery.of(context).size.width * 0.3,
+      ),
       actionsPadding: const EdgeInsets.only(bottom: 10.0),
       title: Icon(
         CupertinoIcons.exclamationmark_circle_fill,
@@ -84,7 +88,7 @@ class _SplashScreenState extends State<SplashScreen> {
       content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.8,
         child: const Text(
-          'No internet available! Please\n reconnect and try again',
+          'No internet available! Please\nReconnect and try again',
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 18.0,
@@ -97,13 +101,12 @@ class _SplashScreenState extends State<SplashScreen> {
         Center(
           child: TextButton(
             onPressed: () async {
-              SystemNavigator.pop();
+              exit(0);
             },
-            child: const Text('ok'),
             style: TextButton.styleFrom(
-              minimumSize: Size(MediaQuery.of(context).size.width * 0.7,
+              minimumSize: Size(MediaQuery.of(context).size.width * 0.3,
                   MediaQuery.of(context).size.height * 0.06),
-              maximumSize: Size(MediaQuery.of(context).size.width * 0.75,
+              maximumSize: Size(MediaQuery.of(context).size.width * 0.35,
                   MediaQuery.of(context).size.height * 0.06),
               foregroundColor: Colors.black,
               backgroundColor: Colors.grey[350],
@@ -111,6 +114,7 @@ class _SplashScreenState extends State<SplashScreen> {
               textStyle: const TextStyle(
                   fontSize: 20, fontFamily: "Viga", color: Colors.black),
             ),
+            child: const Text('ok'),
           ),
         ),
       ],
