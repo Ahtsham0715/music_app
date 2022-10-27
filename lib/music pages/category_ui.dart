@@ -31,26 +31,15 @@ class _CategoryUiState extends State<CategoryUi> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         toolbarHeight: 50.0,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                FontAwesomeIcons.music,
-                size: 30.0,
-                color: Colors.amber,
-              ),
-              Text(
-                'Music App',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontFamily: font_family,
-                  color: Colors.black,
-                ),
-              ),
-            ],
+        title: Center(
+          child: Text(
+            'InshopMedia Player',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18.0,
+              color: Colors.black,
+              fontFamily: font_family,
+            ),
           ),
         ),
         // title: SizedBox(

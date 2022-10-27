@@ -163,30 +163,19 @@ class _MainWidgetState extends State<MainWidget> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0.0,
-        leadingWidth: 150.0,
+        leadingWidth: 180.0,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         toolbarHeight: 50.0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const Icon(
-                FontAwesomeIcons.music,
-                size: 30.0,
-                color: Colors.amber,
-              ),
-              Text(
-                'Music App',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.black,
-                  fontFamily: font_family,
-                ),
-              ),
-            ],
+        leading: Center(
+          child: Text(
+            'InshopMedia Player',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18.0,
+              color: Colors.black,
+              fontFamily: font_family,
+            ),
           ),
         ),
         title: SizedBox(

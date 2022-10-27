@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Music App',
+        title: 'InshopMedia Player',
         theme: ThemeData(
           hoverColor: Colors.grey.shade200.withOpacity(1.0),
           // scaffoldBackgroundColor: Colors.grey.shade400,
