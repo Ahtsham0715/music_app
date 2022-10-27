@@ -165,9 +165,11 @@ packages:
   easy_sidemenu:
     dependency: "direct main"
     description:
-      name: easy_sidemenu
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "146fcc95595b8909641639f943dbf73529a69db6"
+      url: "https://github.com/Jamalianpour/easy_sidemenu.git"
+    source: git
     version: "0.4.1"
   fake_async:
     dependency: transitive

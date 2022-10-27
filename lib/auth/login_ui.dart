@@ -64,8 +64,8 @@ class _LoginUiState extends State<LoginUi> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
-                    'https://images.unsplash.com/photo-1487215078519-e21cc028cb29?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+                  Image.asset(
+                    'assets/applogo.png',
                     fit: BoxFit.fitHeight,
                   ),
                   Positioned(
@@ -74,10 +74,10 @@ class _LoginUiState extends State<LoginUi> {
                     child: Text(
                       islogin ? 'Login' : 'Register',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontFamily: font_family,
                           fontSize: 20.0,
-                          fontWeight: FontWeight.w100),
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                   Positioned(
@@ -86,10 +86,10 @@ class _LoginUiState extends State<LoginUi> {
                     child: Text(
                       'Music for everyone',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontFamily: font_family,
                           fontSize: 20.0,
-                          fontWeight: FontWeight.w100),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
@@ -110,10 +110,14 @@ class _LoginUiState extends State<LoginUi> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 30, horizontal: 50.0),
-                      child: Image.network(
-                        'https://blog.placeit.net/wp-content/uploads/2020/07/youtube-music-logo.png',
-                        fit: BoxFit.contain,
+                          vertical: 5, horizontal: 50.0),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.height * 0.2,
+                        child: Image.asset(
+                          'assets/logo.png',
+                          fit: BoxFit.scaleDown,
+                        ),
                       ),
                     ),
                     customTextField(

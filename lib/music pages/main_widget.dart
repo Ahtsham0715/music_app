@@ -24,6 +24,7 @@ class MainWidget extends StatefulWidget {
 class _MainWidgetState extends State<MainWidget> {
   final PageController page = PageController(initialPage: 0);
   final TextEditingController _search = TextEditingController();
+  static SideMenuController sidecontroller = SideMenuController();
 
   List pages = [
     const CategoriesUi(),
@@ -55,7 +56,83 @@ class _MainWidgetState extends State<MainWidget> {
     const ProfileUi(),
   ];
 
-  List<SideMenuItem> items = [];
+  List<SideMenuItem> items = [
+    SideMenuItem(
+      // Priority of item to show on SideMenu, lower value is displayed at the top
+      priority: 0,
+      title: 'Dashboard',
+      onTap: (page, _) => sidecontroller.changePage(page),
+      icon: const Icon(
+        Icons.dashboard,
+        size: 25.0,
+      ),
+    ),
+    SideMenuItem(
+      // Priority of item to show on SideMenu, lower value is displayed at the top
+      priority: 1,
+      title: 'Playlist',
+      onTap: (page, _) => sidecontroller.changePage(page),
+      icon: const Icon(
+        Icons.playlist_play,
+        size: 25.0,
+      ),
+    ),
+    SideMenuItem(
+      // Priority of item to show on SideMenu, lower value is displayed at the top
+      priority: 2,
+      title: 'Downloads',
+      onTap: (page, _) => sidecontroller.changePage(page),
+      icon: const Icon(
+        Icons.download,
+        size: 25.0,
+      ),
+    ),
+    SideMenuItem(
+      priority: 3,
+      title: 'Browse & Play',
+      onTap: (page, _) async {
+        await filepicker(filetype: FileType.audio).then((filepath) {
+          print(filepath);
+          playerbox.write('isplaying', false);
+          Get.to(() => const MusicPlayerUi(), arguments: {
+            'isAsset': true,
+            'filepath': filepath.path.toString(),
+          });
+        });
+      },
+      icon: const Icon(Icons.browse_gallery_outlined),
+    ),
+    SideMenuItem(
+      priority: 4,
+      title: 'My Account',
+      onTap: (page, _) => sidecontroller.changePage(page),
+      icon: const Icon(Icons.account_circle_outlined),
+    ),
+    SideMenuItem(
+      priority: 5,
+      title: 'Logout',
+      onTap: (page, _) {
+        print('logged out');
+        // Get.to(
+        //   () => const LoginUi(),
+        // );
+        customYesNoDialog(
+            titletext: 'Are you sure?',
+            contenttext: 'Do you want to logout?',
+            yesOnTap: () {
+              loginbox.write('islogin', false);
+              // sidecontroller.dispose();
+              Get.to(
+                () => const LoginUi(),
+                // preventDuplicates: true,
+              );
+            });
+
+        // page.keepPage;
+      },
+      icon: const Icon(Icons.logout_outlined),
+    ),
+  ];
 
   List categories = [
     'Pop',
@@ -72,88 +149,14 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   void initState() {
     print('building state');
+    sidecontroller.addListener((p0) {
+      page.jumpToPage(p0);
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    items = [
-      SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 0,
-        title: 'Dashboard',
-        onTap: () => page.jumpToPage(0),
-        icon: const Icon(
-          Icons.dashboard,
-          size: 25.0,
-        ),
-      ),
-      SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 1,
-        title: 'Playlist',
-        onTap: () => page.jumpToPage(1),
-        icon: const Icon(
-          Icons.playlist_play,
-          size: 25.0,
-        ),
-      ),
-      SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 2,
-        title: 'Downloads',
-        onTap: () => page.jumpToPage(2),
-        icon: const Icon(
-          Icons.download,
-          size: 25.0,
-        ),
-      ),
-      SideMenuItem(
-        priority: 3,
-        title: 'Browse & Play',
-        onTap: () async {
-          await filepicker(filetype: FileType.audio).then((filepath) {
-            print(filepath);
-            playerbox.write('isplaying', false);
-            Get.to(() => const MusicPlayerUi(), arguments: {
-              'isAsset': true,
-              'filepath': filepath.path.toString(),
-            });
-          });
-        },
-        icon: const Icon(Icons.browse_gallery_outlined),
-      ),
-      SideMenuItem(
-        priority: 4,
-        title: 'My Account',
-        onTap: () => page.jumpToPage(4),
-        icon: const Icon(Icons.account_circle_outlined),
-      ),
-      SideMenuItem(
-        priority: 5,
-        title: 'Logout',
-        onTap: () {
-          print('logged out');
-          // Get.to(
-          //   () => const LoginUi(),
-          // );
-          customYesNoDialog(
-              titletext: 'Are you sure?',
-              contenttext: 'Do you want to logout?',
-              yesOnTap: () {
-                loginbox.write('islogin', false);
-                page.dispose();
-                Get.to(
-                  () => const LoginUi(),
-                  // preventDuplicates: true,
-                );
-              });
-
-          // page.keepPage;
-        },
-        icon: const Icon(Icons.logout_outlined),
-      ),
-    ];
     print('build');
     return Scaffold(
       backgroundColor: Colors.grey.shade100.withOpacity(1.0),
@@ -246,7 +249,7 @@ class _MainWidgetState extends State<MainWidget> {
               hoverColor: Colors.grey.shade200.withOpacity(0.9),
             ),
             // Page controller to manage a PageView
-            controller: page,
+            controller: sidecontroller,
             // Will shows on top of all items, it can be a logo or a Title text
             title: Container(
               margin: const EdgeInsets.all(10.0),
