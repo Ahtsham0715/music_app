@@ -6,6 +6,7 @@ import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_icon_button.dart';
 import 'package:music_app/provider/category_music_provider.dart';
 import 'package:music_app/provider/download_provider.dart';
+import 'package:music_app/provider/make_playlist_provider.dart';
 import 'package:music_app/provider/player_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,8 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
     print('build');
     final downloadprovider =
         Provider.of<DownloadProvider>(context, listen: false);
+    final createplaylistpro =
+        Provider.of<MakePlaylistProvider>(context, listen: false);
     final playerprovider =
         Provider.of<AudioPlayerProvider>(context, listen: false);
     if (args['isAsset'] && !playerbox.read('isplaying')) {
@@ -232,6 +235,8 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                             builder: (context, catmusicpro, _) {
                           downloadprovider.setLoadingListLength(
                               catmusicpro.categorymusic.length);
+                          createplaylistpro.setLoadingListLength(
+                              catmusicpro.categorymusic.length);
                           return catmusicpro.isloadingmusic
                               ? Center(
                                   child: SizedBox(
@@ -293,15 +298,31 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                                           alignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                Icons.add,
-                                                color: Colors.grey.shade800
-                                                    .withOpacity(0.7),
-                                                // size: 25.0,
-                                              ),
-                                            ),
+                                            Consumer<MakePlaylistProvider>(
+                                                builder: (context,
+                                                    makeplaylistpro, _) {
+                                              return makeplaylistpro
+                                                      .isaddinglist[index]
+                                                  ? const CircularProgressIndicator(
+                                                      color: Colors.teal,
+                                                    )
+                                                  : IconButton(
+                                                      onPressed: () {
+                                                        makeplaylistpro.AddToPlaylist(
+                                                            songid: catmusicpro
+                                                                    .categorymusic[
+                                                                index]['id'],
+                                                            id: index);
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.add,
+                                                        color: Colors
+                                                            .grey.shade800
+                                                            .withOpacity(0.7),
+                                                        // size: 25.0,
+                                                      ),
+                                                    );
+                                            }),
                                             downloadprovider
                                                     .isloadinglist[index]
                                                 ? CircularPercentIndicator(

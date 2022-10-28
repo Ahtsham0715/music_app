@@ -5,6 +5,7 @@ import 'package:music_app/constants.dart';
 import 'package:music_app/provider/categories_provider.dart';
 import 'package:music_app/provider/category_music_provider.dart';
 import 'package:music_app/provider/download_provider.dart';
+import 'package:music_app/provider/make_playlist_provider.dart';
 import 'package:music_app/provider/player_provider.dart';
 import 'package:music_app/provider/auth_provider.dart';
 import 'package:music_app/provider/profile_update_provider.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileUpdateProivder()),
         ChangeNotifierProvider(create: (_) => MusicCategoriesProvider()),
         ChangeNotifierProvider(create: (_) => CategoryMusicProvider()),
+        ChangeNotifierProvider(create: (_) => MakePlaylistProvider()),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
