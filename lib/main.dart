@@ -5,6 +5,7 @@ import 'package:music_app/constants.dart';
 import 'package:music_app/provider/download_provider.dart';
 import 'package:music_app/provider/player_provider.dart';
 import 'package:music_app/provider/auth_provider.dart';
+import 'package:music_app/provider/profile_update_provider.dart';
 import 'package:music_app/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AudioPlayerProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => DownloadProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileUpdateProivder()),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,

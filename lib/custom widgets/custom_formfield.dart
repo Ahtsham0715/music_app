@@ -15,12 +15,16 @@ Widget customTextField(
   filled,
   fillColor,
   labeltext,
+  isreadonly = false,
+  keyboardtype,
 }) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: wSize * 4 / 100),
     child: TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: isPassword,
+      readOnly: isreadonly,
+      keyboardType: keyboardtype,
       decoration: InputDecoration(
           filled: filled,
           labelStyle: TextStyle(

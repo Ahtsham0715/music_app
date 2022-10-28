@@ -94,3 +94,69 @@ Future changepassword(context) async {
     }),
   );
 }
+
+// Future<String> changePhoneNumber(
+//     {required context, required String prevPhone}) async {
+//   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
+//   final TextEditingController _phoneNumber =
+//       TextEditingController(text: prevPhone);
+//   showDialog(
+//     context: context,
+//     useSafeArea: true,
+//     builder: (context) => StatefulBuilder(builder: (context, innerstate) {
+//       return AlertDialog(
+//         contentPadding: const EdgeInsets.all(10.0),
+//         backgroundColor: Colors.grey.shade200.withOpacity(1.0),
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(10.0),
+//         ),
+//         title: const Center(child: Text('Change Password')),
+//         content: Form(
+//           key: _formkey,
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               customTextField(
+//                 "old Password",
+//                 false,
+//                 null,
+//                 _phoneNumber,
+//                 (value) {
+//                   if (value!.isEmpty) {
+//                     return "Required";
+//                   }
+//                 },
+//                 (value) {
+//                   _phoneNumber.text = value!;
+//                 },
+//                 responsiveHW(context, wd: 100),
+//                 responsiveHW(context, ht: 100),
+//                 InputBorder.none,
+//                 pIcon: Icons.phone,
+//               ),
+//               SizedBox(
+//                 height: responsiveHW(context, ht: 3),
+//               ),
+//             ],
+//           ),
+//         ),
+//         actions: <Widget>[
+//           MaterialButton(
+//             onPressed: () => Navigator.pop(context),
+//             child: const Text('Cancel'),
+//           ),
+//           MaterialButton(
+//             onPressed: () async {
+//               if (_formkey.currentState!.validate()) {
+//                 prevPhone = _phoneNumber.text.trim();
+//               }
+//             },
+//             child: const Text('Submit'),
+//           ),
+//         ],
+//       );
+//     }),
+//   );
+//   return prevPhone;
+// }

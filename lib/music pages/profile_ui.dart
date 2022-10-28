@@ -11,6 +11,7 @@ import 'package:music_app/custom%20widgets/custom_text.dart';
 import 'package:music_app/custom%20widgets/utils.dart';
 import 'package:music_app/models/user_data_model.dart';
 import 'package:music_app/provider/auth_provider.dart';
+import 'package:music_app/provider/profile_update_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,11 +23,13 @@ class ProfileUi extends StatefulWidget {
 }
 
 class _ProfileUiState extends State<ProfileUi> {
-  TextEditingController _firstname = TextEditingController();
-  TextEditingController _lastname = TextEditingController();
+  TextEditingController _username = TextEditingController();
+  TextEditingController phonenumber = TextEditingController();
+  TextEditingController _name = TextEditingController();
   TextEditingController _email = TextEditingController();
   TextEditingController _datepicker = TextEditingController(text: 'dd:mm:yyyy');
-  String? selectedGender;
+  String selectedCountry = '';
+  // String? phonenumber;
   Map userDataMap = {};
 
   Future getUserData() async {
@@ -76,9 +79,11 @@ class _ProfileUiState extends State<ProfileUi> {
               ),
             );
           } else {
-            _firstname.text = userDataMap['username'];
-            _lastname.text = userDataMap['name'];
+            _username.text = userDataMap['username'];
+            _name.text = userDataMap['name'];
             _email.text = userDataMap['email'];
+            selectedCountry = userDataMap['country'];
+            phonenumber.text = userDataMap['mobile'];
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
@@ -109,7 +114,7 @@ class _ProfileUiState extends State<ProfileUi> {
                         // ),
                       ),
                       title: Text(
-                        "${userDataMap['mobile']}",
+                        phonenumber.text.toString(),
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w600,
@@ -183,10 +188,10 @@ class _ProfileUiState extends State<ProfileUi> {
                       "Username",
                       false,
                       null,
-                      _firstname,
+                      _username,
                       (value) {},
                       (value) {
-                        _firstname.text = value!;
+                        _username.text = value!;
                       },
                       responsiveHW(context, wd: 100),
                       responsiveHW(context, ht: 100),
@@ -213,10 +218,10 @@ class _ProfileUiState extends State<ProfileUi> {
                       "Full Name",
                       false,
                       null,
-                      _lastname,
+                      _name,
                       (value) {},
                       (value) {
-                        _lastname.text = value!;
+                        _name.text = value!;
                       },
                       responsiveHW(context, wd: 100),
                       responsiveHW(context, ht: 80),
@@ -279,79 +284,113 @@ class _ProfileUiState extends State<ProfileUi> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      // SizedBox(
+                      //   width: responsiveHW(context, wd: 7),
+                      // ),
+                      // MaterialButton(
+                      //   onPressed: null,
+                      //   disabledColor: Colors.teal.shade200,
+                      //   color: Colors.teal.shade200,
+                      //   elevation: 0.0,
+                      //   shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(50.0),
+                      //       side: BorderSide(
+                      //         color: Colors.grey.shade300,
+                      //         width: 1.5,
+                      //       )),
+                      //   minWidth: MediaQuery.of(context).size.width * 0.1,
+                      //   height: MediaQuery.of(context).size.height * 0.06,
+                      //   child: Text(
+                      //     phonenumber.text.toString(),
+                      //     style: TextStyle(
+                      //         fontSize: 12.0,
+                      //         // fontWeight: FontWeight.w500,
+                      //         color: Colors.black,
+                      //         fontFamily: font_family),
+                      //   ),
+                      // ),
                       SizedBox(
-                        width: responsiveHW(context, wd: 7),
-                      ),
-                      MaterialButton(
-                        onPressed: null,
-                        disabledColor: Colors.teal.shade200,
-                        color: Colors.teal.shade200,
-                        elevation: 0.0,
-                        shape: RoundedRectangleBorder(
+                        height: MediaQuery.of(context).size.height * 0.055,
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        child: customTextField(
+                          "Phone Number",
+                          false,
+                          null,
+                          phonenumber,
+                          (value) {
+                            if (value!.isEmpty) {
+                              return "Please Enter Your Phone Number";
+                            }
+                            // if (!RegExp(
+                            //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            //     .hasMatch(value)) {
+                            //   return "Please Enter Valid Email Address";
+                            // }
+                          },
+                          (value) {
+                            phonenumber.text = value!;
+                          },
+                          responsiveHW(context, wd: 100),
+                          responsiveHW(context, ht: 80),
+                          OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50.0),
-                            side: BorderSide(
+                            borderSide: BorderSide(
+                              style: BorderStyle.solid,
                               color: Colors.grey.shade300,
-                              width: 1.5,
-                            )),
-                        minWidth: MediaQuery.of(context).size.width * 0.1,
-                        height: MediaQuery.of(context).size.height * 0.06,
-                        child: Text(
-                          '${userDataMap['mobile']}',
-                          style: TextStyle(
-                              fontSize: 12.0,
-                              // fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              fontFamily: font_family),
+                            ),
+                          ),
+                          pIcon: null,
+                          fillColor: Colors.teal.shade200,
+                          filled: true,
+                          keyboardtype: TextInputType.number,
                         ),
                       ),
-                      SizedBox(
-                        width: responsiveHW(context, wd: 2),
-                      ),
-                      MaterialButton(
-                        onPressed: () {},
-                        color: Colors.teal.shade200,
-                        elevation: 0.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                            side: BorderSide(
-                              color: Colors.grey.shade300,
-                              width: 1.5,
-                            )),
-                        minWidth: MediaQuery.of(context).size.width * 0.08,
-                        height: MediaQuery.of(context).size.height * 0.06,
-                        child: Text(
-                          ' Edit ',
-                          style: TextStyle(
-                              fontSize: 12.0,
-                              // fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              fontFamily: font_family),
-                        ),
-                      ),
-                      SizedBox(
-                        width: responsiveHW(context, wd: 2),
-                      ),
-                      MaterialButton(
-                        onPressed: () {},
-                        color: Colors.teal.shade200,
-                        elevation: 0.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                            side: BorderSide(
-                              color: Colors.grey.shade300,
-                              width: 1.5,
-                            )),
-                        minWidth: MediaQuery.of(context).size.width * 0.08,
-                        height: MediaQuery.of(context).size.height * 0.06,
-                        child: Text(
-                          'Delete',
-                          style: TextStyle(
-                              fontSize: 12.0,
-                              // fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              fontFamily: font_family),
-                        ),
-                      ),
+
+                      // MaterialButton(
+                      //   onPressed: () async {},
+                      //   color: Colors.teal.shade200,
+                      //   elevation: 0.0,
+                      //   shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(50.0),
+                      //       side: BorderSide(
+                      //         color: Colors.grey.shade300,
+                      //         width: 1.5,
+                      //       )),
+                      //   minWidth: MediaQuery.of(context).size.width * 0.08,
+                      //   height: MediaQuery.of(context).size.height * 0.06,
+                      //   child: Text(
+                      //     ' Edit ',
+                      //     style: TextStyle(
+                      //         fontSize: 12.0,
+                      //         // fontWeight: FontWeight.w500,
+                      //         color: Colors.black,
+                      //         fontFamily: font_family),
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   width: responsiveHW(context, wd: 2),
+                      // ),
+                      // MaterialButton(
+                      //   onPressed: () {},
+                      //   color: Colors.teal.shade200,
+                      //   elevation: 0.0,
+                      //   shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(50.0),
+                      //       side: BorderSide(
+                      //         color: Colors.grey.shade300,
+                      //         width: 1.5,
+                      //       )),
+                      //   minWidth: MediaQuery.of(context).size.width * 0.08,
+                      //   height: MediaQuery.of(context).size.height * 0.06,
+                      //   child: Text(
+                      //     'Delete',
+                      //     style: TextStyle(
+                      //         fontSize: 12.0,
+                      //         // fontWeight: FontWeight.w500,
+                      //         color: Colors.black,
+                      //         fontFamily: font_family),
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(
@@ -408,41 +447,57 @@ class _ProfileUiState extends State<ProfileUi> {
                     width: MediaQuery.of(context).size.width * 0.45,
                     child: customDropDownFormField(
                         ctx: context,
-                        dropDownValue: selectedGender,
-                        fieldTitle: 'Gender',
-                        listOfItems: ['Male', 'Female', 'Other'],
+                        dropDownValue: selectedCountry,
+                        fieldTitle: 'Country',
+                        listOfItems: countrieslist.values.toList(),
                         onChangedFunc: (val) {
-                          selectedGender = val.toString();
+                          selectedCountry = val.toString();
                           setState(() {});
                         }),
                   ),
                   SizedBox(
                     height: responsiveHW(context, ht: 2),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 40.0),
-                    child: MaterialButton(
-                      onPressed: () {},
-                      color: Colors.teal.shade200,
-                      elevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                          side: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1.5,
-                          )),
-                      minWidth: MediaQuery.of(context).size.width * 0.08,
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      child: Text(
-                        ' Save ',
-                        style: TextStyle(
-                            fontSize: 12.0,
-                            // fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontFamily: font_family),
-                      ),
-                    ),
-                  ),
+                  Consumer<ProfileUpdateProivder>(
+                      builder: (context, updateprovider, _) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 40.0),
+                      child: updateprovider.issaving
+                          ? CircularProgressIndicator(
+                              color: Colors.teal.shade300,
+                            )
+                          : MaterialButton(
+                              onPressed: () {
+                                updateprovider.updateUserData(
+                                    id: userDataMap['id'],
+                                    name: _name.text.trim(),
+                                    email: _email.text.trim(),
+                                    mobile: phonenumber.text.trim(),
+                                    country: selectedCountry.toString(),
+                                    password: userDataMap['dpassword']);
+                              },
+                              color: Colors.teal.shade200,
+                              elevation: 0.0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                  side: BorderSide(
+                                    color: Colors.grey.shade300,
+                                    width: 1.5,
+                                  )),
+                              minWidth:
+                                  MediaQuery.of(context).size.width * 0.08,
+                              height: MediaQuery.of(context).size.height * 0.06,
+                              child: Text(
+                                ' Save ',
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    // fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                    fontFamily: font_family),
+                              ),
+                            ),
+                    );
+                  }),
                 ],
               ),
             );
