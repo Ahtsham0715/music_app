@@ -17,6 +17,7 @@ class ProfileUpdateProivder with ChangeNotifier {
   Future updateUserData({
     required String id,
     required String name,
+    required String username,
     required String email,
     required String mobile,
     required String country,
@@ -28,13 +29,13 @@ class ProfileUpdateProivder with ChangeNotifier {
     var url =
         Uri.parse('https://desktopapp.inshopmedia.com/api/profile-update');
     var updatedData = {
-      'id': '5',
-      'name': 'smith',
-      'username': 'smith',
-      'email': 'smith@gmail.com',
-      'mobile': '4323442342',
-      'country': 'India',
-      'password': 'demouser'
+      'id': id,
+      'name': name,
+      'username': username,
+      'email': email,
+      'mobile': mobile,
+      'country': country,
+      'password': password,
     };
     final response = await http.post(url, headers: headers, body: updatedData);
     var data = jsonDecode(response.body);

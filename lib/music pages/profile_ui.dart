@@ -471,6 +471,7 @@ class _ProfileUiState extends State<ProfileUi> {
                                 updateprovider.updateUserData(
                                     id: userDataMap['id'],
                                     name: _name.text.trim(),
+                                    username: _username.text.trim(),
                                     email: _email.text.trim(),
                                     mobile: phonenumber.text.trim(),
                                     country: selectedCountry.toString(),
