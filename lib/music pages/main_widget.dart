@@ -160,8 +160,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // final categoriesprovider = Provider.of<MusicCategoriesProvider>(context);
-    // categoriesprovider.getCategories();
     print('build');
     return Scaffold(
       backgroundColor: Colors.grey.shade100.withOpacity(1.0),
@@ -262,7 +260,9 @@ class _MainWidgetState extends State<MainWidget> {
               // width: MediaQuery.of(context).size.width * 0.5,
               child: Consumer<MusicCategoriesProvider>(
                   builder: (context, categoriespro, _) {
-                // categoriespro.getCategories();
+                categoriespro.categories.isEmpty
+                    ? categoriespro.getCategories()
+                    : null;
                 return categoriespro.isloadingcategories
                     ? Center(
                         child: SizedBox(

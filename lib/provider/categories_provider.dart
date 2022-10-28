@@ -20,7 +20,7 @@ class MusicCategoriesProvider with ChangeNotifier {
 
   Future getCategories() async {
     setLoadingCategories(true);
-
+    print('get categories function');
     var headers = {'Accept': 'application/json'};
 
     var url =
