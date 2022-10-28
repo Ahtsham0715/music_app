@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/provider/categories_provider.dart';
+import 'package:music_app/provider/category_music_provider.dart';
 import 'package:music_app/provider/download_provider.dart';
 import 'package:music_app/provider/player_provider.dart';
 import 'package:music_app/provider/auth_provider.dart';
@@ -19,6 +20,7 @@ void main() async {
   await GetStorage.init('login_session');
   await GetStorage.init('playlist');
   await GetStorage.init('player');
+  await GetStorage.init('music_box');
   runApp(const MyApp());
 }
 
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     playerbox.writeIfNull('isplaying', false);
     playerbox.writeIfNull('loop', false);
+    musicbox.writeIfNull('musicloaded', false);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AudioPlayerProvider()),
@@ -36,6 +39,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DownloadProvider()),
         ChangeNotifierProvider(create: (_) => ProfileUpdateProivder()),
         ChangeNotifierProvider(create: (_) => MusicCategoriesProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryMusicProvider()),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:music_app/constants.dart';
-import 'package:music_app/custom%20widgets/custom_formfield.dart';
 import 'package:music_app/custom%20widgets/custom_icon_button.dart';
 import 'package:music_app/player/music_player_ui.dart';
+import 'package:music_app/provider/category_music_provider.dart';
+import 'package:provider/provider.dart';
 
 class CategoryUi extends StatefulWidget {
   CategoryUi({super.key}) {}
@@ -15,7 +16,6 @@ class CategoryUi extends StatefulWidget {
 
 class _CategoryUiState extends State<CategoryUi> {
   final TextEditingController _search = TextEditingController();
-
   ValueNotifier<List<bool>> visibiltyvar = ValueNotifier<List<bool>>([]);
 
   var args = Get.arguments;
@@ -103,81 +103,130 @@ class _CategoryUiState extends State<CategoryUi> {
               ),
             ),
           ),
-          GridView.builder(
-            padding: const EdgeInsets.all(5.0),
-            physics: const AlwaysScrollableScrollPhysics(),
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5,
-              crossAxisSpacing: 5.0,
-              mainAxisSpacing: 5.0,
-            ),
-            itemCount: args['items_list'].length,
-            itemBuilder: (context, index) {
-              visibiltyvar.value.add(false);
-              return InkWell(
-                onTap: () {},
-                onHover: ((ishovering) {
-                  if (ishovering) {
-                    // setState(() {
-                    visibiltyvar.value[index] = true;
-                    visibiltyvar.notifyListeners();
-                    // });
-                    print('hovering');
-                  } else {
-                    visibiltyvar.value[index] = false;
-                    visibiltyvar.notifyListeners();
-                    print('not hovering');
-                  }
-                }),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(2.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.blueGrey,
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  args['items_list'][index].toString()))),
+          Consumer<CategoryMusicProvider>(builder: (context, musicpro, _) {
+            !musicbox.read('musicloaded')
+                ? musicpro.getCategoryMusic(id: args['category_id'])
+                : null;
+            return musicpro.isloadingmusic
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 200),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.1,
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        child: LoadingIndicator(
+                          indicatorType:
+                              Indicator.ballTrianglePathColoredFilled,
+                          colors: [
+                            Colors.teal.shade200,
+                            Colors.amber.shade300,
+                            Colors.red.shade300
+                          ],
+                          strokeWidth: 1,
+                        ),
+                      ),
                     ),
-                    ValueListenableBuilder(
-                        valueListenable: visibiltyvar,
-                        builder: (context, val, _) {
-                          return Visibility(
-                            visible: val[index],
-                            child: Positioned(
-                              // top: 0,
-                              child: Container(
-                                margin: const EdgeInsets.all(2.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.blueGrey.withOpacity(0.5),
+                  )
+                : musicpro.categorymusic.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 300.0),
+                        child: Center(
+                          child: Text(
+                            'No Song Available',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.black,
+                              fontFamily: font_family_bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    : GridView.builder(
+                        padding: const EdgeInsets.all(5.0),
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 5,
+                          crossAxisSpacing: 5.0,
+                          mainAxisSpacing: 5.0,
+                        ),
+                        itemCount: musicpro.categorymusic.length,
+                        itemBuilder: (context, index) {
+                          visibiltyvar.value.add(false);
+                          return InkWell(
+                            onTap: () {},
+                            onHover: ((ishovering) {
+                              if (ishovering) {
+                                // setState(() {
+                                visibiltyvar.value[index] = true;
+                                visibiltyvar.notifyListeners();
+                                // });
+                                print('hovering');
+                              } else {
+                                visibiltyvar.value[index] = false;
+                                visibiltyvar.notifyListeners();
+                                print('not hovering');
+                              }
+                            }),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.all(2.0),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: Colors.blueGrey,
+                                      image: DecorationImage(
+                                          image: NetworkImage(musicpro
+                                              .categorymusic[index]['music_img']
+                                              .toString()))),
                                 ),
-                                child: Center(
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.black54,
-                                    child: CustomIconButton(
-                                        ontap: () {
-                                          Get.to(() => const MusicPlayerUi(),
-                                              arguments: {
-                                                'isAsset': false,
-                                                'filepath': '',
-                                              });
-                                        },
-                                        icon: Icons.play_arrow),
-                                  ),
-                                ),
-                              ),
+                                ValueListenableBuilder(
+                                    valueListenable: visibiltyvar,
+                                    builder: (context, val, _) {
+                                      return Visibility(
+                                        visible: val[index],
+                                        child: Positioned(
+                                          // top: 0,
+                                          child: Container(
+                                            margin: const EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              color: Colors.blueGrey
+                                                  .withOpacity(0.5),
+                                            ),
+                                            child: Center(
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.black54,
+                                                child: CustomIconButton(
+                                                    ontap: () {
+                                                      Get.to(
+                                                          () =>
+                                                              const MusicPlayerUi(),
+                                                          arguments: {
+                                                            'isAsset': false,
+                                                            'filepath': '',
+                                                            'data': musicpro
+                                                                    .categorymusic[
+                                                                index],
+                                                          });
+                                                    },
+                                                    icon: Icons.play_arrow),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              ],
                             ),
                           );
-                        }),
-                  ],
-                ),
-              );
-            },
-          ),
+                        },
+                      );
+          }),
         ],
       ),
     );

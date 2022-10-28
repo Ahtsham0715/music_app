@@ -99,6 +99,7 @@ class _MainWidgetState extends State<MainWidget> {
           Get.to(() => const MusicPlayerUi(), arguments: {
             'isAsset': true,
             'filepath': filepath.path.toString(),
+            'data': {}
           });
         });
       },
@@ -288,9 +289,12 @@ class _MainWidgetState extends State<MainWidget> {
                             onLongPress: (() {}),
                             onTap: () {
                               // print('pressed');
+                              musicbox.write('musicloaded', false);
                               Get.to(() => CategoryUi(), arguments: {
                                 'category_name':
                                     '${categoriespro.categories[index]['name']}',
+                                'category_id':
+                                    '${categoriespro.categories[index]['id']}',
                                 'items_list': [
                                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
                                   'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
