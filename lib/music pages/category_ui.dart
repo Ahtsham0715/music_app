@@ -203,15 +203,38 @@ class _CategoryUiState extends State<CategoryUi> {
                                                 backgroundColor: Colors.black54,
                                                 child: CustomIconButton(
                                                     ontap: () {
+                                                      playerbox.write(
+                                                          'isplaying', false);
                                                       Get.to(
                                                           () =>
                                                               const MusicPlayerUi(),
                                                           arguments: {
                                                             'isAsset': false,
                                                             'filepath': '',
-                                                            'data': musicpro
+                                                            'song_id': musicpro
                                                                     .categorymusic[
-                                                                index],
+                                                                index]['id'],
+                                                            'song_name': musicpro
+                                                                    .categorymusic[
+                                                                index]['song_name'],
+                                                            'desc': musicpro
+                                                                    .categorymusic[
+                                                                index]['desc'],
+                                                            'artist': musicpro
+                                                                    .categorymusic[
+                                                                index]['artist'],
+                                                            'song_type': musicpro
+                                                                    .categorymusic[
+                                                                index]['song_type'],
+                                                            'language': musicpro
+                                                                    .categorymusic[
+                                                                index]['language'],
+                                                            'song_mp3': musicpro
+                                                                    .categorymusic[
+                                                                index]['song_mp3'],
+                                                            'music_img': musicpro
+                                                                    .categorymusic[
+                                                                index]['music_img'],
                                                           });
                                                     },
                                                     icon: Icons.play_arrow),

@@ -6,7 +6,7 @@ import 'package:music_app/constants.dart';
 class AudioPlayerProvider with ChangeNotifier {
   final AudioPlayer _player = AudioPlayer(playerId: 'local');
   AudioCache cache = AudioCache();
-  late bool _isplaying;
+  late bool _isplaying = false;
   bool _loop = playerbox.read('loop') ?? false;
   dynamic _duration = 0;
   dynamic _maxduration = 1.0;
@@ -74,6 +74,35 @@ class AudioPlayerProvider with ChangeNotifier {
       print(_player.state.name);
       setPlaying(true);
       await _player.play(DeviceFileSource(path));
+      _player.onPlayerComplete.listen((event) {
+        onComplete();
+        setSeekPos('00:00:00');
+        setDuration('00:00:00');
+        stopAudio();
+      });
+      _player.onPositionChanged.listen((Duration p) => {
+            setSeekPosSec(p.inSeconds.toDouble()),
+            setSeekPos(p.toString().split('.')[0]),
+          });
+      _player.onDurationChanged.listen((Duration d) {
+        setMaxDuration(d.inSeconds.toDouble());
+        print('Max duration: ${d.abs()}');
+        setDuration(d.toString().split('.')[0]);
+        // setDuration('${d.inHours}:${d.inMinutes}:${d.inSeconds.floor()}');
+      });
+    } catch (e) {
+      setPlaying(false);
+      styledsnackbar(txt: 'An occured while loading file');
+      print(e);
+    }
+  }
+
+  Future playfromUrl(path) async {
+    playerbox.write('isplaying', true);
+    try {
+      print(_player.state.name);
+      setPlaying(true);
+      await _player.play(UrlSource(path));
       _player.onPlayerComplete.listen((event) {
         onComplete();
         setSeekPos('00:00:00');

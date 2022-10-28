@@ -30,10 +30,13 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
     print('build');
     final downloadprovider =
         Provider.of<DownloadProvider>(context, listen: false);
+    final playerprovider =
+        Provider.of<AudioPlayerProvider>(context, listen: false);
     if (args['isAsset'] && !playerbox.read('isplaying')) {
-      dynamic playerprovider =
-          Provider.of<AudioPlayerProvider>(context, listen: false);
       playerprovider.playfromAsset(args['filepath']);
+    } else if (!args['isAsset'] && !playerbox.read('isplaying')) {
+      playerprovider.playfromUrl(args['song_mp3']);
+      print(args['song_mp3']);
     }
     return Scaffold(
       appBar: AppBar(
@@ -106,14 +109,16 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                             border: Border.all(color: Colors.black, width: 2.0),
                             borderRadius: BorderRadius.circular(5.0)),
                         child: Image.network(
-                          'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
+                          args['isAsset']
+                              ? 'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg'
+                              : args['music_img'],
                           fit: BoxFit.fill,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Text(
-                          "Dil Cheez Hai Kya",
+                          args['song_name'].toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20.0,
@@ -125,7 +130,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                       Padding(
                         padding: const EdgeInsets.only(top: 5.0),
                         child: Text(
-                          "Khayam, Asha Bhosle",
+                          args['artist'].toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15.0,
@@ -275,7 +280,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.001,
+            height: MediaQuery.of(context).size.height * 0.005,
             width: MediaQuery.of(context).size.width,
             child:
                 Consumer<AudioPlayerProvider>(builder: (context, playerpro, _) {
