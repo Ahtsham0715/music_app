@@ -33,14 +33,16 @@ class AuthProvider with ChangeNotifier {
   Future login(String email, password) async {
     setLoading(true);
     try {
-      var response = await post(Uri.parse('https://reqres.in/api/login'),
-          body: {'email': email, 'password': password});
+      var response = await post(
+          Uri.parse('https://desktopapp.inshopmedia.com/api/login'),
+          body: {'email': email, 'password': password},
+          headers: {'Accept': 'application/json'});
 
       if (response.statusCode == 200) {
         setLoading(false);
         styledsnackbar(txt: 'Login Successful', icon: Icons.login);
         var data = jsonDecode(response.body.toString());
-        print(data['token']);
+        print(data);
         print('Login successfully');
         loginbox.write('islogin', true);
         Get.to(
@@ -48,9 +50,9 @@ class AuthProvider with ChangeNotifier {
         );
       } else {
         setLoading(false);
-        styledsnackbar(txt: 'Login Failed', icon: Icons.error);
+        styledsnackbar(txt: 'Incorrect email or password', icon: Icons.error);
 
-        print('failed');
+        print(response.reasonPhrase);
       }
     } catch (e) {
       setLoading(false);
@@ -64,28 +66,38 @@ class AuthProvider with ChangeNotifier {
     required String email,
     required password,
     required username,
-    required phonenNumber,
+    required confirmpassword,
   }) async {
     setLoading(true);
     try {
-      var response = await post(Uri.parse('https://reqres.in/api/register'),
-          body: {'email': email, 'password': password});
+      var response = await post(
+          Uri.parse('https://desktopapp.inshopmedia.com/api/register'),
+          body: {
+            'email': email,
+            'password': password,
+            'name': username,
+            'password_confirmation': confirmpassword
+          });
 
       if (response.statusCode == 200) {
         setLoading(false);
         styledsnackbar(txt: 'Register Successful', icon: Icons.login);
         var data = jsonDecode(response.body.toString());
-        print(data['token']);
-        print('Register successfully');
+        print(data);
+        print('Registered successfully');
         loginbox.write('islogin', true);
         Get.to(
           () => const MainWidget(),
         );
       } else {
         setLoading(false);
-        styledsnackbar(txt: 'Register Failed', icon: Icons.error);
+        if (response.reasonPhrase == 'Found') {
+          styledsnackbar(txt: 'User Already Found', icon: Icons.error);
+        } else {
+          styledsnackbar(txt: 'Registeration Failed', icon: Icons.error);
+        }
 
-        print('failed');
+        print(response.reasonPhrase);
       }
     } catch (e) {
       setLoading(false);

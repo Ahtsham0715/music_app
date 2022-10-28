@@ -120,54 +120,24 @@ class _LoginUiState extends State<LoginUi> {
                         ),
                       ),
                     ),
-                    customTextField(
-                      "Username",
-                      false,
-                      null,
-                      _username,
-                      (value) {
-                        if (value!.isEmpty) {
-                          return "Please Enter Your Username";
-                        }
-                        // if (!RegExp(
-                        //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        //     .hasMatch(value)) {
-                        //   return "Please Enter Valid Email Address";
-                        // }
-                      },
-                      (value) {
-                        _username.text = value!;
-                      },
-                      responsiveHW(context, wd: 100),
-                      responsiveHW(context, ht: 100),
-                      const UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      pIcon: Icons.person,
-                    ),
-                    SizedBox(
-                      height: responsiveHW(context, ht: 3),
-                    ),
                     !islogin
                         ? customTextField(
-                            "Email",
+                            "Name",
                             false,
                             null,
-                            _email,
+                            _username,
                             (value) {
                               if (value!.isEmpty) {
-                                return "Please Enter Your email";
+                                return "Please Enter Your Name";
                               }
-                              if (!RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value)) {
-                                return "Please Enter Valid Email Address";
-                              }
+                              // if (!RegExp(
+                              //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              //     .hasMatch(value)) {
+                              //   return "Please Enter Valid Email Address";
+                              // }
                             },
                             (value) {
-                              _email.text = value!;
+                              _username.text = value!;
                             },
                             responsiveHW(context, wd: 100),
                             responsiveHW(context, ht: 100),
@@ -179,6 +149,36 @@ class _LoginUiState extends State<LoginUi> {
                             pIcon: Icons.person,
                           )
                         : const Center(),
+                    SizedBox(
+                      height: responsiveHW(context, ht: 3),
+                    ),
+                    customTextField(
+                      "Email",
+                      false,
+                      null,
+                      _email,
+                      (value) {
+                        if (value!.isEmpty) {
+                          return "Please Enter Your email";
+                        }
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                          return "Please Enter Valid Email Address";
+                        }
+                      },
+                      (value) {
+                        _email.text = value!;
+                      },
+                      responsiveHW(context, wd: 100),
+                      responsiveHW(context, ht: 100),
+                      const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      pIcon: Icons.person,
+                    ),
                     islogin
                         ? const Center()
                         : SizedBox(
@@ -346,14 +346,14 @@ class _LoginUiState extends State<LoginUi> {
                                 ? () async {
                                     loginbox.write('islogin', true);
                                     print(loginbox.read('islogin'));
-                                    Get.to(
-                                      () => const MainWidget(),
-                                    );
-                                    // if (_formkey.currentState!.validate()) {
-                                    //   await authprovider.login(
-                                    //       _username.text.toString().trim(),
-                                    //       _password.text.toString());
-                                    // }
+                                    // Get.to(
+                                    //   () => const MainWidget(),
+                                    // );
+                                    if (_formkey.currentState!.validate()) {
+                                      await authprovider.login(
+                                          _email.text.toString().trim(),
+                                          _password.text.toString());
+                                    }
                                   }
                                 : () async {
                                     if (_formkey.currentState!.validate()) {
@@ -362,8 +362,8 @@ class _LoginUiState extends State<LoginUi> {
                                         password: _password.text.toString(),
                                         username:
                                             _username.text.toString().trim(),
-                                        phonenNumber:
-                                            _contactno.text.toString().trim(),
+                                        confirmpassword:
+                                            _confirmpassword.text.toString(),
                                       );
                                     }
                                   },
