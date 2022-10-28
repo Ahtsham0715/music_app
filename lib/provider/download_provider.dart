@@ -6,15 +6,29 @@ import 'package:path_provider/path_provider.dart';
 
 class DownloadProvider with ChangeNotifier {
   bool _isloading = false;
+  List<bool> isloadinglist = [];
   dynamic _percentage = 0;
   dynamic _percentageVal = 0.0;
 
   bool get isloading => _isloading;
+  // List<bool> get isloadinglist => _isloadinglist;
   get percentage => _percentage;
   get percentageVal => _percentageVal;
 
   setLoading(bool value) {
     _isloading = value;
+    notifyListeners();
+  }
+
+  setLoadingList(bool value, index) {
+    isloadinglist[index] = value;
+    notifyListeners();
+  }
+
+  setLoadingListLength(length) {
+    for (int i = 0; i < length; i++) {
+      isloadinglist.add(false);
+    }
     notifyListeners();
   }
 
@@ -28,14 +42,21 @@ class DownloadProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future downloadFile({required url}) async {
-    setLoading(true);
+  Future downloadFile(
+      {required url, required isList, id, required filename}) async {
+    setPercentage(0);
+    setPercentageVal(0.0);
+    if (isList) {
+      setLoadingList(true, id);
+    } else {
+      setLoading(true);
+    }
+
     Directory? downloadDir = await getDownloadsDirectory();
     String downloadPath = downloadDir!.path;
     print(downloadPath);
     // var url = 'https://gaana.com/song/mitti-de-tibbe';
     // var filename = url.toString().split('/').last;
-    var filename = 'new song.mp3';
     print(filename);
     try {
       await Dio().download(
@@ -50,9 +71,18 @@ class DownloadProvider with ChangeNotifier {
         },
       );
       print("Download Completed.");
-      setLoading(false);
+
+      if (isList) {
+        setLoadingList(false, id);
+      } else {
+        setLoading(false);
+      }
     } catch (e) {
-      setLoading(false);
+      if (isList) {
+        setLoadingList(false, id);
+      } else {
+        setLoading(false);
+      }
       print("Download Failed.\n\n$e");
     }
   }
