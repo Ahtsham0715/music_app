@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:music_app/constants.dart';
+import 'package:music_app/provider/categories_provider.dart';
 import 'package:music_app/provider/download_provider.dart';
 import 'package:music_app/provider/player_provider.dart';
 import 'package:music_app/provider/auth_provider.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => DownloadProvider()),
         ChangeNotifierProvider(create: (_) => ProfileUpdateProivder()),
+        ChangeNotifierProvider(create: (_) => MusicCategoriesProvider()),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,

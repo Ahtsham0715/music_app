@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:music_app/auth/login_ui.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
@@ -13,6 +14,8 @@ import 'package:music_app/music%20pages/downloads_ui.dart';
 import 'package:music_app/music%20pages/playlist_ui.dart';
 import 'package:music_app/music%20pages/profile_ui.dart';
 import 'package:music_app/player/music_player_ui.dart';
+import 'package:music_app/provider/categories_provider.dart';
+import 'package:provider/provider.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -25,7 +28,6 @@ class _MainWidgetState extends State<MainWidget> {
   final PageController page = PageController(initialPage: 0);
   final TextEditingController _search = TextEditingController();
   static SideMenuController sidecontroller = SideMenuController();
-
   List pages = [
     const CategoriesUi(),
     PlaylistUi(items: const {
@@ -135,15 +137,15 @@ class _MainWidgetState extends State<MainWidget> {
   ];
 
   List categories = [
-    'Pop',
-    'Rock',
-    'Hip Hop',
-    'Classical',
-    'Jazz',
-    'Disco',
-    'Electronic',
-    'Traditional',
-    'Mixed Genre',
+    // 'Pop',
+    // 'Rock',
+    // 'Hip Hop',
+    // 'Classical',
+    // 'Jazz',
+    // 'Disco',
+    // 'Electronic',
+    // 'Traditional',
+    // 'Mixed Genre',
   ];
 
   @override
@@ -152,11 +154,14 @@ class _MainWidgetState extends State<MainWidget> {
     sidecontroller.addListener((p0) {
       page.jumpToPage(p0);
     });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    // final categoriesprovider = Provider.of<MusicCategoriesProvider>(context);
+    // categoriesprovider.getCategories();
     print('build');
     return Scaffold(
       backgroundColor: Colors.grey.shade100.withOpacity(1.0),
@@ -255,40 +260,62 @@ class _MainWidgetState extends State<MainWidget> {
                   color: Colors.grey.shade100.withOpacity(1.0)),
               height: MediaQuery.of(context).size.height * 0.4,
               // width: MediaQuery.of(context).size.width * 0.5,
-              child: ListView.builder(
-                padding: const EdgeInsets.all(5.0),
-                itemCount: categories.length,
-                itemBuilder: ((context, index) {
-                  return ListTile(
-                    onLongPress: (() {}),
-                    onTap: () {
-                      // print('pressed');
-                      Get.to(() => CategoryUi(), arguments: {
-                        'category_name': '${categories[index]}',
-                        'items_list': [
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
-                          'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
-                          'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
-                          'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
-                          'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
-                          'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
-                          'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
-                        ],
-                      });
-                    },
-                    hoverColor: Colors.grey.shade300,
-                    tileColor: Colors.grey.shade100.withOpacity(1.0),
-                    title: Text(
-                      '${categories[index]}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: font_family,
-                      ),
-                    ),
-                  );
-                }),
-              ),
+              child: Consumer<MusicCategoriesProvider>(
+                  builder: (context, categoriespro, _) {
+                // categoriespro.getCategories();
+                return categoriespro.isloadingcategories
+                    ? Center(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.05,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          child: LoadingIndicator(
+                            indicatorType:
+                                Indicator.ballTrianglePathColoredFilled,
+                            colors: [
+                              Colors.teal.shade200,
+                              Colors.amber.shade300,
+                              Colors.red.shade300
+                            ],
+                            strokeWidth: 1,
+                          ),
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(5.0),
+                        itemCount: categoriespro.categories.length,
+                        itemBuilder: ((context, index) {
+                          return ListTile(
+                            onLongPress: (() {}),
+                            onTap: () {
+                              // print('pressed');
+                              Get.to(() => CategoryUi(), arguments: {
+                                'category_name':
+                                    '${categoriespro.categories[index]['name']}',
+                                'items_list': [
+                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
+                                  'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
+                                  'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
+                                  'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
+                                  'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
+                                  'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
+                                  'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
+                                ],
+                              });
+                            },
+                            hoverColor: Colors.grey.shade300,
+                            tileColor: Colors.grey.shade100.withOpacity(1.0),
+                            title: Text(
+                              '${categoriespro.categories[index]['name']}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontFamily: font_family,
+                              ),
+                            ),
+                          );
+                        }),
+                      );
+              }),
             ),
             showToggle: true,
 
