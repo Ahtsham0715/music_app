@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -6,15 +8,16 @@ import 'package:music_app/custom%20widgets/custom_icon_button.dart';
 import 'package:music_app/player/music_player_ui.dart';
 import 'package:music_app/provider/get_playlist_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
-// class DownloadUi extends StatefulWidget {
-//   Map args = {};
-//   DownloadUi({super.key, required items}) {
-//     args = items;
-//   }
+// class PlaylistUi extends StatefulWidget {
+// Map args = {};
+// PlaylistUi({super.key, required items}) {
+//   args = items;
+// }
 
 //   @override
-//   State<DownloadUi> createState() => _DownloadUiState();
+//   State<PlaylistUi> createState() => _PlaylistUiState();
 // }
 
 class PlaylistUi extends StatelessWidget {
@@ -23,20 +26,49 @@ class PlaylistUi extends StatelessWidget {
     args = items;
   }
   ValueNotifier<List<bool>> visibiltyvar = ValueNotifier<List<bool>>([]);
+
   // List visibiltyvar = [];
+  List userplaylist = [];
+
+  Future getPlaylist({required String userid}) async {
+    print('loading playlist for this user');
+    var headers = {'Accept': 'application/json'};
+
+    var url = Uri.parse(
+        'https://desktopapp.inshopmedia.com/api/get-playlist?user_id=$userid');
+
+    final response = await http.get(
+      url,
+      headers: headers,
+    );
+    var data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      userplaylist = data['data'];
+      print(data['data']);
+      return userplaylist;
+    } else {
+      print(response.reasonPhrase.toString());
+      return userplaylist;
+    }
+  }
+
+  // @override
+  // void initState() {
+  //   print('inistate');
+  //   // TODO: implement initState
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     print('build');
     return Scaffold(
       backgroundColor: Colors.grey.shade100.withOpacity(1.0),
-      body: Consumer<GetPlaylistProvider>(
-          builder: (context, getplaylistprovider, _) {
-        getplaylistprovider.userplaylist.isEmpty
-            ? getplaylistprovider.getPlaylist(userid: '5')
-            : null;
-        return getplaylistprovider.islaodinglist
-            ? Center(
+      body: FutureBuilder(
+          future: getPlaylist(userid: '5'),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.1,
                   height: MediaQuery.of(context).size.height * 0.15,
@@ -50,8 +82,9 @@ class PlaylistUi extends StatelessWidget {
                     strokeWidth: 1,
                   ),
                 ),
-              )
-            : ListView(
+              );
+            } else {
+              return ListView(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0),
@@ -73,7 +106,7 @@ class PlaylistUi extends StatelessWidget {
                       crossAxisSpacing: 5.0,
                       mainAxisSpacing: 5.0,
                     ),
-                    itemCount: getplaylistprovider.userplaylist.length,
+                    itemCount: userplaylist.length,
                     itemBuilder: (context, index) {
                       visibiltyvar.value.add(false);
                       return InkWell(
@@ -107,17 +140,14 @@ class PlaylistUi extends StatelessWidget {
                                       color: Colors.blueGrey.withOpacity(0.5),
                                       image: DecorationImage(
                                           image: NetworkImage(
-                                              getplaylistprovider
-                                                  .userplaylist[index]
-                                                      ['music_img']
+                                              userplaylist[index]['music_img']
                                                   .toString()),
                                           fit: BoxFit.fill),
                                     ),
                                   ),
                                 ),
                                 Text(
-                                  getplaylistprovider.userplaylist[index]
-                                      ['song_name'],
+                                  userplaylist[index]['song_name'],
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     // backgroundColor:
@@ -159,37 +189,29 @@ class PlaylistUi extends StatelessWidget {
                                                         'isAsset': false,
                                                         'filepath': '',
                                                         'song_id':
-                                                            getplaylistprovider
-                                                                    .userplaylist[
-                                                                index]['id'],
+                                                            userplaylist[index]
+                                                                ['id'],
                                                         'song_name':
-                                                            getplaylistprovider
-                                                                    .userplaylist[
-                                                                index]['song_name'],
+                                                            userplaylist[index]
+                                                                ['song_name'],
                                                         'desc':
-                                                            getplaylistprovider
-                                                                    .userplaylist[
-                                                                index]['desc'],
+                                                            userplaylist[index]
+                                                                ['desc'],
                                                         'artist':
-                                                            getplaylistprovider
-                                                                    .userplaylist[
-                                                                index]['artist'],
+                                                            userplaylist[index]
+                                                                ['artist'],
                                                         'song_type':
-                                                            getplaylistprovider
-                                                                    .userplaylist[
-                                                                index]['song_type'],
+                                                            userplaylist[index]
+                                                                ['song_type'],
                                                         'language':
-                                                            getplaylistprovider
-                                                                    .userplaylist[
-                                                                index]['language'],
+                                                            userplaylist[index]
+                                                                ['language'],
                                                         'song_mp3':
-                                                            getplaylistprovider
-                                                                    .userplaylist[
-                                                                index]['song_mp3'],
+                                                            userplaylist[index]
+                                                                ['song_mp3'],
                                                         'music_img':
-                                                            getplaylistprovider
-                                                                    .userplaylist[
-                                                                index]['music_img'],
+                                                            userplaylist[index]
+                                                                ['music_img'],
                                                       });
                                                 },
                                                 icon: Icons.play_arrow),
@@ -206,7 +228,8 @@ class PlaylistUi extends StatelessWidget {
                   ),
                 ],
               );
-      }),
+            }
+          }),
     );
   }
 }
