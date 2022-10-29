@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:music_app/auth/login_ui.dart';
@@ -16,6 +17,7 @@ import 'package:music_app/music%20pages/profile_ui.dart';
 import 'package:music_app/player/music_player_ui.dart';
 import 'package:music_app/provider/categories_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -29,7 +31,7 @@ class _MainWidgetState extends State<MainWidget> {
   final TextEditingController _search = TextEditingController();
   static SideMenuController sidecontroller = SideMenuController();
   List pages = [
-    const CategoriesUi(),
+    CategoriesUi(),
     PlaylistUi(items: const {
       'category_name': 'Category ',
       'items_list': [
@@ -161,6 +163,7 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final categoriesprovider = Provider.of<MusicCategoriesProvider>(context);
     print('build');
     return Scaffold(
       backgroundColor: Colors.grey.shade100.withOpacity(1.0),

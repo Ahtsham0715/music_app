@@ -5,8 +5,10 @@ import 'package:http/http.dart' as http;
 class MusicCategoriesProvider with ChangeNotifier {
   bool _isloadingcategories = false;
   List _categories = [];
+  Map _allmusic = {};
   bool get isloadingcategories => _isloadingcategories;
   List get categories => _categories;
+  Map get allmusic => _allmusic;
 
   setLoadingCategories(bool value) {
     _isloadingcategories = value;
@@ -18,9 +20,14 @@ class MusicCategoriesProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  setAllMusic(id, value) {
+    _allmusic[id] = value;
+    notifyListeners();
+  }
+
   Future getCategories() async {
     setLoadingCategories(true);
-    print('get categories function');
+    // print('get categories function');
     var headers = {'Accept': 'application/json'};
 
     var url =
