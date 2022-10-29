@@ -65,7 +65,8 @@ class PlaylistUi extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade100.withOpacity(1.0),
       body: FutureBuilder(
-          future: getPlaylist(userid: '5'),
+          future: getPlaylist(
+              userid: loginbox.read('userdata')['data']['id'].toString()),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
