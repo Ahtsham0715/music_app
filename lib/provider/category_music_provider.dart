@@ -37,6 +37,7 @@ class CategoryMusicProvider with ChangeNotifier {
       print(data['data']);
       musicbox.write('musicloaded', true);
       setLoadingMusic(false);
+      musicbox.write('cat_download', true);
     } else {
       setLoadingMusic(false);
       print(response.reasonPhrase.toString());
