@@ -66,7 +66,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
         actions: [
           Center(
             child: Text(
-              loginbox.read('userdata')['data']['name'],
+              loginbox.read('userdata')['data']['name'].toString(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18.0,

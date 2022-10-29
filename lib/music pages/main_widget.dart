@@ -211,7 +211,7 @@ class _MainWidgetState extends State<MainWidget> {
         actions: [
           Center(
             child: Text(
-              loginbox.read('userdata')['data']['name'],
+              loginbox.read('userdata')['data']['name'].toString(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18.0,
@@ -297,9 +297,9 @@ class _MainWidgetState extends State<MainWidget> {
                               musicbox.write('musicloaded', false);
                               Get.to(() => CategoryUi(), arguments: {
                                 'category_name':
-                                    '${categoriespro.categories[index]['name']}',
+                                    '${categoriespro.categories[index]['name'].toString()}',
                                 'category_id':
-                                    '${categoriespro.categories[index]['id']}',
+                                    '${categoriespro.categories[index]['id'].toString()}',
                                 'items_list': [
                                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
                                   'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',

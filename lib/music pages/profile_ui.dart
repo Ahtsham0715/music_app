@@ -35,8 +35,8 @@ class _ProfileUiState extends State<ProfileUi> {
   Future getUserData(userid) async {
     var headers = {'Accept': 'application/json'};
 
-    var url = Uri.parse(
-        'http://desktopapp.inshopmedia.com/api/show-user?user_id=$userid');
+    var url =
+        Uri.parse('http://desktopapp.inshopmedia.com/api/show-user?user_id=5');
 
     final response = await http.get(url, headers: headers);
     var data = jsonDecode(response.body);
@@ -442,7 +442,7 @@ class _ProfileUiState extends State<ProfileUi> {
                   SizedBox(
                     height: responsiveHW(context, ht: 2),
                   ),
-                  CustomText(txt: 'Gender'),
+                  CustomText(txt: 'Country'),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.1,
                     width: MediaQuery.of(context).size.width * 0.45,
