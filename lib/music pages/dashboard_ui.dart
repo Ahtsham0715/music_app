@@ -24,36 +24,37 @@ class _CategoriesUiState extends State<CategoriesUi> {
 
   Future getMusic() async {
     // allmusic = {};
-    var headers = {'Accept': 'application/json'};
-    cats = musicbox.read('cats');
-    if (cats.isNotEmpty) {
-      for (var cat in cats) {
-        print(cat['id']);
-        print('fetching music for category_id: ${cat['id']}');
+    if (allmusic.isEmpty) {
+      var headers = {'Accept': 'application/json'};
+      cats = musicbox.read('cats');
+      if (cats.isNotEmpty) {
+        for (var cat in cats) {
+          print(cat['id']);
+          print('fetching music for category_id: ${cat['id']}');
 
-        var url = Uri.parse(
-            'https://desktopapp.inshopmedia.com/api/music-list?category_id=${cat['id']}');
+          var url = Uri.parse(
+              'https://desktopapp.inshopmedia.com/api/music-list?category_id=${cat['id']}');
 
-        final response = await http.get(
-          url,
-          headers: headers,
-        );
-        var data = jsonDecode(response.body);
-        if (response.statusCode == 200) {
-          // if (data['data'].length != 0) {
-          //   allmusic[cat['id']] = data['data'];
-          // } else {
-          //   cats.remove(cat);
-          // }
-          allmusic[cat['id']] = data['data'];
-        } else {
-          print(response.reasonPhrase.toString());
+          final response = await http.get(
+            url,
+            headers: headers,
+          );
+          var data = jsonDecode(response.body);
+          if (response.statusCode == 200) {
+            // if (data['data'].length != 0) {
+            //   allmusic[cat['id']] = data['data'];
+            // } else {
+            //   cats.remove(cat);
+            // }
+            allmusic[cat['id']] = data['data'];
+          } else {
+            print(response.reasonPhrase.toString());
+          }
         }
       }
+      print(allmusic);
+      return allmusic;
     }
-
-    print(allmusic);
-    return allmusic;
   }
 
   @override

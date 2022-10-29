@@ -66,7 +66,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
         actions: [
           Center(
             child: Text(
-              'Shami',
+              loginbox.read('userdata')['data']['name'],
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18.0,
@@ -100,7 +100,9 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: args['isAsset']
+                      ? MediaQuery.of(context).size.width
+                      : MediaQuery.of(context).size.width * 0.5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -113,12 +115,12 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black, width: 2.0),
                             borderRadius: BorderRadius.circular(5.0)),
-                        child: Image.network(
-                          args['isAsset']
-                              ? 'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg'
-                              : args['music_img'],
-                          fit: BoxFit.fill,
-                        ),
+                        child: args['isAsset']
+                            ? Image.asset('assets/logo.png')
+                            : Image.network(
+                                args['music_img'],
+                                fit: BoxFit.fill,
+                              ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
@@ -135,7 +137,9 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                       Padding(
                         padding: const EdgeInsets.only(top: 5.0),
                         child: Text(
-                          args['artist'].toString(),
+                          args['isAsset']
+                              ? 'Unknown'
+                              : args['artist'].toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15.0,

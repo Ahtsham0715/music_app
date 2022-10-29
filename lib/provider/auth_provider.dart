@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:music_app/auth/login_ui.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/utils.dart';
 import 'package:music_app/music%20pages/main_widget.dart';
@@ -24,8 +25,11 @@ class AuthProvider with ChangeNotifier {
         contenttext: 'Do you want to logout?',
         yesOnTap: () {
           loginbox.write('islogin', false);
+          loginbox.write('userdata', {});
           // Get.back();
-          Get.back();
+          Get.to(
+            () => const LoginUi(),
+          );
         });
     notifyListeners();
   }
@@ -45,6 +49,7 @@ class AuthProvider with ChangeNotifier {
         print(data);
         print('Login successfully');
         loginbox.write('islogin', true);
+        loginbox.write('userdata', data);
         Get.to(
           () => const MainWidget(),
         );

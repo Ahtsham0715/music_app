@@ -149,9 +149,11 @@ class _LoginUiState extends State<LoginUi> {
                             pIcon: Icons.person,
                           )
                         : const Center(),
-                    SizedBox(
-                      height: responsiveHW(context, ht: 3),
-                    ),
+                    islogin
+                        ? Center()
+                        : SizedBox(
+                            height: responsiveHW(context, ht: 3),
+                          ),
                     customTextField(
                       "Email",
                       false,
@@ -179,11 +181,9 @@ class _LoginUiState extends State<LoginUi> {
                       ),
                       pIcon: Icons.person,
                     ),
-                    islogin
-                        ? const Center()
-                        : SizedBox(
-                            height: responsiveHW(context, ht: 3),
-                          ),
+                    SizedBox(
+                      height: responsiveHW(context, ht: 3),
+                    ),
                     !islogin
                         ? customTextField(
                             "Phone Number",

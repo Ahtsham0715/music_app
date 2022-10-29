@@ -101,6 +101,7 @@ class _MainWidgetState extends State<MainWidget> {
           Get.to(() => const MusicPlayerUi(), arguments: {
             'isAsset': true,
             'filepath': filepath.path.toString(),
+            'song_name': filepath.name.toString(),
             'data': {}
           });
         });
@@ -126,6 +127,7 @@ class _MainWidgetState extends State<MainWidget> {
             contenttext: 'Do you want to logout?',
             yesOnTap: () {
               loginbox.write('islogin', false);
+              loginbox.write('userdata', {});
               // sidecontroller.dispose();
               Get.to(
                 () => const LoginUi(),
@@ -209,7 +211,7 @@ class _MainWidgetState extends State<MainWidget> {
         actions: [
           Center(
             child: Text(
-              'Shami',
+              loginbox.read('userdata')['data']['name'],
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18.0,

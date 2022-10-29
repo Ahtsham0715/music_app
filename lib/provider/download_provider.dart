@@ -61,7 +61,7 @@ class DownloadProvider with ChangeNotifier {
     try {
       await Dio().download(
         url,
-        "$downloadPath/inshopmedia_downloads/$filename",
+        "$downloadPath/inshopmedia_downloads/$filename.mp3",
         onReceiveProgress: (rec, total) {
           print('rec: $rec  total:$total');
           var perc = rec / total * 100;

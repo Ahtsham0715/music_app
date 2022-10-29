@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
     musicbox.writeIfNull('musicloaded', false);
     musicbox.writeIfNull('cats', []);
     musicbox.writeIfNull('cat_download', false);
+    loginbox.writeIfNull('userdata', {});
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AudioPlayerProvider()),

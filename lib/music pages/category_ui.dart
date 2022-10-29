@@ -66,7 +66,7 @@ class _CategoryUiState extends State<CategoryUi> {
         actions: [
           Center(
             child: Text(
-              'Shami',
+              loginbox.read('userdata')['data']['name'],
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18.0,

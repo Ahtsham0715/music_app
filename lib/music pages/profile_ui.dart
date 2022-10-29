@@ -32,17 +32,18 @@ class _ProfileUiState extends State<ProfileUi> {
   // String? phonenumber;
   Map userDataMap = {};
 
-  Future getUserData() async {
+  Future getUserData(userid) async {
     var headers = {'Accept': 'application/json'};
 
-    var url =
-        Uri.parse('http://desktopapp.inshopmedia.com/api/show-user?user_id=5');
+    var url = Uri.parse(
+        'http://desktopapp.inshopmedia.com/api/show-user?user_id=$userid');
 
     final response = await http.get(url, headers: headers);
     var data = jsonDecode(response.body);
     if (response.statusCode == 200) {
       print(response.body);
       userDataMap = data['data'];
+      loginbox.write('userdata', data);
       return userDataMap;
     } else {
       // If that call was not successful, throw an error.
@@ -60,7 +61,7 @@ class _ProfileUiState extends State<ProfileUi> {
   Widget build(BuildContext context) {
     final authprovider = Provider.of<AuthProvider>(context);
     return FutureBuilder(
-        future: getUserData(),
+        future: getUserData(loginbox.read('userdata')['data']['id']),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
