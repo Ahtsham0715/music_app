@@ -229,6 +229,9 @@ class _CategoryUiState extends State<CategoryUi> {
                                                     ontap: () {
                                                       playerbox.write(
                                                           'isplaying', false);
+                                                      musicbox.write(
+                                                          'cat_download',
+                                                          false);
                                                       Get.to(
                                                           () =>
                                                               const MusicPlayerUi(),

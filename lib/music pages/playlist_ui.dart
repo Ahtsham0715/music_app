@@ -182,6 +182,8 @@ class PlaylistUi extends StatelessWidget {
                                                 ontap: () {
                                                   playerbox.write(
                                                       'isplaying', false);
+                                                  musicbox.write(
+                                                      'cat_download', false);
                                                   Get.to(
                                                       () =>
                                                           const MusicPlayerUi(),

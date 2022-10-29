@@ -146,251 +146,273 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0, left: 25.0),
-                        child: ListTile(
-                          title: Text(
-                            "Queue",
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontFamily: font_family,
-                            ),
-                          ),
-                          trailing: Padding(
-                            padding: const EdgeInsets.only(right: 50.0),
-                            child: Consumer<DownloadProvider>(
-                                builder: (context, downloadpro, _) {
-                              return downloadpro.isloading
-                                  ? Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 10.0),
-                                      child: CircularPercentIndicator(
-                                        radius: 20.0,
-                                        lineWidth: 3.0,
-                                        percent: downloadpro.percentageVal,
-                                        center: Text(
-                                          "${downloadpro.percentage}%",
-                                          style: TextStyle(
-                                              fontSize: 10.0,
-                                              // fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                              fontFamily: font_family),
-                                        ),
-                                        progressColor: Colors.teal,
-                                      ),
-                                    )
-                                  : MaterialButton(
-                                      onPressed: downloadpro.isloadinglist
-                                                  .contains(true) ||
-                                              downloadprovider.isloading
-                                          ? null
-                                          : () {
-                                              downloadpro.downloadFile(
-                                                url:
-                                                    args['song_mp3'].toString(),
-                                                isList: false,
-                                                filename: args['song_name'],
-                                              );
-                                            },
-                                      color: Colors.teal.shade200,
-                                      elevation: 0.0,
-                                      shape: const StadiumBorder(),
-                                      minWidth:
-                                          MediaQuery.of(context).size.width *
-                                              0.01,
-                                      // height: MediaQuery.of(context).size.height * 0.07,
-                                      child: Text(
-                                        'Download',
-                                        style: TextStyle(
-                                            fontSize: 12.0,
-                                            // fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                            fontFamily: font_family),
-                                      ),
-                                    );
-                            }),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25.0),
-                        child: Divider(
-                          indent: 15.0,
-                          endIndent: 45.0,
-                          color: Colors.grey.shade400.withOpacity(0.7),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.5,
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        child: Consumer<CategoryMusicProvider>(
-                            builder: (context, catmusicpro, _) {
-                          !musicbox.read('cat_download')
-                              ? catmusicpro.getCategoryMusic(id: args['cat_id'])
-                              : null;
-                          downloadprovider.setLoadingListLength(
-                              catmusicpro.categorymusic.length);
-                          createplaylistpro.setLoadingListLength(
-                              catmusicpro.categorymusic.length);
-                          return catmusicpro.isloadingmusic
-                              ? Center(
-                                  child: SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.1,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.15,
-                                    child: LoadingIndicator(
-                                      indicatorType: Indicator
-                                          .ballTrianglePathColoredFilled,
-                                      colors: [
-                                        Colors.teal.shade200,
-                                        Colors.amber.shade300,
-                                        Colors.red.shade300
-                                      ],
-                                      strokeWidth: 1,
-                                    ),
+                args['isAsset']
+                    ? const Center()
+                    : SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 10.0, left: 25.0),
+                              child: ListTile(
+                                title: Text(
+                                  "Queue",
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    fontFamily: font_family,
                                   ),
-                                )
-                              : ListView.builder(
-                                  itemCount: catmusicpro.categorymusic.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundColor: Colors.grey.shade100,
-                                        foregroundImage: NetworkImage(
-                                            catmusicpro.categorymusic[index]
-                                                ['music_img']),
-                                        child: const Icon(
-                                          Icons.music_note,
-                                          size: 30.0,
-                                          color: Colors.teal,
-                                        ),
-                                      ),
-                                      title: Text(
-                                        catmusicpro.categorymusic[index]
-                                                ['song_name']
-                                            .toString(),
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontFamily: font_family_bold,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        catmusicpro.categorymusic[index]
-                                                ['artist']
-                                            .toString(),
-                                        style: TextStyle(
-                                          fontSize: 13.0,
-                                          fontFamily: font_family,
-                                        ),
-                                      ),
-                                      trailing: Consumer<DownloadProvider>(
-                                          builder:
-                                              (context, downloadprovider, _) {
-                                        return ButtonBar(
-                                          mainAxisSize: MainAxisSize.min,
-                                          alignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Consumer<MakePlaylistProvider>(
-                                                builder: (context,
-                                                    makeplaylistpro, _) {
-                                              return makeplaylistpro
-                                                      .isaddinglist[index]
-                                                  ? const CircularProgressIndicator(
-                                                      color: Colors.teal,
-                                                    )
-                                                  : IconButton(
-                                                      onPressed: () {
-                                                        makeplaylistpro.AddToPlaylist(
-                                                            songid: catmusicpro
-                                                                    .categorymusic[
-                                                                index]['id'],
-                                                            id: index);
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.add,
-                                                        color: Colors
-                                                            .grey.shade800
-                                                            .withOpacity(0.7),
-                                                        // size: 25.0,
-                                                      ),
+                                ),
+                                trailing: Padding(
+                                  padding: const EdgeInsets.only(right: 50.0),
+                                  child: Consumer<DownloadProvider>(
+                                      builder: (context, downloadpro, _) {
+                                    return downloadpro.isloading
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 10.0),
+                                            child: CircularPercentIndicator(
+                                              radius: 20.0,
+                                              lineWidth: 3.0,
+                                              percent:
+                                                  downloadpro.percentageVal,
+                                              center: Text(
+                                                "${downloadpro.percentage}%",
+                                                style: TextStyle(
+                                                    fontSize: 10.0,
+                                                    // fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
+                                                    fontFamily: font_family),
+                                              ),
+                                              progressColor: Colors.teal,
+                                            ),
+                                          )
+                                        : MaterialButton(
+                                            onPressed: downloadpro.isloadinglist
+                                                        .contains(true) ||
+                                                    downloadprovider.isloading
+                                                ? null
+                                                : () {
+                                                    downloadpro.downloadFile(
+                                                      url: args['song_mp3']
+                                                          .toString(),
+                                                      isList: false,
+                                                      filename:
+                                                          args['song_name'],
                                                     );
-                                            }),
-                                            downloadprovider
-                                                    .isloadinglist[index]
-                                                ? CircularPercentIndicator(
-                                                    radius: 16.0,
-                                                    lineWidth: 3.0,
-                                                    percent: downloadprovider
-                                                        .percentageVal,
-                                                    center: Text(
-                                                      "${downloadprovider.percentage}%",
-                                                      style: TextStyle(
-                                                          fontSize: 9.0,
-                                                          // fontWeight: FontWeight.w500,
-                                                          color: Colors.black,
-                                                          fontFamily:
-                                                              font_family),
-                                                    ),
-                                                    progressColor: Colors.teal,
-                                                  )
-                                                : IconButton(
-                                                    onPressed: downloadprovider
-                                                                .isloadinglist
-                                                                .contains(
-                                                                    true) ||
-                                                            downloadprovider
-                                                                .isloading
-                                                        ? null
-                                                        : () {
-                                                            downloadprovider
-                                                                .downloadFile(
-                                                              url: catmusicpro
+                                                  },
+                                            color: Colors.teal.shade200,
+                                            elevation: 0.0,
+                                            shape: const StadiumBorder(),
+                                            minWidth: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.01,
+                                            // height: MediaQuery.of(context).size.height * 0.07,
+                                            child: Text(
+                                              'Download',
+                                              style: TextStyle(
+                                                  fontSize: 12.0,
+                                                  // fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                  fontFamily: font_family),
+                                            ),
+                                          );
+                                  }),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 25.0),
+                              child: Divider(
+                                indent: 15.0,
+                                endIndent: 45.0,
+                                color: Colors.grey.shade400.withOpacity(0.7),
+                              ),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              width: MediaQuery.of(context).size.width * 0.45,
+                              child: Consumer<CategoryMusicProvider>(
+                                  builder: (context, catmusicpro, _) {
+                                !musicbox.read('cat_download')
+                                    ? catmusicpro.getCategoryMusic(
+                                        id: args['cat_id'])
+                                    : null;
+                                downloadprovider.setLoadingListLength(
+                                    catmusicpro.categorymusic.length);
+                                createplaylistpro.setLoadingListLength(
+                                    catmusicpro.categorymusic.length);
+                                return catmusicpro.isloadingmusic
+                                    ? Center(
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.15,
+                                          child: LoadingIndicator(
+                                            indicatorType: Indicator
+                                                .ballTrianglePathColoredFilled,
+                                            colors: [
+                                              Colors.teal.shade200,
+                                              Colors.amber.shade300,
+                                              Colors.red.shade300
+                                            ],
+                                            strokeWidth: 1,
+                                          ),
+                                        ),
+                                      )
+                                    : ListView.builder(
+                                        itemCount:
+                                            catmusicpro.categorymusic.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            leading: CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.grey.shade100,
+                                              foregroundImage: NetworkImage(
+                                                  catmusicpro
+                                                          .categorymusic[index]
+                                                      ['music_img']),
+                                              child: const Icon(
+                                                Icons.music_note,
+                                                size: 30.0,
+                                                color: Colors.teal,
+                                              ),
+                                            ),
+                                            title: Text(
+                                              catmusicpro.categorymusic[index]
+                                                      ['song_name']
+                                                  .toString(),
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontFamily: font_family_bold,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            subtitle: Text(
+                                              catmusicpro.categorymusic[index]
+                                                      ['artist']
+                                                  .toString(),
+                                              style: TextStyle(
+                                                fontSize: 13.0,
+                                                fontFamily: font_family,
+                                              ),
+                                            ),
+                                            trailing:
+                                                Consumer<DownloadProvider>(
+                                                    builder: (context,
+                                                        downloadprovider, _) {
+                                              return ButtonBar(
+                                                mainAxisSize: MainAxisSize.min,
+                                                alignment: MainAxisAlignment
+                                                    .spaceEvenly,
+                                                children: [
+                                                  Consumer<
+                                                          MakePlaylistProvider>(
+                                                      builder: (context,
+                                                          makeplaylistpro, _) {
+                                                    return makeplaylistpro
+                                                            .isaddinglist[index]
+                                                        ? const CircularProgressIndicator(
+                                                            color: Colors.teal,
+                                                          )
+                                                        : IconButton(
+                                                            onPressed: () {
+                                                              makeplaylistpro.AddToPlaylist(
+                                                                  songid: catmusicpro
                                                                           .categorymusic[
-                                                                      index]
-                                                                  ['song_mp3'],
-                                                              isList: true,
-                                                              id: index,
-                                                              filename: args[
-                                                                  'song_name'],
-                                                            );
-                                                          },
-                                                    icon: Icon(
-                                                      Icons.download,
-                                                      color: Colors
-                                                          .grey.shade800
-                                                          .withOpacity(0.7),
-                                                      // size: 25.0,
-                                                    ),
-                                                  ),
-                                            // Text(
-                                            //   "6:11",
-                                            //   style: TextStyle(
-                                            //     fontSize: 13.0,
-                                            //     fontFamily: font_family,
-                                            //   ),
-                                            // ),
-                                          ],
-                                        );
-                                      }),
-                                    );
-                                  },
-                                );
-                        }),
+                                                                      index]['id'],
+                                                                  id: index);
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.add,
+                                                              color: Colors
+                                                                  .grey.shade800
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                              // size: 25.0,
+                                                            ),
+                                                          );
+                                                  }),
+                                                  downloadprovider
+                                                          .isloadinglist[index]
+                                                      ? CircularPercentIndicator(
+                                                          radius: 16.0,
+                                                          lineWidth: 3.0,
+                                                          percent:
+                                                              downloadprovider
+                                                                  .percentageVal,
+                                                          center: Text(
+                                                            "${downloadprovider.percentage}%",
+                                                            style: TextStyle(
+                                                                fontSize: 9.0,
+                                                                // fontWeight: FontWeight.w500,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontFamily:
+                                                                    font_family),
+                                                          ),
+                                                          progressColor:
+                                                              Colors.teal,
+                                                        )
+                                                      : IconButton(
+                                                          onPressed: downloadprovider
+                                                                      .isloadinglist
+                                                                      .contains(
+                                                                          true) ||
+                                                                  downloadprovider
+                                                                      .isloading
+                                                              ? null
+                                                              : () {
+                                                                  downloadprovider
+                                                                      .downloadFile(
+                                                                    url: catmusicpro
+                                                                            .categorymusic[index]
+                                                                        [
+                                                                        'song_mp3'],
+                                                                    isList:
+                                                                        true,
+                                                                    id: index,
+                                                                    filename: args[
+                                                                        'song_name'],
+                                                                  );
+                                                                },
+                                                          icon: Icon(
+                                                            Icons.download,
+                                                            color: Colors
+                                                                .grey.shade800
+                                                                .withOpacity(
+                                                                    0.7),
+                                                            // size: 25.0,
+                                                          ),
+                                                        ),
+                                                  // Text(
+                                                  //   "6:11",
+                                                  //   style: TextStyle(
+                                                  //     fontSize: 13.0,
+                                                  //     fontFamily: font_family,
+                                                  //   ),
+                                                  // ),
+                                                ],
+                                              );
+                                            }),
+                                          );
+                                        },
+                                      );
+                              }),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
