@@ -65,7 +65,7 @@ class DownloadProvider with ChangeNotifier {
         onReceiveProgress: (rec, total) {
           print('rec: $rec  total:$total');
           var perc = rec / total * 100;
-          print(perc);
+          // print(perc);
           setPercentage(perc.toInt());
           setPercentageVal((perc / 100).toDouble());
         },

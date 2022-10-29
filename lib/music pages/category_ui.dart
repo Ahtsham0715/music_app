@@ -157,6 +157,7 @@ class _CategoryUiState extends State<CategoryUi> {
                           visibiltyvar.value.add(false);
                           return InkWell(
                             onTap: () {},
+                            hoverColor: Colors.transparent,
                             onHover: ((ishovering) {
                               if (ishovering) {
                                 // setState(() {
@@ -173,15 +174,37 @@ class _CategoryUiState extends State<CategoryUi> {
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                Container(
-                                  margin: const EdgeInsets.all(2.0),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      color: Colors.blueGrey,
-                                      image: DecorationImage(
-                                          image: NetworkImage(musicpro
-                                              .categorymusic[index]['music_img']
-                                              .toString()))),
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        // margin: const EdgeInsets.all(2.0),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            color: Colors.grey.shade100,
+                                            image: DecorationImage(
+                                                image: NetworkImage(musicpro
+                                                    .categorymusic[index]
+                                                        ['music_img']
+                                                    .toString()),
+                                                fit: BoxFit.cover)),
+                                      ),
+                                    ),
+                                    Text(
+                                      musicpro.categorymusic[index]['song_name']
+                                          .toString(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        // backgroundColor:
+                                        //     Colors.blueGrey.withOpacity(0.8),
+                                        fontSize: 14.0,
+                                        color: Colors.black,
+                                        fontFamily: font_family,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 ValueListenableBuilder(
                                     valueListenable: visibiltyvar,
@@ -191,7 +214,8 @@ class _CategoryUiState extends State<CategoryUi> {
                                         child: Positioned(
                                           // top: 0,
                                           child: Container(
-                                            margin: const EdgeInsets.all(2.0),
+                                            margin: const EdgeInsets.only(
+                                                bottom: 18.0),
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10.0),

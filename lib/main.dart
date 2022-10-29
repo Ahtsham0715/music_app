@@ -5,6 +5,7 @@ import 'package:music_app/constants.dart';
 import 'package:music_app/provider/categories_provider.dart';
 import 'package:music_app/provider/category_music_provider.dart';
 import 'package:music_app/provider/download_provider.dart';
+import 'package:music_app/provider/get_playlist_provider.dart';
 import 'package:music_app/provider/make_playlist_provider.dart';
 import 'package:music_app/provider/player_provider.dart';
 import 'package:music_app/provider/auth_provider.dart';
@@ -42,13 +43,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MusicCategoriesProvider()),
         ChangeNotifierProvider(create: (_) => CategoryMusicProvider()),
         ChangeNotifierProvider(create: (_) => MakePlaylistProvider()),
+        ChangeNotifierProvider(create: (_) => GetPlaylistProvider()),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'InshopMedia Player',
         theme: ThemeData(
           hoverColor: Colors.grey.shade200.withOpacity(1.0),
-          // scaffoldBackgroundColor: Colors.grey.shade400,
+          // scaffoldBackgroundColor: Colors.grey.shade100.withOpacity(1.0),
           // iconTheme: IconThemeData(color: Colors.black),
           primarySwatch: Colors.teal,
           appBarTheme: const AppBarTheme(
