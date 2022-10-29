@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:music_app/constants.dart';
 
 class MusicCategoriesProvider with ChangeNotifier {
   bool _isloadingcategories = false;
@@ -41,6 +42,7 @@ class MusicCategoriesProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       setCategories(data['data']);
       print(data['data']);
+      musicbox.write('cats', data['data']);
       setLoadingCategories(false);
     } else {
       setLoadingCategories(false);

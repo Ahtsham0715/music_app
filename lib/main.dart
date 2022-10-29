@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:music_app/constants.dart';
+import 'package:music_app/provider/allcategories_music_provider.dart';
 import 'package:music_app/provider/categories_provider.dart';
 import 'package:music_app/provider/category_music_provider.dart';
 import 'package:music_app/provider/download_provider.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
     playerbox.writeIfNull('isplaying', false);
     playerbox.writeIfNull('loop', false);
     musicbox.writeIfNull('musicloaded', false);
+    musicbox.writeIfNull('cats', []);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AudioPlayerProvider()),
@@ -44,6 +46,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CategoryMusicProvider()),
         ChangeNotifierProvider(create: (_) => MakePlaylistProvider()),
         ChangeNotifierProvider(create: (_) => GetPlaylistProvider()),
+        ChangeNotifierProvider(create: (_) => AllCategoriesProvider()),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
