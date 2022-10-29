@@ -61,7 +61,7 @@ class _CategoriesUiState extends State<CategoriesUi> {
         future: getMusic(),
         builder: (context, snapshot) {
           return ListView.builder(
-            itemCount: 5,
+            itemCount: cats.length,
             itemBuilder: (context, index) {
               if (!snapshot.hasData) {
                 return Center(
@@ -98,14 +98,14 @@ class _CategoriesUiState extends State<CategoriesUi> {
                         crossAxisSpacing: 5.0,
                         mainAxisSpacing: 5.0,
                       ),
-                      itemCount: allmusic.length,
-                      itemBuilder: (context, index) {
+                      itemCount: allmusic[cats[index]['id']].length,
+                      itemBuilder: (context, index1) {
                         return InkWell(
                           onTap: () {
-                            Get.to(() => const MusicPlayerUi(), arguments: {
-                              'isAsset': false,
-                              'filepath': '',
-                            });
+                            // Get.to(() => const MusicPlayerUi(), arguments: {
+                            //   'isAsset': false,
+                            //   'filepath': '',
+                            // });
                           },
                           onHover: ((ishovering) {
                             if (ishovering) {
