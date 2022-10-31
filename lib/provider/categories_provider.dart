@@ -18,12 +18,12 @@ class MusicCategoriesProvider with ChangeNotifier {
 
   setCategories(value) {
     _categories = value;
-    notifyListeners();
+    // notifyListeners();
   }
 
   setAllMusic(id, value) {
     _allmusic[id] = value;
-    notifyListeners();
+    // notifyListeners();
   }
 
   Future getCategories() async {

@@ -53,7 +53,7 @@ class AuthProvider with ChangeNotifier {
           styledsnackbar(txt: 'Login Successful', icon: Icons.login);
           print('Login successfully');
           loginbox.write('islogin', true);
-          loginbox.write('userdata', data);
+          loginbox.write('userdata', data['data']);
           Get.to(
             () => const MainWidget(),
           );
@@ -100,7 +100,7 @@ class AuthProvider with ChangeNotifier {
           print(data);
           print('Registered successfully');
           loginbox.write('islogin', true);
-          loginbox.write('userdata', data);
+          loginbox.write('userdata', data['data']);
           Get.to(
             () => const MainWidget(),
           );

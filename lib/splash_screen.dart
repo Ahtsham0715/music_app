@@ -59,6 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
             () => const LoginUi(),
           );
         } else {
+          print(loginbox.read('userdata')['data']);
           if (loginbox.read('userdata')['data'] == null ||
               loginbox.read('userdata')['data'] == 'null') {
             Get.to(
