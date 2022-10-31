@@ -235,9 +235,9 @@ class _MainWidgetState extends State<MainWidget> {
               // width: MediaQuery.of(context).size.width * 0.5,
               child: Consumer<MusicCategoriesProvider>(
                   builder: (context, categoriespro, _) {
-                categoriespro.categories.isEmpty
-                    ? categoriespro.getCategories()
-                    : null;
+                categoriespro.categories.isNotEmpty
+                    ? null
+                    : categoriespro.getCategories();
                 return categoriespro.isloadingcategories
                     ? Center(
                         child: SizedBox(

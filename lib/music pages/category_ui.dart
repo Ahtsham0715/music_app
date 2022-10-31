@@ -80,13 +80,13 @@ class _CategoryUiState extends State<CategoryUi> {
             ),
           ),
           Consumer<CategoryMusicProvider>(builder: (context, musicpro, _) {
-            !musicbox.read('musicloaded')
+            musicbox.read('musicloaded')
                 // musicpro.categorymusic.isEmpty
-                ? musicpro.getCategoryMusic(
+                ? null
+                : musicpro.getCategoryMusic(
                     id: args['category_id'],
                     isplaylist: false,
-                  )
-                : null;
+                  );
             return musicpro.isloadingmusic
                 ? Center(
                     child: Padding(

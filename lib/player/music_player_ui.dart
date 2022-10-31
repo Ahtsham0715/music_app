@@ -239,16 +239,16 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                               width: MediaQuery.of(context).size.width * 0.45,
                               child: Consumer<CategoryMusicProvider>(
                                   builder: (context, catmusicpro, _) {
-                                !musicbox.read('cat_download')
-                                    ? catmusicpro.getCategoryMusic(
+                                musicbox.read('cat_download')
+                                    ? null
+                                    : catmusicpro.getCategoryMusic(
                                         id: args['cat_id'],
                                         isplaylist: args['cat_id']
                                                 .toString()
                                                 .contains('https')
                                             ? true
                                             : false,
-                                      )
-                                    : null;
+                                      );
                                 downloadprovider.setLoadingListLength(
                                     catmusicpro.categorymusic.length);
                                 createplaylistpro.setLoadingListLength(
