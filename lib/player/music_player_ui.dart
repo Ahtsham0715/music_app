@@ -20,11 +20,19 @@ class MusicPlayerUi extends StatefulWidget {
 
 class _MusicPlayerUiState extends State<MusicPlayerUi> {
   final TextEditingController _search = TextEditingController();
+
+  ValueNotifier<String> songName = ValueNotifier('');
+  ValueNotifier<String> artistName = ValueNotifier('');
+  ValueNotifier<String> songImage = ValueNotifier('');
+
   var args = Get.arguments;
   double _slidervalue = 0.0;
   // dynamic playerprovider;
   @override
   void initState() {
+    songName.value = args['song_name'].toString();
+    songImage.value = args['music_img'].toString();
+    artistName.value = args['artist'].toString();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<AudioPlayerProvider>(context, listen: false).setPlaying(true);
       // Provider.of<AudioPlayerProvider>(context, listen: false).setPlaying(true);
@@ -138,35 +146,47 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                             borderRadius: BorderRadius.circular(5.0)),
                         child: args['isAsset']
                             ? Image.asset('assets/logo.png')
-                            : Image.network(
-                                args['music_img'],
-                                fit: BoxFit.fill,
-                              ),
+                            : ValueListenableBuilder(
+                                valueListenable: songImage,
+                                builder: (context, val, _) {
+                                  return Image.network(
+                                    songImage.value.toString(),
+                                    fit: BoxFit.fill,
+                                  );
+                                }),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(
-                          args['song_name'].toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: font_family_bold,
-                          ),
-                        ),
+                        child: ValueListenableBuilder(
+                            valueListenable: songName,
+                            builder: (context, val, _) {
+                              return Text(
+                                songName.value.toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: font_family_bold,
+                                ),
+                              );
+                            }),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 5.0),
-                        child: Text(
-                          args['isAsset']
-                              ? 'Unknown'
-                              : args['artist'].toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: font_family,
-                          ),
-                        ),
+                        child: ValueListenableBuilder(
+                            valueListenable: artistName,
+                            builder: (context, val, _) {
+                              return Text(
+                                args['isAsset']
+                                    ? 'Unknown'
+                                    : artistName.value.toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontFamily: font_family,
+                                ),
+                              );
+                            }),
                       ),
                     ],
                   ),
@@ -489,17 +509,20 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                     icon: FontAwesomeIcons.backwardStep,
                     ontap: args['issingle']
                         ? null
-                        : () {
+                        : () async {
                             print('previous song');
                             List songs = args['songs_list'];
                             for (var i = 0; i < songs.length; i++) {
-                              if (songs[i]['id'] == args['id']) {
+                              if (songs[i]['id'] == args['song_id']) {
                                 if (i >= 1) {
                                   args['music_img'] = songs[i - 1]['music_img'];
+                                  songImage.value = songs[i - 1]['music_img'];
                                   args['song_mp3'] = songs[i - 1]['song_mp3'];
                                   args['song_name'] = songs[i - 1]['song_name'];
+                                  songName.value = songs[i - 1]['song_name'];
                                   args['artist'] = songs[i - 1]['artist'];
-                                  setState(() {});
+                                  artistName.value = songs[i - 1]['artist'];
+                                  args['song_id'] = songs[i - 1]['id'];
                                   playerprovider
                                       .playfromUrl(songs[i - 1]['song_mp3']);
                                 }
@@ -531,25 +554,29 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                     icon: FontAwesomeIcons.forwardStep,
                     ontap: args['issingle']
                         ? null
-                        : () {
+                        : () async {
                             print('Next song');
                             List songs = args['songs_list'];
                             for (int i = 0; i < songs.length; i++) {
                               print(songs[i]['id']);
                               print(args['song_id']);
-                              // if (songs[i]['id'] == args['song_id']) {
-                              //   if (i < songs.length - 1) {
-                              //     args['music_img'] = songs[i - 1]['music_img'];
-                              //     args['song_mp3'] = songs[i - 1]['song_mp3'];
-                              //     args['song_name'] = songs[i - 1]['song_name'];
-                              //     args['artist'] = songs[i - 1]['artist'];
-                              //     args['song_id'] = songs[i - 1]['id'];
-                              //     // playerprovider.dispose();
-                              //     playerprovider
-                              //         .playfromUrl(songs[i - 1]['song_mp3']);
-                              //     setState(() {});
-                              //   }
-                              // }
+                              if (songs[i]['id'] == args['song_id']) {
+                                if (i < songs.length - 1) {
+                                  args['music_img'] = songs[i + 1]['music_img'];
+                                  songImage.value = songs[i + 1]['music_img'];
+                                  args['song_mp3'] = songs[i + 1]['song_mp3'];
+                                  args['song_name'] = songs[i + 1]['song_name'];
+                                  songName.value = songs[i + 1]['song_name'];
+                                  args['artist'] = songs[i + 1]['artist'];
+                                  artistName.value = songs[i + 1]['artist'];
+                                  args['song_id'] = songs[i + 1]['id'];
+                                  // setState(() {});
+
+                                  // playerprovider.dispose();
+                                  playerprovider
+                                      .playfromUrl(songs[i + 1]['song_mp3']);
+                                }
+                              }
                             }
                           },
                   ),

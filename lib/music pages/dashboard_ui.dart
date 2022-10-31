@@ -132,8 +132,8 @@ class _CategoriesUiState extends State<CategoriesUi> {
                                 'isAsset': false,
                                 'issingle': false,
                                 'filepath': '',
+                                'songs_list': [],
                                 'cat_id': cats[index]['id'],
-                                'songs_list': allmusic[cats[index]['id']],
                                 'song_id': allmusic[cats[index]['id']][index1]
                                     ['id'],
                                 'song_name': allmusic[cats[index]['id']][index1]
