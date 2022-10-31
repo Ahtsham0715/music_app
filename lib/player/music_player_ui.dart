@@ -25,6 +25,18 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
   // dynamic playerprovider;
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AudioPlayerProvider>(context, listen: false).setPlaying(true);
+      // Provider.of<AudioPlayerProvider>(context, listen: false).setPlaying(true);
+      if (args['isAsset'] && !playerbox.read('isplaying')) {
+        Provider.of<AudioPlayerProvider>(context, listen: false)
+            .playfromAsset(args['filepath']);
+      } else if (!args['isAsset'] && !playerbox.read('isplaying')) {
+        Provider.of<AudioPlayerProvider>(context, listen: false)
+            .playfromUrl(args['song_mp3']);
+        print(args['song_mp3']);
+      }
+    });
     super.initState();
   }
 
@@ -37,12 +49,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
         Provider.of<MakePlaylistProvider>(context, listen: false);
     final playerprovider =
         Provider.of<AudioPlayerProvider>(context, listen: false);
-    if (args['isAsset'] && !playerbox.read('isplaying')) {
-      playerprovider.playfromAsset(args['filepath']);
-    } else if (!args['isAsset'] && !playerbox.read('isplaying')) {
-      playerprovider.playfromUrl(args['song_mp3']);
-      print(args['song_mp3']);
-    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
