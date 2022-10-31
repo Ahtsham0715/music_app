@@ -36,6 +36,24 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             .playfromUrl(args['song_mp3']);
         print(args['song_mp3']);
       }
+      musicbox.read('cat_download')
+          ? null
+          : Provider.of<CategoryMusicProvider>(context, listen: false)
+              .getCategoryMusic(
+              id: args['cat_id'],
+              isplaylist:
+                  args['cat_id'].toString().contains('https') ? true : false,
+            );
+      Provider.of<DownloadProvider>(context, listen: false)
+          .setLoadingListLength(
+              Provider.of<CategoryMusicProvider>(context, listen: false)
+                  .categorymusic
+                  .length);
+      Provider.of<MakePlaylistProvider>(context, listen: false)
+          .setLoadingListLength(
+              Provider.of<CategoryMusicProvider>(context, listen: false)
+                  .categorymusic
+                  .length);
     });
     super.initState();
   }
@@ -246,20 +264,20 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                               width: MediaQuery.of(context).size.width * 0.45,
                               child: Consumer<CategoryMusicProvider>(
                                   builder: (context, catmusicpro, _) {
-                                musicbox.read('cat_download')
-                                    ? null
-                                    : catmusicpro.getCategoryMusic(
-                                        id: args['cat_id'],
-                                        isplaylist: args['cat_id']
-                                                .toString()
-                                                .contains('https')
-                                            ? true
-                                            : false,
-                                      );
-                                downloadprovider.setLoadingListLength(
-                                    catmusicpro.categorymusic.length);
-                                createplaylistpro.setLoadingListLength(
-                                    catmusicpro.categorymusic.length);
+                                // musicbox.read('cat_download')
+                                //     ? null
+                                //     : catmusicpro.getCategoryMusic(
+                                //         id: args['cat_id'],
+                                //         isplaylist: args['cat_id']
+                                //                 .toString()
+                                //                 .contains('https')
+                                //             ? true
+                                //             : false,
+                                //       );
+                                // downloadprovider.setLoadingListLength(
+                                //     catmusicpro.categorymusic.length);
+                                // createplaylistpro.setLoadingListLength(
+                                //     catmusicpro.categorymusic.length);
                                 return catmusicpro.isloadingmusic
                                     ? Center(
                                         child: SizedBox(
