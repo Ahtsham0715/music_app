@@ -7,7 +7,7 @@ class AudioPlayerProvider with ChangeNotifier {
   final AudioPlayer _player = AudioPlayer(playerId: 'local');
   AudioCache cache = AudioCache();
   late bool _isplaying = false;
-  bool _loop = playerbox.read('loop') ?? false;
+  bool _loop = playerbox.read('loop');
   dynamic _duration = 0.1;
   dynamic _maxduration = 0.0;
   dynamic _seekpos = 0;
