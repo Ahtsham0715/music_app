@@ -27,35 +27,13 @@ class MainWidget extends StatefulWidget {
 }
 
 class _MainWidgetState extends State<MainWidget> {
-  final PageController page = PageController(initialPage: 0);
+  final PageController page = PageController();
   final TextEditingController _search = TextEditingController();
   static SideMenuController sidecontroller = SideMenuController();
   List pages = [
     CategoriesUi(),
-    PlaylistUi(items: const {
-      'category_name': 'Category ',
-      'items_list': [
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
-        'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
-        'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
-        'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
-        'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
-        'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
-        'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
-      ],
-    }),
-    DownloadUi(items: const {
-      'category_name': 'Category ',
-      'items_list': [
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
-        'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
-        'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
-        'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
-        'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
-        'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
-        'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
-      ],
-    }),
+    PlaylistUi(),
+    DownloadUi(),
     const ProfileUi(),
     const ProfileUi(),
   ];
@@ -128,7 +106,6 @@ class _MainWidgetState extends State<MainWidget> {
             yesOnTap: () {
               loginbox.write('islogin', false);
               loginbox.write('userdata', {});
-              // sidecontroller.dispose();
               Get.to(
                 () => const LoginUi(),
                 // preventDuplicates: true,
@@ -165,7 +142,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final categoriesprovider = Provider.of<MusicCategoriesProvider>(context);
     print('build');
     return Scaffold(
       backgroundColor: Colors.grey.shade100.withOpacity(1.0),
@@ -224,10 +200,6 @@ class _MainWidgetState extends State<MainWidget> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: CircleAvatar(
               backgroundColor: Colors.grey.shade300,
-              // radius: 40.0,
-              // foregroundImage: NetworkImage(
-              //   'https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile.png',
-              // ),
               child: const Icon(
                 Icons.person,
                 color: Colors.black45,
@@ -241,14 +213,11 @@ class _MainWidgetState extends State<MainWidget> {
         children: [
           SideMenu(
             style: SideMenuStyle(
-              // backgroundColor: Colors.grey,
               openSideMenuWidth: 200.0,
               selectedColor: Colors.grey.shade200.withOpacity(0.9),
               hoverColor: Colors.grey.shade200.withOpacity(0.9),
             ),
-            // Page controller to manage a PageView
             controller: sidecontroller,
-            // Will shows on top of all items, it can be a logo or a Title text
             title: Container(
               margin: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
@@ -327,7 +296,6 @@ class _MainWidgetState extends State<MainWidget> {
               }),
             ),
             showToggle: true,
-
             items: items,
           ),
           Expanded(

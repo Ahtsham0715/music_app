@@ -35,8 +35,8 @@ class _ProfileUiState extends State<ProfileUi> {
   Future getUserData(userid) async {
     var headers = {'Accept': 'application/json'};
 
-    var url =
-        Uri.parse('http://desktopapp.inshopmedia.com/api/show-user?user_id=5');
+    var url = Uri.parse(
+        'http://desktopapp.inshopmedia.com/api/show-user?user_id=$userid');
 
     final response = await http.get(url, headers: headers);
     var data = jsonDecode(response.body);
@@ -110,9 +110,6 @@ class _ProfileUiState extends State<ProfileUi> {
                           Icons.person,
                           color: Colors.black45,
                         ),
-                        // backgroundImage: NetworkImage(
-                        //   'https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile.png',
-                        // ),
                       ),
                       title: Text(
                         phonenumber.text.toString(),
@@ -285,31 +282,6 @@ class _ProfileUiState extends State<ProfileUi> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      // SizedBox(
-                      //   width: responsiveHW(context, wd: 7),
-                      // ),
-                      // MaterialButton(
-                      //   onPressed: null,
-                      //   disabledColor: Colors.teal.shade200,
-                      //   color: Colors.teal.shade200,
-                      //   elevation: 0.0,
-                      //   shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(50.0),
-                      //       side: BorderSide(
-                      //         color: Colors.grey.shade300,
-                      //         width: 1.5,
-                      //       )),
-                      //   minWidth: MediaQuery.of(context).size.width * 0.1,
-                      //   height: MediaQuery.of(context).size.height * 0.06,
-                      //   child: Text(
-                      //     phonenumber.text.toString(),
-                      //     style: TextStyle(
-                      //         fontSize: 12.0,
-                      //         // fontWeight: FontWeight.w500,
-                      //         color: Colors.black,
-                      //         fontFamily: font_family),
-                      //   ),
-                      // ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.055,
                         width: MediaQuery.of(context).size.width * 0.45,
@@ -346,99 +318,53 @@ class _ProfileUiState extends State<ProfileUi> {
                           keyboardtype: TextInputType.number,
                         ),
                       ),
-
-                      // MaterialButton(
-                      //   onPressed: () async {},
-                      //   color: Colors.teal.shade200,
-                      //   elevation: 0.0,
-                      //   shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(50.0),
-                      //       side: BorderSide(
-                      //         color: Colors.grey.shade300,
-                      //         width: 1.5,
-                      //       )),
-                      //   minWidth: MediaQuery.of(context).size.width * 0.08,
-                      //   height: MediaQuery.of(context).size.height * 0.06,
-                      //   child: Text(
-                      //     ' Edit ',
-                      //     style: TextStyle(
-                      //         fontSize: 12.0,
-                      //         // fontWeight: FontWeight.w500,
-                      //         color: Colors.black,
-                      //         fontFamily: font_family),
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   width: responsiveHW(context, wd: 2),
-                      // ),
-                      // MaterialButton(
-                      //   onPressed: () {},
-                      //   color: Colors.teal.shade200,
-                      //   elevation: 0.0,
-                      //   shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(50.0),
-                      //       side: BorderSide(
-                      //         color: Colors.grey.shade300,
-                      //         width: 1.5,
-                      //       )),
-                      //   minWidth: MediaQuery.of(context).size.width * 0.08,
-                      //   height: MediaQuery.of(context).size.height * 0.06,
-                      //   child: Text(
-                      //     'Delete',
-                      //     style: TextStyle(
-                      //         fontSize: 12.0,
-                      //         // fontWeight: FontWeight.w500,
-                      //         color: Colors.black,
-                      //         fontFamily: font_family),
-                      //   ),
-                      // ),
                     ],
                   ),
-                  SizedBox(
-                    height: responsiveHW(context, ht: 2),
-                  ),
-                  CustomText(txt: 'Birthday'),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.055,
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    child: customDatePickerField(
-                      "Birthday",
-                      _datepicker,
-                      responsiveHW(context, wd: 100),
-                      responsiveHW(context, ht: 50),
-                      OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                        borderSide: const BorderSide(
-                          style: BorderStyle.none,
-                          color: Colors.white,
-                        ),
-                      ),
-                      fillColor: Colors.white,
-                      filled: true,
-                      suffixWidget: InkWell(
-                        onTap: () {
-                          showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(1920),
-                                  lastDate: DateTime.now())
-                              .then((pickedDate) {
-                            if (pickedDate == null) {
-                              return;
-                            }
-                            setState(() {
-                              _datepicker.text =
-                                  "${pickedDate.day.toString()}/${pickedDate.month.toString()}/${pickedDate.year.toString()}";
-                            });
-                          });
-                        },
-                        child: const Icon(
-                          Icons.date_range,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: responsiveHW(context, ht: 2),
+                  // ),
+                  // CustomText(txt: 'Birthday'),
+                  // SizedBox(
+                  //   height: MediaQuery.of(context).size.height * 0.055,
+                  //   width: MediaQuery.of(context).size.width * 0.45,
+                  //   child: customDatePickerField(
+                  //     "Birthday",
+                  //     _datepicker,
+                  //     responsiveHW(context, wd: 100),
+                  //     responsiveHW(context, ht: 50),
+                  //     OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(50.0),
+                  //       borderSide: const BorderSide(
+                  //         style: BorderStyle.none,
+                  //         color: Colors.white,
+                  //       ),
+                  //     ),
+                  //     fillColor: Colors.white,
+                  //     filled: true,
+                  //     suffixWidget: InkWell(
+                  //       onTap: () {
+                  //         showDatePicker(
+                  //                 context: context,
+                  //                 initialDate: DateTime.now(),
+                  //                 firstDate: DateTime(1920),
+                  //                 lastDate: DateTime.now())
+                  //             .then((pickedDate) {
+                  //           if (pickedDate == null) {
+                  //             return;
+                  //           }
+                  //           setState(() {
+                  //             _datepicker.text =
+                  //                 "${pickedDate.day.toString()}/${pickedDate.month.toString()}/${pickedDate.year.toString()}";
+                  //           });
+                  //         });
+                  //       },
+                  //       child: const Icon(
+                  //         Icons.date_range,
+                  //         color: Colors.black,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: responsiveHW(context, ht: 2),
                   ),

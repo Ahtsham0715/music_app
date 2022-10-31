@@ -21,10 +21,7 @@ import 'package:http/http.dart' as http;
 // }
 
 class PlaylistUi extends StatelessWidget {
-  Map args = {};
-  PlaylistUi({super.key, required items}) {
-    args = items;
-  }
+  PlaylistUi({super.key}) {}
   ValueNotifier<List<bool>> visibiltyvar = ValueNotifier<List<bool>>([]);
 
   // List visibiltyvar = [];

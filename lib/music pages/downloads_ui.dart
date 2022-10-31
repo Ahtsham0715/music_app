@@ -9,10 +9,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class DownloadUi extends StatefulWidget {
-  Map args = {};
-  DownloadUi({super.key, required items}) {
-    args = items;
-  }
+  DownloadUi({super.key}) {}
 
   @override
   State<DownloadUi> createState() => _DownloadUiState();

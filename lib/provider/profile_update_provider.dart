@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
+import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/utils.dart';
 
 class ProfileUpdateProivder with ChangeNotifier {
@@ -40,7 +41,8 @@ class ProfileUpdateProivder with ChangeNotifier {
     final response = await http.post(url, headers: headers, body: updatedData);
     var data = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      print(data);
+      print('updated data:$data');
+      // loginbox.write('userdata', data['data']);
       setSaving(false);
       styledsnackbar(
           txt: 'Data Updated Successfully', icon: Icons.check_circle);
