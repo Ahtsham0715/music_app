@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
     playerbox.writeIfNull('isplaying', false);
     playerbox.writeIfNull('loop', false);
     musicbox.writeIfNull('musicloaded', false);
+    musicbox.writeIfNull('allmusic', {});
     musicbox.writeIfNull('cats', []);
     musicbox.writeIfNull('cat_download', false);
     loginbox.writeIfNull('userdata', {});

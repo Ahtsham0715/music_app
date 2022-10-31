@@ -8,12 +8,14 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:music_app/auth/login_ui.dart';
 import 'package:music_app/constants.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
+import 'package:music_app/custom%20widgets/custom_icon_button.dart';
 import 'package:music_app/custom%20widgets/utils.dart';
 import 'package:music_app/music%20pages/dashboard_ui.dart';
 import 'package:music_app/music%20pages/category_ui.dart';
 import 'package:music_app/music%20pages/downloads_ui.dart';
 import 'package:music_app/music%20pages/playlist_ui.dart';
 import 'package:music_app/music%20pages/profile_ui.dart';
+import 'package:music_app/music%20pages/search_results.dart';
 import 'package:music_app/player/music_player_ui.dart';
 import 'package:music_app/provider/categories_provider.dart';
 import 'package:provider/provider.dart';
@@ -167,22 +169,24 @@ class _MainWidgetState extends State<MainWidget> {
           height: 50,
           width: MediaQuery.of(context).size.width * 0.4,
           child: customsearchField(
-            "Search",
-            _search,
-            (value) {},
-            (value) {
-              _search.text = value!;
-            },
-            responsiveHW(context, wd: 100),
-            responsiveHW(context, ht: 100),
-            OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.0),
-              borderSide: const BorderSide(
-                style: BorderStyle.none,
-                color: Colors.white,
+              "Search",
+              _search,
+              null,
+              null,
+              responsiveHW(context, wd: 100),
+              responsiveHW(context, ht: 100),
+              OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.0),
+                borderSide: const BorderSide(
+                  style: BorderStyle.none,
+                  color: Colors.white,
+                ),
               ),
-            ),
-          ),
+              onchanged: null, ontap: () {
+            Get.to(
+              () => const SearchUi(),
+            );
+          }),
         ),
         actions: [
           Center(

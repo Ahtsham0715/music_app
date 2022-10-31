@@ -25,6 +25,7 @@ class _CategoriesUiState extends State<CategoriesUi> {
 
   Future getMusic() async {
     // allmusic = {};
+
     if (allmusic.isEmpty) {
       var headers = {'Accept': 'application/json'};
       cats = musicbox.read('cats');
@@ -53,7 +54,9 @@ class _CategoriesUiState extends State<CategoriesUi> {
           }
         }
       }
-      print(allmusic);
+      // print(allmusic);
+      musicbox.write('allmusic', allmusic);
+      print('allmusic storage: ${musicbox.read('allmusic')}');
       return allmusic;
     }
   }
