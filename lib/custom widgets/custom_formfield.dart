@@ -76,18 +76,19 @@ Widget customDatePickerField(hintTitle, controllerName, wSize, hSize, border,
 
 Widget customsearchField(hintTitle, controllerName, validationFunc, onSavedFunc,
     wSize, hSize, border,
-    {filled, fillColor, labeltext, onchanged, ontap}) {
+    {filled, fillColor, labeltext, onchanged, ontap, isreadonly}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: wSize * 2 / 100, vertical: 5.0),
     child: TextFormField(
       // toolbarOptions: const ToolbarOptions(
       //   paste: true,
       // ),
+      readOnly: isreadonly,
       onChanged: onchanged,
       onTap: ontap,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      // autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-          alignLabelWithHint: true,
+          // alignLabelWithHint: true,
           labelStyle: TextStyle(
             fontFamily: font_family,
           ),

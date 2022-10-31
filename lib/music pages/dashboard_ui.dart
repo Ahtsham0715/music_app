@@ -130,6 +130,7 @@ class _CategoriesUiState extends State<CategoriesUi> {
                               musicbox.write('cat_download', false);
                               Get.to(() => const MusicPlayerUi(), arguments: {
                                 'isAsset': false,
+                                'issingle': false,
                                 'filepath': '',
                                 'cat_id': cats[index]['id'],
                                 'song_id': allmusic[cats[index]['id']][index1]

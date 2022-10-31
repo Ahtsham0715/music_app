@@ -121,7 +121,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.height,
-                  width: args['isAsset']
+                  width: args['isAsset'] || args['issingle']
                       ? MediaQuery.of(context).size.width
                       : MediaQuery.of(context).size.width * 0.5,
                   child: Column(
@@ -171,7 +171,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                     ],
                   ),
                 ),
-                args['isAsset']
+                args['isAsset'] || args['issingle']
                     ? const Center()
                     : SizedBox(
                         height: MediaQuery.of(context).size.height,

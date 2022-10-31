@@ -39,6 +39,8 @@ class _SearchUiState extends State<SearchUi> {
       }
     });
     setState(() {
+      _search.selection =
+          TextSelection.fromPosition(TextPosition(offset: _search.text.length));
       issearching = false;
       filteredsongs;
     });
@@ -46,7 +48,6 @@ class _SearchUiState extends State<SearchUi> {
 
   @override
   void initState() {
-    filteredsongs = musicbox.read('allmusic').values as List;
     super.initState();
   }
 
@@ -78,6 +79,7 @@ class _SearchUiState extends State<SearchUi> {
                   color: Colors.white,
                 ),
               ),
+              isreadonly: false,
               onchanged: (val) {
                 _search.text = val;
                 searchsongs();
@@ -139,7 +141,7 @@ class _SearchUiState extends State<SearchUi> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Text(
-                        "My Playlist",
+                        "Search Results",
                         style: TextStyle(
                           fontSize: 20.0,
                           fontFamily: font_family_bold,
@@ -232,43 +234,52 @@ class _SearchUiState extends State<SearchUi> {
                                               backgroundColor: Colors.black54,
                                               child: CustomIconButton(
                                                   ontap: () {
-                                                    // playerbox.write(
-                                                    //     'isplaying', false);
-                                                    // musicbox.write(
-                                                    //     'cat_download', false);
-                                                    // Get.to(
-                                                    //     () =>
-                                                    //         const MusicPlayerUi(),
-                                                    //     arguments: {
-                                                    //       'isAsset': false,
-                                                    //       'filepath': '',
-                                                    //       'cat_id':
-                                                    //           'https://desktopapp.inshopmedia.com/api/get-playlist?user_id=${loginbox.read('userdata')['data']['id'].toString()}',
-                                                    //       'song_id':
-                                                    //           userplaylist[index]
-                                                    //               ['id'],
-                                                    //       'song_name':
-                                                    //           userplaylist[index]
-                                                    //               ['song_name'],
-                                                    //       'desc':
-                                                    //           userplaylist[index]
-                                                    //               ['desc'],
-                                                    //       'artist':
-                                                    //           userplaylist[index]
-                                                    //               ['artist'],
-                                                    //       'song_type':
-                                                    //           userplaylist[index]
-                                                    //               ['song_type'],
-                                                    //       'language':
-                                                    //           userplaylist[index]
-                                                    //               ['language'],
-                                                    //       'song_mp3':
-                                                    //           userplaylist[index]
-                                                    //               ['song_mp3'],
-                                                    //       'music_img':
-                                                    //           userplaylist[index]
-                                                    //               ['music_img'],
-                                                    //     });
+                                                    playerbox.write(
+                                                        'isplaying', false);
+                                                    musicbox.write(
+                                                        'cat_download', false);
+                                                    Get.to(
+                                                        () =>
+                                                            const MusicPlayerUi(),
+                                                        arguments: {
+                                                          'isAsset': false,
+                                                          'issingle': true,
+                                                          'filepath': '',
+                                                          'cat_id': musicbox
+                                                              .read('allmusic')
+                                                              .keys
+                                                              .first
+                                                              .toString(),
+                                                          'song_id':
+                                                              filteredsongs[
+                                                                  index]['id'],
+                                                          'song_name':
+                                                              filteredsongs[
+                                                                      index]
+                                                                  ['song_name'],
+                                                          'desc': filteredsongs[
+                                                              index]['desc'],
+                                                          'artist':
+                                                              filteredsongs[
+                                                                      index]
+                                                                  ['artist'],
+                                                          'song_type':
+                                                              filteredsongs[
+                                                                      index]
+                                                                  ['song_type'],
+                                                          'language':
+                                                              filteredsongs[
+                                                                      index]
+                                                                  ['language'],
+                                                          'song_mp3':
+                                                              filteredsongs[
+                                                                      index]
+                                                                  ['song_mp3'],
+                                                          'music_img':
+                                                              filteredsongs[
+                                                                      index]
+                                                                  ['music_img'],
+                                                        });
                                                   },
                                                   icon: Icons.play_arrow),
                                             ),

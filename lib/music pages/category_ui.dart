@@ -227,6 +227,7 @@ class _CategoryUiState extends State<CategoryUi> {
                                                             const MusicPlayerUi(),
                                                         arguments: {
                                                           'isAsset': false,
+                                                          'issingle': false,
                                                           'filepath': '',
                                                           'cat_id': args[
                                                               'category_id'],

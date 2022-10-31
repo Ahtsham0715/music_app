@@ -177,6 +177,7 @@ class PlaylistUi extends StatelessWidget {
                                                           const MusicPlayerUi(),
                                                       arguments: {
                                                         'isAsset': false,
+                                                        'issingle': false,
                                                         'filepath': '',
                                                         'cat_id':
                                                             'https://desktopapp.inshopmedia.com/api/get-playlist?user_id=${loginbox.read('userdata')['data']['id'].toString()}',

@@ -80,6 +80,7 @@ class _MainWidgetState extends State<MainWidget> {
           playerbox.write('isplaying', false);
           Get.to(() => const MusicPlayerUi(), arguments: {
             'isAsset': true,
+            'issingle': true,
             'filepath': filepath.path.toString(),
             'song_name': filepath.name.toString(),
             'data': {}
@@ -182,6 +183,7 @@ class _MainWidgetState extends State<MainWidget> {
                   color: Colors.white,
                 ),
               ),
+              isreadonly: true,
               onchanged: null, ontap: () {
             Get.to(
               () => const SearchUi(),

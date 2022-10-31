@@ -161,6 +161,7 @@ class _DownloadUiState extends State<DownloadUi> {
                                                     () => const MusicPlayerUi(),
                                                     arguments: {
                                                       'isAsset': true,
+                                                      'issingle': true,
                                                       'filepath': files[index]
                                                           .toString(),
                                                       'song_name': files[index]
