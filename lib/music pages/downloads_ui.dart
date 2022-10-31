@@ -162,6 +162,7 @@ class _DownloadUiState extends State<DownloadUi> {
                                                     arguments: {
                                                       'isAsset': true,
                                                       'issingle': true,
+                                                      'songs_list': [],
                                                       'filepath': files[index]
                                                           .toString(),
                                                       'song_name': files[index]
