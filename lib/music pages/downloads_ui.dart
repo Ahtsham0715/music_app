@@ -9,7 +9,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class DownloadUi extends StatefulWidget {
-  DownloadUi({super.key}) {}
+  const DownloadUi({super.key});
 
   @override
   State<DownloadUi> createState() => _DownloadUiState();

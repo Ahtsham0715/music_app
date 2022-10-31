@@ -265,10 +265,12 @@ class _MainWidgetState extends State<MainWidget> {
                               // print('pressed');
                               musicbox.write('musicloaded', false);
                               Get.to(() => CategoryUi(), arguments: {
-                                'category_name':
-                                    '${categoriespro.categories[index]['name'].toString()}',
-                                'category_id':
-                                    '${categoriespro.categories[index]['id'].toString()}',
+                                'category_name': categoriespro.categories[index]
+                                        ['name']
+                                    .toString(),
+                                'category_id': categoriespro.categories[index]
+                                        ['id']
+                                    .toString(),
                                 'items_list': [
                                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
                                   'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',

@@ -42,27 +42,7 @@ class _CategoryUiState extends State<CategoryUi> {
             ),
           ),
         ),
-        // title: SizedBox(
-        //   height: 50,
-        //   width: MediaQuery.of(context).size.width * 0.4,
-        //   child: customsearchField(
-        //     "Search",
-        //     _search,
-        //     (value) {},
-        //     (value) {
-        //       _search.text = value!;
-        //     },
-        //     responsiveHW(context, wd: 100),
-        //     responsiveHW(context, ht: 100),
-        //     OutlineInputBorder(
-        //       borderRadius: BorderRadius.circular(50.0),
-        //       borderSide: const BorderSide(
-        //         style: BorderStyle.none,
-        //         color: Colors.white,
-        //       ),
-        //     ),
-        //   ),
-        // ),
+
         actions: [
           Center(
             child: Text(
@@ -79,10 +59,6 @@ class _CategoryUiState extends State<CategoryUi> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: CircleAvatar(
               backgroundColor: Colors.grey.shade300,
-              // radius: 40.0,
-              // foregroundImage: NetworkImage(
-              //   'https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile.png',
-              // ),
               child: const Icon(
                 Icons.person,
                 color: Colors.black45,
@@ -105,7 +81,11 @@ class _CategoryUiState extends State<CategoryUi> {
           ),
           Consumer<CategoryMusicProvider>(builder: (context, musicpro, _) {
             !musicbox.read('musicloaded')
-                ? musicpro.getCategoryMusic(id: args['category_id'])
+                // musicpro.categorymusic.isEmpty
+                ? musicpro.getCategoryMusic(
+                    id: args['category_id'],
+                    isplaylist: false,
+                  )
                 : null;
             return musicpro.isloadingmusic
                 ? Center(
@@ -238,6 +218,8 @@ class _CategoryUiState extends State<CategoryUi> {
                                                           arguments: {
                                                             'isAsset': false,
                                                             'filepath': '',
+                                                            'cat_id': args[
+                                                                'category_id'],
                                                             'song_id': musicpro
                                                                     .categorymusic[
                                                                 index]['id'],

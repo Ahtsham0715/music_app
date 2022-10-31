@@ -79,10 +79,6 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: CircleAvatar(
               backgroundColor: Colors.grey.shade300,
-              // radius: 40.0,
-              // foregroundImage: NetworkImage(
-              //   'https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile.png',
-              // ),
               child: const Icon(
                 Icons.person,
                 color: Colors.black45,
@@ -245,7 +241,13 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                                   builder: (context, catmusicpro, _) {
                                 !musicbox.read('cat_download')
                                     ? catmusicpro.getCategoryMusic(
-                                        id: args['cat_id'])
+                                        id: args['cat_id'],
+                                        isplaylist: args['cat_id']
+                                                .toString()
+                                                .contains('https')
+                                            ? true
+                                            : false,
+                                      )
                                     : null;
                                 downloadprovider.setLoadingListLength(
                                     catmusicpro.categorymusic.length);

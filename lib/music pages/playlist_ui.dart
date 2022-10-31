@@ -10,16 +10,6 @@ import 'package:music_app/provider/get_playlist_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
-// class PlaylistUi extends StatefulWidget {
-// Map args = {};
-// PlaylistUi({super.key, required items}) {
-//   args = items;
-// }
-
-//   @override
-//   State<PlaylistUi> createState() => _PlaylistUiState();
-// }
-
 class PlaylistUi extends StatelessWidget {
   PlaylistUi({super.key}) {}
   ValueNotifier<List<bool>> visibiltyvar = ValueNotifier<List<bool>>([]);
@@ -188,6 +178,8 @@ class PlaylistUi extends StatelessWidget {
                                                       arguments: {
                                                         'isAsset': false,
                                                         'filepath': '',
+                                                        'cat_id':
+                                                            'https://desktopapp.inshopmedia.com/api/get-playlist?user_id=${loginbox.read('userdata')['data']['id'].toString()}',
                                                         'song_id':
                                                             userplaylist[index]
                                                                 ['id'],

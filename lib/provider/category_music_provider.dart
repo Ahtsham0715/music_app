@@ -19,13 +19,14 @@ class CategoryMusicProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future getCategoryMusic({required id}) async {
+  Future getCategoryMusic({required id, required bool isplaylist}) async {
     setLoadingMusic(true);
     print('set categories function');
     var headers = {'Accept': 'application/json'};
 
-    var url = Uri.parse(
-        'https://desktopapp.inshopmedia.com/api/music-list?category_id=$id');
+    var url = Uri.parse(isplaylist
+        ? id
+        : 'https://desktopapp.inshopmedia.com/api/music-list?category_id=$id');
 
     final response = await http.get(
       url,
