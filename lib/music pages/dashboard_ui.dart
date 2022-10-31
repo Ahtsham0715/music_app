@@ -133,6 +133,7 @@ class _CategoriesUiState extends State<CategoriesUi> {
                                 'issingle': false,
                                 'filepath': '',
                                 'cat_id': cats[index]['id'],
+                                'songs_list': allmusic[cats[index]['id']],
                                 'song_id': allmusic[cats[index]['id']][index1]
                                     ['id'],
                                 'song_name': allmusic[cats[index]['id']][index1]

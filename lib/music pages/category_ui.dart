@@ -231,6 +231,8 @@ class _CategoryUiState extends State<CategoryUi> {
                                                           'filepath': '',
                                                           'cat_id': args[
                                                               'category_id'],
+                                                          'songs_list': musicpro
+                                                              .categorymusic,
                                                           'song_id': musicpro
                                                                   .categorymusic[
                                                               index]['id'],

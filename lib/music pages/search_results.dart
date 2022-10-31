@@ -245,6 +245,7 @@ class _SearchUiState extends State<SearchUi> {
                                                           'isAsset': false,
                                                           'issingle': true,
                                                           'filepath': '',
+                                                          'songs_list': [],
                                                           'cat_id': musicbox
                                                               .read('allmusic')
                                                               .keys

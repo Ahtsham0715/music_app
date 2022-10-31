@@ -81,6 +81,7 @@ class _MainWidgetState extends State<MainWidget> {
           Get.to(() => const MusicPlayerUi(), arguments: {
             'isAsset': true,
             'issingle': true,
+            'songs_list': [],
             'filepath': filepath.path.toString(),
             'song_name': filepath.name.toString(),
             'data': {}

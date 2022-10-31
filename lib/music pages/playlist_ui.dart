@@ -179,6 +179,8 @@ class PlaylistUi extends StatelessWidget {
                                                         'isAsset': false,
                                                         'issingle': false,
                                                         'filepath': '',
+                                                        'songs_list':
+                                                            userplaylist,
                                                         'cat_id':
                                                             'https://desktopapp.inshopmedia.com/api/get-playlist?user_id=${loginbox.read('userdata')['data']['id'].toString()}',
                                                         'song_id':
