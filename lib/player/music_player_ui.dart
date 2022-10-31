@@ -487,7 +487,25 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                   ),
                   CustomIconButton(
                     icon: FontAwesomeIcons.backwardStep,
-                    ontap: () {},
+                    ontap: args['issingle']
+                        ? null
+                        : () {
+                            print('previous song');
+                            List songs = args['songs_list'];
+                            for (var i = 0; i < songs.length; i++) {
+                              if (songs[i]['id'] == args['id']) {
+                                if (i >= 1) {
+                                  args['music_img'] = songs[i - 1]['music_img'];
+                                  args['song_mp3'] = songs[i - 1]['song_mp3'];
+                                  args['song_name'] = songs[i - 1]['song_name'];
+                                  args['artist'] = songs[i - 1]['artist'];
+                                  setState(() {});
+                                  playerprovider
+                                      .playfromUrl(songs[i - 1]['song_mp3']);
+                                }
+                              }
+                            }
+                          },
                   ),
                   Padding(
                     padding: const EdgeInsets.all(5.0),
@@ -511,7 +529,29 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                   ),
                   CustomIconButton(
                     icon: FontAwesomeIcons.forwardStep,
-                    ontap: () {},
+                    ontap: args['issingle']
+                        ? null
+                        : () {
+                            print('Next song');
+                            List songs = args['songs_list'];
+                            for (int i = 0; i < songs.length; i++) {
+                              print(songs[i]['id']);
+                              print(args['song_id']);
+                              // if (songs[i]['id'] == args['song_id']) {
+                              //   if (i < songs.length - 1) {
+                              //     args['music_img'] = songs[i - 1]['music_img'];
+                              //     args['song_mp3'] = songs[i - 1]['song_mp3'];
+                              //     args['song_name'] = songs[i - 1]['song_name'];
+                              //     args['artist'] = songs[i - 1]['artist'];
+                              //     args['song_id'] = songs[i - 1]['id'];
+                              //     // playerprovider.dispose();
+                              //     playerprovider
+                              //         .playfromUrl(songs[i - 1]['song_mp3']);
+                              //     setState(() {});
+                              //   }
+                              // }
+                            }
+                          },
                   ),
                   // CustomIconButton(
                   //   icon: FontAwesomeIcons.shuffle,
