@@ -16,7 +16,7 @@ class CategoryMusicProvider with ChangeNotifier {
 
   setCategoryMusic(value) {
     _categorymusic = value;
-    notifyListeners();
+    // notifyListeners();
   }
 
   Future getCategoryMusic({required id, required bool isplaylist}) async {
