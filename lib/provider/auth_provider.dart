@@ -43,16 +43,21 @@ class AuthProvider with ChangeNotifier {
           headers: {'Accept': 'application/json'});
 
       if (response.statusCode == 200) {
-        setLoading(false);
-        styledsnackbar(txt: 'Login Successful', icon: Icons.login);
         var data = jsonDecode(response.body.toString());
         print(data);
-        print('Login successfully');
-        loginbox.write('islogin', true);
-        loginbox.write('userdata', data);
-        Get.to(
-          () => const MainWidget(),
-        );
+        if (data['data'] == 'null' || data['data'] == null) {
+          setLoading(false);
+          styledsnackbar(txt: 'Login Failed', icon: Icons.error);
+        } else {
+          setLoading(false);
+          styledsnackbar(txt: 'Login Successful', icon: Icons.login);
+          print('Login successfully');
+          loginbox.write('islogin', true);
+          loginbox.write('userdata', data);
+          Get.to(
+            () => const MainWidget(),
+          );
+        }
       } else {
         setLoading(false);
         styledsnackbar(txt: 'Incorrect email or password', icon: Icons.error);
@@ -85,15 +90,21 @@ class AuthProvider with ChangeNotifier {
           });
 
       if (response.statusCode == 200) {
-        setLoading(false);
-        styledsnackbar(txt: 'Register Successful', icon: Icons.login);
         var data = jsonDecode(response.body.toString());
-        print(data);
-        print('Registered successfully');
-        loginbox.write('islogin', true);
-        Get.to(
-          () => const MainWidget(),
-        );
+        if (data['data'] == 'null' || data['data'] == null) {
+          setLoading(false);
+          styledsnackbar(txt: 'Registeration Failed', icon: Icons.error);
+        } else {
+          setLoading(false);
+          styledsnackbar(txt: 'Registeration Successful', icon: Icons.login);
+          print(data);
+          print('Registered successfully');
+          loginbox.write('islogin', true);
+          loginbox.write('userdata', data);
+          Get.to(
+            () => const MainWidget(),
+          );
+        }
       } else {
         setLoading(false);
         if (response.reasonPhrase == 'Found') {

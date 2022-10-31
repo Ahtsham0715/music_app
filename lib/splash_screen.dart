@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:music_app/auth/login_ui.dart';
 import 'package:music_app/constants.dart';
+import 'package:music_app/custom%20widgets/utils.dart';
 import 'package:music_app/music%20pages/main_widget.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -58,7 +59,15 @@ class _SplashScreenState extends State<SplashScreen> {
             () => const LoginUi(),
           );
         } else {
-          Get.to(() => const MainWidget());
+          if (loginbox.read('userdata')['data'] == null ||
+              loginbox.read('userdata')['data'] == 'null') {
+            Get.to(
+              () => const LoginUi(),
+            );
+            styledsnackbar(txt: 'User Not Found', icon: Icons.error);
+          } else {
+            Get.to(() => const MainWidget());
+          }
         }
       });
     } else {

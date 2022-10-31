@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -75,6 +76,21 @@ class _CategoriesUiState extends State<CategoriesUi> {
                     Colors.red.shade300
                   ],
                   strokeWidth: 1,
+                ),
+              ),
+            );
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Unable to load data',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  // backgroundColor:
+                  //     Colors.blueGrey.withOpacity(0.8),
+                  fontSize: 13.0,
+                  color: Colors.black,
+                  fontFamily: font_family,
                 ),
               ),
             );
