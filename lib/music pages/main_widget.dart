@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:music_app/auth/login_ui.dart';
 import 'package:music_app/constants.dart';
+import 'package:music_app/custom%20widgets/connectivitycheck.dart';
 import 'package:music_app/custom%20widgets/custom_formfield.dart';
 import 'package:music_app/custom%20widgets/custom_icon_button.dart';
 import 'package:music_app/custom%20widgets/utils.dart';
@@ -134,14 +135,28 @@ class _MainWidgetState extends State<MainWidget> {
     // 'Mixed Genre',
   ];
 
+  bool connectionavailable = true;
+
   @override
   void initState() {
+    ConnectivityChecker.CheckConnection().then((value) {
+      setState(() {
+        connectionavailable = value;
+      });
+    });
     print('building state');
     sidecontroller.addListener((p0) {
       page.jumpToPage(p0);
     });
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    page.dispose();
+    sidecontroller.dispose();
+    super.dispose();
   }
 
   @override
@@ -240,69 +255,85 @@ class _MainWidgetState extends State<MainWidget> {
                   color: Colors.grey.shade100.withOpacity(1.0)),
               height: MediaQuery.of(context).size.height * 0.4,
               // width: MediaQuery.of(context).size.width * 0.5,
-              child: Consumer<MusicCategoriesProvider>(
-                  builder: (context, categoriespro, _) {
-                categoriespro.categories.isNotEmpty
-                    ? null
-                    : categoriespro.getCategories();
-                return categoriespro.isloadingcategories
-                    ? Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.05,
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          child: LoadingIndicator(
-                            indicatorType:
-                                Indicator.ballTrianglePathColoredFilled,
-                            colors: [
-                              Colors.teal.shade200,
-                              Colors.amber.shade300,
-                              Colors.red.shade300
-                            ],
-                            strokeWidth: 1,
-                          ),
+              child: !connectionavailable
+                  ? Center(
+                      child: Text(
+                        'No Internet Available',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          // backgroundColor:
+                          //     Colors.blueGrey.withOpacity(0.8),
+                          fontSize: 13.0,
+                          color: Colors.black,
+                          fontFamily: font_family,
                         ),
-                      )
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(5.0),
-                        itemCount: categoriespro.categories.length,
-                        itemBuilder: ((context, index) {
-                          return ListTile(
-                            onLongPress: (() {}),
-                            onTap: () {
-                              // print('pressed');
-                              musicbox.write('musicloaded', false);
-                              Get.to(() => CategoryUi(), arguments: {
-                                'category_name': categoriespro.categories[index]
-                                        ['name']
-                                    .toString(),
-                                'category_id': categoriespro.categories[index]
-                                        ['id']
-                                    .toString(),
-                                'items_list': [
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
-                                  'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
-                                  'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
-                                  'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
-                                  'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
-                                  'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
-                                  'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
-                                ],
-                              });
-                            },
-                            hoverColor: Colors.grey.shade300,
-                            tileColor: Colors.grey.shade100.withOpacity(1.0),
-                            title: Text(
-                              '${categoriespro.categories[index]['name']}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: font_family,
+                      ),
+                    )
+                  : Consumer<MusicCategoriesProvider>(
+                      builder: (context, categoriespro, _) {
+                      categoriespro.categories.isNotEmpty
+                          ? null
+                          : categoriespro.getCategories();
+                      return categoriespro.isloadingcategories
+                          ? Center(
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.05,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                child: LoadingIndicator(
+                                  indicatorType:
+                                      Indicator.ballTrianglePathColoredFilled,
+                                  colors: [
+                                    Colors.teal.shade200,
+                                    Colors.amber.shade300,
+                                    Colors.red.shade300
+                                  ],
+                                  strokeWidth: 1,
+                                ),
                               ),
-                            ),
-                          );
-                        }),
-                      );
-              }),
+                            )
+                          : ListView.builder(
+                              padding: const EdgeInsets.all(5.0),
+                              itemCount: categoriespro.categories.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                  onLongPress: (() {}),
+                                  onTap: () {
+                                    // print('pressed');
+                                    musicbox.write('musicloaded', false);
+                                    Get.to(() => CategoryUi(), arguments: {
+                                      'category_name': categoriespro
+                                          .categories[index]['name']
+                                          .toString(),
+                                      'category_id': categoriespro
+                                          .categories[index]['id']
+                                          .toString(),
+                                      'items_list': [
+                                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjSzVO5ZPeF-f5kucYJG1doKpXiPiooQfHKq0Rev-iVtpZE6zIPp9ylmrHabLcZpwk2gs&usqp=CAU',
+                                        'https://i1.sndcdn.com/avatars-000528843336-cug73s-t500x500.jpg',
+                                        'https://www.musicgrotto.com/wp-content/uploads/2021/09/best-songs-of-all-time-graphic-art.jpg',
+                                        'https://i.ytimg.com/vi/vBGUB1dWfRg/maxresdefault.jpg',
+                                        'https://i.ytimg.com/vi/wZl3j0I0fiA/maxresdefault.jpg',
+                                        'https://i.ytimg.com/vi/-hg7ILmqadg/maxresdefault.jpg',
+                                        'https://www.nettv4u.com/uploads/18-06-2019/top-10-indian-music-directors.jpg',
+                                      ],
+                                    });
+                                  },
+                                  hoverColor: Colors.grey.shade300,
+                                  tileColor:
+                                      Colors.grey.shade100.withOpacity(1.0),
+                                  title: Text(
+                                    '${categoriespro.categories[index]['name']}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontFamily: font_family,
+                                    ),
+                                  ),
+                                );
+                              }),
+                            );
+                    }),
             ),
             showToggle: true,
             items: items,
