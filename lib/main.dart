@@ -32,8 +32,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    playerbox.write('isplaying', false);
-    playerbox.writeIfNull('songs_data', {});
+    playerbox.write('isplaying', true);
+    playerbox.writeIfNull('songs_data', {
+      'issingle': false,
+      'isAsset': false,
+      'songs_list': [],
+      'song_id': '',
+    });
     playerbox.writeIfNull('loop', false);
     musicbox.writeIfNull('musicloaded', false);
     musicbox.writeIfNull('allmusic', {});

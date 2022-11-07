@@ -53,6 +53,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
           'songs_list': args['songs_list'],
           'song_id': args['song_id'],
           'issingle': args['issingle'],
+          'isAsset': args['isAsset'],
         });
         Provider.of<AudioPlayerProvider>(context, listen: false).playfromAsset(
             args['filepath'],
@@ -64,6 +65,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
           'songs_list': args['songs_list'],
           'song_id': args['song_id'],
           'issingle': args['issingle'],
+          'isAsset': args['isAsset'],
         });
         Provider.of<AudioPlayerProvider>(context, listen: false)
             .playfromUrl(args['song_mp3']);
@@ -545,6 +547,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                                     'songs_list': args['songs_list'],
                                     'song_id': songs[i - 1]['id'],
                                     'issingle': args['issingle'],
+                                    'isAsset': args['isAsset'],
                                   });
                                   args['isAsset']
                                       ? playerprovider.playfromAsset(
@@ -608,6 +611,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                                     'songs_list': args['songs_list'],
                                     'song_id': songs[i + 1]['id'],
                                     'issingle': args['issingle'],
+                                    'isAsset': args['isAsset'],
                                   });
                                   // playerprovider.dispose();
                                   args['isAsset']

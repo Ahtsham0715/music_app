@@ -34,7 +34,7 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
               onChanged: playerbox.read('isplaying')
                   ? (value) {
                       playerpro.seekDuration(value.toInt());
-                      print(value);
+                      // print(value);
                     }
                   : null,
               activeColor: Colors.teal.shade200,

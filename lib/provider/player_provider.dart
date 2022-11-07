@@ -112,6 +112,7 @@ class AudioPlayerProvider with ChangeNotifier {
                   'songs_list': songsList,
                   'song_id': songsList[i + 1]['id'],
                   'issingle': isSingle,
+                  'isAsset': true,
                 });
               } else {
                 // print(songsList[0]['song_mp3']);
