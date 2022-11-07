@@ -87,10 +87,10 @@ class AudioPlayerProvider with ChangeNotifier {
     } else {
       if (isSingle) {
         await _player.setReleaseMode(ReleaseMode.release);
-        playerbox.write('isplaying', false);
+        // playerbox.write('isplaying', false);
       } else {
         await _player.setReleaseMode(ReleaseMode.stop);
-        playerbox.write('isplaying', false);
+        // playerbox.write('isplaying', false);
         for (var i = 0; i < songsList.length; i++) {
           if (songsList[i]['id'] == currentId.toString()) {
             if (currentId == songsList[songsList.length - 1]['id']) {
