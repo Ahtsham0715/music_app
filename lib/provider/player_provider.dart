@@ -70,15 +70,25 @@ class AudioPlayerProvider with ChangeNotifier {
       } else {
         await _player.setReleaseMode(ReleaseMode.release);
         playerbox.write('isplaying', false);
-        // for (var i = 0; i < songsList.length; i++) {
-        //   if (songsList[i]['id'] == currentId.toString()) {
-        //     print(songsList[i + 1]['song_mp3']);
-        //     playfromAsset(songsList[i + 1]['song_mp3'],
-        //         songslist: songsList,
-        //         issingle: isSingle,
-        //         currentid: songsList[i + 1]['id']);
-        //   }
-        // }
+        for (var i = 0; i < songsList.length; i++) {
+          if (songsList[i]['id'] == currentId.toString()) {
+            if (i < songsList.length - 1) {
+              print(songsList[i + 1]['song_mp3']);
+              playfromAsset(songsList[i + 1]['song_mp3'],
+                  songslist: songsList,
+                  issingle: isSingle,
+                  currentid: songsList[i + 1]['id']);
+            } else {
+              // print(songsList[0]['song_mp3']);
+              // playfromAsset(songsList[0]['song_mp3'],
+              //     songslist: songsList,
+              //     issingle: isSingle,
+              //     currentid: songsList[0]['id']);
+              await _player.setReleaseMode(ReleaseMode.stop);
+              playerbox.write('isplaying', false);
+            }
+          }
+        }
       }
     }
   }
