@@ -15,6 +15,15 @@ class FooterPlayerBar extends StatefulWidget {
 class _FooterPlayerBarState extends State<FooterPlayerBar> {
   var args = playerbox.read('songs_data');
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    playerbox.listenKey('songs_data', (value) {
+      args = value;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final playerprovider =
         Provider.of<AudioPlayerProvider>(context, listen: false);
@@ -88,6 +97,8 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                                 playerbox.write('songs_data', {
                                   'songs_list': args['songs_list'],
                                   'current_song': songs[i - 1]['id'],
+                                  'isAsset': args['isAsset'],
+                                  'issingle': args['issingle'],
                                 });
                                 args['isAsset']
                                     ? playerprovider.playfromAsset(
@@ -152,6 +163,8 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                                 playerbox.write('songs_data', {
                                   'songs_list': args['songs_list'],
                                   'current_song': songs[i + 1]['id'],
+                                  'isAsset': args['isAsset'],
+                                  'issingle': args['issingle'],
                                 });
                                 // playerprovider.dispose();
                                 args['isAsset']

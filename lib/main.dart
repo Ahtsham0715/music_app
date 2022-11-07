@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     playerbox.write('isplaying', false);
     playerbox.writeIfNull('songs_data', {
-      'issingle': false,
+      'issingle': true,
       'isAsset': false,
       'songs_list': [],
       'song_id': '',
