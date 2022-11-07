@@ -96,7 +96,7 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                                 args['song_id'] = songs[i - 1]['id'];
                                 playerbox.write('songs_data', {
                                   'songs_list': args['songs_list'],
-                                  'current_song': songs[i - 1]['id'],
+                                  'song_id': songs[i - 1]['id'],
                                   'isAsset': args['isAsset'],
                                   'issingle': args['issingle'],
                                 });
@@ -162,7 +162,7 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                                 // setState(() {});
                                 playerbox.write('songs_data', {
                                   'songs_list': args['songs_list'],
-                                  'current_song': songs[i + 1]['id'],
+                                  'song_id': songs[i + 1]['id'],
                                   'isAsset': args['isAsset'],
                                   'issingle': args['issingle'],
                                 });
