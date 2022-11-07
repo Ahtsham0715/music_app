@@ -19,14 +19,24 @@ class _DownloadUiState extends State<DownloadUi> {
   ValueNotifier<List<bool>> visibiltyvar = ValueNotifier<List<bool>>([]);
   bool isloading = true;
   List files = [];
+  List songsdata = [];
   Future getdownloads() async {
     // isloading = true;
     Directory? downloadDir = await getDownloadsDirectory();
     String downloadPath = downloadDir!.path;
     Directory dir = Directory('$downloadPath/inshopmedia_downloads/');
+    var id = 0;
     dir.listSync().forEach((e) {
       print(e.path);
       files.add(e.path);
+      songsdata.add({
+        'music_img': '',
+        'song_mp3': e.path,
+        'song_name': e.path.toString().split('/').last,
+        'artist': 'Unknown',
+        'id': id.toString(),
+      });
+      id++;
       visibiltyvar.value.add(false);
     });
   }
@@ -36,6 +46,7 @@ class _DownloadUiState extends State<DownloadUi> {
     getdownloads().then((value) {
       setState(() {
         isloading = false;
+        print(songsdata);
       });
     });
     super.initState();
@@ -161,14 +172,17 @@ class _DownloadUiState extends State<DownloadUi> {
                                                     () => const MusicPlayerUi(),
                                                     arguments: {
                                                       'isAsset': true,
-                                                      'issingle': true,
-                                                      'songs_list': [],
+                                                      'issingle': false,
+                                                      'songs_list': songsdata,
                                                       'filepath': files[index]
                                                           .toString(),
                                                       'song_name': files[index]
                                                           .toString()
                                                           .split('/')
                                                           .last,
+                                                      'song_id':
+                                                          songsdata[index]
+                                                              ['id'],
                                                       'data': {}
                                                     });
                                               },

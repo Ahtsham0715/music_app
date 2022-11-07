@@ -37,8 +37,11 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
       Provider.of<AudioPlayerProvider>(context, listen: false).setPlaying(true);
       // Provider.of<AudioPlayerProvider>(context, listen: false).setPlaying(true);
       if (args['isAsset'] && !playerbox.read('isplaying')) {
-        Provider.of<AudioPlayerProvider>(context, listen: false)
-            .playfromAsset(args['filepath']);
+        Provider.of<AudioPlayerProvider>(context, listen: false).playfromAsset(
+            args['filepath'],
+            issingle: args['issingle'],
+            songslist: args['songs_list'],
+            currentid: args['song_id']);
       } else if (!args['isAsset'] && !playerbox.read('isplaying')) {
         Provider.of<AudioPlayerProvider>(context, listen: false)
             .playfromUrl(args['song_mp3']);
@@ -523,8 +526,14 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                                   args['artist'] = songs[i - 1]['artist'];
                                   artistName.value = songs[i - 1]['artist'];
                                   args['song_id'] = songs[i - 1]['id'];
-                                  playerprovider
-                                      .playfromUrl(songs[i - 1]['song_mp3']);
+                                  args['isAsset']
+                                      ? playerprovider.playfromAsset(
+                                          songs[i - 1]['song_mp3'],
+                                          issingle: args['issingle'],
+                                          songslist: args['songs_list'],
+                                          currentid: args['song_id'])
+                                      : playerprovider.playfromUrl(
+                                          songs[i - 1]['song_mp3']);
                                 }
                               }
                             }
@@ -557,6 +566,7 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                         : () async {
                             print('Next song');
                             List songs = args['songs_list'];
+                            print(songs);
                             for (int i = 0; i < songs.length; i++) {
                               print(songs[i]['id']);
                               print(args['song_id']);
@@ -573,8 +583,14 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                                   // setState(() {});
 
                                   // playerprovider.dispose();
-                                  playerprovider
-                                      .playfromUrl(songs[i + 1]['song_mp3']);
+                                  args['isAsset']
+                                      ? playerprovider.playfromAsset(
+                                          songs[i + 1]['song_mp3'],
+                                          issingle: args['issingle'],
+                                          songslist: args['songs_list'],
+                                          currentid: args['song_id'])
+                                      : playerprovider.playfromUrl(
+                                          songs[i + 1]['song_mp3']);
                                 }
                               }
                             }

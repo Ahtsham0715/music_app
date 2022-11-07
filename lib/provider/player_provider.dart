@@ -9,7 +9,7 @@ class AudioPlayerProvider with ChangeNotifier {
   late bool _isplaying = false;
   bool _loop = playerbox.read('loop');
   dynamic _duration = 0.0;
-  dynamic _maxduration = 0.0;
+  dynamic _maxduration = 0.1;
   dynamic _seekpos = 0.0;
   dynamic _seekpossec = 0.0;
   double _volume = 0.3;
@@ -59,23 +59,44 @@ class AudioPlayerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future onComplete() async {
+  Future onComplete({songsList, required isSingle, currentId}) async {
+    print('in oncomplete func');
     if (playerbox.read('loop')) {
       await _player.setReleaseMode(ReleaseMode.loop);
     } else {
-      await _player.setReleaseMode(ReleaseMode.release);
-      playerbox.write('isplaying', false);
+      if (isSingle) {
+        await _player.setReleaseMode(ReleaseMode.release);
+        playerbox.write('isplaying', false);
+      } else {
+        await _player.setReleaseMode(ReleaseMode.release);
+        playerbox.write('isplaying', false);
+        // for (var i = 0; i < songsList.length; i++) {
+        //   if (songsList[i]['id'] == currentId.toString()) {
+        //     print(songsList[i + 1]['song_mp3']);
+        //     playfromAsset(songsList[i + 1]['song_mp3'],
+        //         songslist: songsList,
+        //         issingle: isSingle,
+        //         currentid: songsList[i + 1]['id']);
+        //   }
+        // }
+      }
     }
   }
 
-  Future playfromAsset(path) async {
+  Future playfromAsset(path,
+      {required songslist, required issingle, required currentid}) async {
     playerbox.write('isplaying', true);
     try {
       print(_player.state.name);
       setPlaying(true);
       await _player.play(DeviceFileSource(path));
       _player.onPlayerComplete.listen((event) {
-        onComplete();
+        print('on complete event fired.');
+        onComplete(
+          isSingle: issingle,
+          currentId: currentid,
+          songsList: songslist,
+        );
         setSeekPos('00:00:00');
         setDuration('00:00:00');
         stopAudio();
@@ -104,7 +125,7 @@ class AudioPlayerProvider with ChangeNotifier {
       setPlaying(true);
       await _player.play(UrlSource(path));
       _player.onPlayerComplete.listen((event) {
-        onComplete();
+        onComplete(isSingle: false);
         setSeekPos('00:00:00');
         setDuration('00:00:00');
         stopAudio();

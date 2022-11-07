@@ -143,7 +143,7 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                 //   ontap: () {},
                 // ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.25,
                 ),
                 Text(
                   "${playerpro.seekpos}/${playerpro.duration} ",
