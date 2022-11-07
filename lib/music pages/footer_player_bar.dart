@@ -13,8 +13,11 @@ class FooterPlayerBar extends StatefulWidget {
 }
 
 class _FooterPlayerBarState extends State<FooterPlayerBar> {
+  var args = playerbox.read('songs_data');
   @override
   Widget build(BuildContext context) {
+    final playerprovider =
+        Provider.of<AudioPlayerProvider>(context, listen: false);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
@@ -64,30 +67,40 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                 CustomIconButton(
                   icon: FontAwesomeIcons.backwardStep,
                   size: 20.0,
-                  ontap:
-                      // args['issingle']
-                      // ?
-                      () {},
-                  // : () async {
-                  //     print('previous song');
-                  //     List songs = args['songs_list'];
-                  //     for (var i = 0; i < songs.length; i++) {
-                  //       if (songs[i]['id'] == args['song_id']) {
-                  //         if (i >= 1) {
-                  //           args['music_img'] = songs[i - 1]['music_img'];
-                  //           songImage.value = songs[i - 1]['music_img'];
-                  //           args['song_mp3'] = songs[i - 1]['song_mp3'];
-                  //           args['song_name'] = songs[i - 1]['song_name'];
-                  //           songName.value = songs[i - 1]['song_name'];
-                  //           args['artist'] = songs[i - 1]['artist'];
-                  //           artistName.value = songs[i - 1]['artist'];
-                  //           args['song_id'] = songs[i - 1]['id'];
-                  //           playerprovider
-                  //               .playfromUrl(songs[i - 1]['song_mp3']);
-                  //         }
-                  //       }
-                  //     }
-                  //   },
+                  ontap: args['issingle']
+                      ? null
+                      : () async {
+                          print('previous song');
+                          List songs = args['songs_list'];
+                          for (var i = 0; i < songs.length; i++) {
+                            if (songs[i]['id'] == args['song_id']) {
+                              if (i >= 1) {
+                                args['music_img'] = songs[i - 1]['music_img'];
+                                playerpro
+                                    .setSongImage(songs[i - 1]['music_img']);
+                                args['song_mp3'] = songs[i - 1]['song_mp3'];
+                                args['song_name'] = songs[i - 1]['song_name'];
+                                playerpro
+                                    .setSongName(songs[i - 1]['song_name']);
+                                args['artist'] = songs[i - 1]['artist'];
+                                playerpro.setArtistName(songs[i - 1]['artist']);
+                                args['song_id'] = songs[i - 1]['id'];
+                                playerbox.write('songs_data', {
+                                  'songs_list': args['songs_list'],
+                                  'current_song': songs[i - 1]['id'],
+                                });
+                                args['isAsset']
+                                    ? playerprovider.playfromAsset(
+                                        songs[i - 1]['song_mp3'],
+                                        issingle: args['issingle'],
+                                        songslist: args['songs_list'],
+                                        currentid: args['song_id'])
+                                    : playerprovider
+                                        .playfromUrl(songs[i - 1]['song_mp3']);
+                              }
+                            }
+                          }
+                        },
                 ),
                 Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -114,35 +127,45 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                 CustomIconButton(
                   icon: FontAwesomeIcons.forwardStep,
                   size: 20.0,
-                  ontap:
-                      // args['issingle']
-                      // ?
-                      () {},
-                  // : () async {
-                  //     print('Next song');
-                  //     List songs = args['songs_list'];
-                  //     for (int i = 0; i < songs.length; i++) {
-                  //       print(songs[i]['id']);
-                  //       print(args['song_id']);
-                  //       if (songs[i]['id'] == args['song_id']) {
-                  //         if (i < songs.length - 1) {
-                  //           args['music_img'] = songs[i + 1]['music_img'];
-                  //           songImage.value = songs[i + 1]['music_img'];
-                  //           args['song_mp3'] = songs[i + 1]['song_mp3'];
-                  //           args['song_name'] = songs[i + 1]['song_name'];
-                  //           songName.value = songs[i + 1]['song_name'];
-                  //           args['artist'] = songs[i + 1]['artist'];
-                  //           artistName.value = songs[i + 1]['artist'];
-                  //           args['song_id'] = songs[i + 1]['id'];
-                  //           // setState(() {});
-
-                  //           // playerprovider.dispose();
-                  //           playerprovider
-                  //               .playfromUrl(songs[i + 1]['song_mp3']);
-                  //         }
-                  //       }
-                  //     }
-                  //   },
+                  ontap: args['issingle']
+                      ? null
+                      : () async {
+                          print('Next song');
+                          List songs = args['songs_list'];
+                          print(songs);
+                          for (int i = 0; i < songs.length; i++) {
+                            print(songs[i]['id']);
+                            print(args['song_id']);
+                            if (songs[i]['id'] == args['song_id']) {
+                              if (i < songs.length - 1) {
+                                args['music_img'] = songs[i + 1]['music_img'];
+                                playerpro
+                                    .setSongImage(songs[i + 1]['music_img']);
+                                args['song_mp3'] = songs[i + 1]['song_mp3'];
+                                args['song_name'] = songs[i + 1]['song_name'];
+                                playerpro
+                                    .setSongName(songs[i + 1]['song_name']);
+                                args['artist'] = songs[i + 1]['artist'];
+                                playerpro.setArtistName(songs[i + 1]['artist']);
+                                args['song_id'] = songs[i + 1]['id'];
+                                // setState(() {});
+                                playerbox.write('songs_data', {
+                                  'songs_list': args['songs_list'],
+                                  'current_song': songs[i + 1]['id'],
+                                });
+                                // playerprovider.dispose();
+                                args['isAsset']
+                                    ? playerprovider.playfromAsset(
+                                        songs[i + 1]['song_mp3'],
+                                        issingle: args['issingle'],
+                                        songslist: args['songs_list'],
+                                        currentid: args['song_id'])
+                                    : playerprovider
+                                        .playfromUrl(songs[i + 1]['song_mp3']);
+                              }
+                            }
+                          }
+                        },
                 ),
                 // CustomIconButton(
                 //   icon: FontAwesomeIcons.shuffle,
@@ -154,7 +177,7 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                 Text(
                   playerbox.read('isplaying')
                       ? "${playerpro.seekpos}/${playerpro.duration} "
-                      : "00:00:00/00:00:00",
+                      : "0:0:0/0:0:0",
                   style: TextStyle(
                     fontSize: 13.0,
                     fontFamily: font_family,

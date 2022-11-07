@@ -108,6 +108,11 @@ class AudioPlayerProvider with ChangeNotifier {
                     songslist: songsList,
                     issingle: isSingle,
                     currentid: songsList[i + 1]['id']);
+                playerbox.write('songs_data', {
+                  'songs_list': songsList,
+                  'song_id': songsList[i + 1]['id'],
+                  'issingle': isSingle,
+                });
               } else {
                 // print(songsList[0]['song_mp3']);
                 // playfromAsset(songsList[0]['song_mp3'],

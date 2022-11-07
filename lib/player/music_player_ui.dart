@@ -49,12 +49,22 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
       Provider.of<AudioPlayerProvider>(context, listen: false).setPlaying(true);
       // Provider.of<AudioPlayerProvider>(context, listen: false).setPlaying(true);
       if (args['isAsset'] && !playerbox.read('isplaying')) {
+        playerbox.write('songs_data', {
+          'songs_list': args['songs_list'],
+          'song_id': args['song_id'],
+          'issingle': args['issingle'],
+        });
         Provider.of<AudioPlayerProvider>(context, listen: false).playfromAsset(
             args['filepath'],
             issingle: args['issingle'],
             songslist: args['songs_list'],
             currentid: args['song_id']);
       } else if (!args['isAsset'] && !playerbox.read('isplaying')) {
+        playerbox.write('songs_data', {
+          'songs_list': args['songs_list'],
+          'song_id': args['song_id'],
+          'issingle': args['issingle'],
+        });
         Provider.of<AudioPlayerProvider>(context, listen: false)
             .playfromUrl(args['song_mp3']);
         print(args['song_mp3']);
@@ -531,6 +541,11 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                                   playerpro
                                       .setArtistName(songs[i - 1]['artist']);
                                   args['song_id'] = songs[i - 1]['id'];
+                                  playerbox.write('songs_data', {
+                                    'songs_list': args['songs_list'],
+                                    'song_id': songs[i - 1]['id'],
+                                    'issingle': args['issingle'],
+                                  });
                                   args['isAsset']
                                       ? playerprovider.playfromAsset(
                                           songs[i - 1]['song_mp3'],
@@ -589,7 +604,11 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                                       .setArtistName(songs[i + 1]['artist']);
                                   args['song_id'] = songs[i + 1]['id'];
                                   // setState(() {});
-
+                                  playerbox.write('songs_data', {
+                                    'songs_list': args['songs_list'],
+                                    'song_id': songs[i + 1]['id'],
+                                    'issingle': args['issingle'],
+                                  });
                                   // playerprovider.dispose();
                                   args['isAsset']
                                       ? playerprovider.playfromAsset(
