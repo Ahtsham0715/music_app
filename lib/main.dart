@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    playerbox.write('isplaying', true);
+    playerbox.write('isplaying', false);
     playerbox.writeIfNull('songs_data', {
       'issingle': false,
       'isAsset': false,
