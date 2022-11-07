@@ -28,10 +28,12 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
               min: 0.0,
               max: playerpro.maxduration,
               value: playerpro.seekpossec,
-              onChanged: (value) {
-                playerpro.seekDuration(value.toInt());
-                print(value);
-              },
+              onChanged: playerbox.read('isplaying')
+                  ? (value) {
+                      playerpro.seekDuration(value.toInt());
+                      print(value);
+                    }
+                  : null,
               activeColor: Colors.teal.shade200,
               inactiveColor: Colors.grey.shade300,
               // color: Colors.teal.shade300,
@@ -52,10 +54,12 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                       ? Icons.repeat_one_rounded
                       : Icons.repeat_rounded,
                   size: 20.0,
-                  ontap: () {
-                    playerpro.setLoop(!playerpro.loop);
-                    print(playerbox.read('loop'));
-                  },
+                  ontap: playerbox.read('isplaying')
+                      ? () {
+                          playerpro.setLoop(!playerpro.loop);
+                          print(playerbox.read('loop'));
+                        }
+                      : null,
                 ),
                 CustomIconButton(
                   icon: FontAwesomeIcons.backwardStep,
@@ -96,12 +100,14 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                           : FontAwesomeIcons.play,
                       size: 18.0,
                       hovercolor: Colors.transparent,
-                      ontap: () {
-                        // setState(() {});
-                        playerpro.isplaying
-                            ? playerpro.pauseAudio()
-                            : playerpro.resumeAudio();
-                      },
+                      ontap: playerbox.read('isplaying')
+                          ? () {
+                              // setState(() {});
+                              playerpro.isplaying
+                                  ? playerpro.pauseAudio()
+                                  : playerpro.resumeAudio();
+                            }
+                          : null,
                     ),
                   ),
                 ),
@@ -146,7 +152,9 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                   width: MediaQuery.of(context).size.width * 0.25,
                 ),
                 Text(
-                  "${playerpro.seekpos}/${playerpro.duration} ",
+                  playerbox.read('isplaying')
+                      ? "${playerpro.seekpos}/${playerpro.duration} "
+                      : "00:00:00/00:00:00",
                   style: TextStyle(
                     fontSize: 13.0,
                     fontFamily: font_family,
@@ -159,47 +167,51 @@ class _FooterPlayerBarState extends State<FooterPlayerBar> {
                 CustomIconButton(
                   icon: FontAwesomeIcons.volumeHigh,
                   size: 20.0,
-                  ontap: () {
-                    print('menu build');
-                    showMenu(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        // elevation: 0.0,
-                        color: Colors.grey.shade300,
-                        context: context,
-                        position: RelativeRect.fromLTRB(
-                            MediaQuery.of(context).size.width * 0.01,
-                            MediaQuery.of(context).size.height * 0.85,
-                            10,
-                            0.0),
-                        items: [
-                          PopupMenuItem(
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  FontAwesomeIcons.volumeLow,
-                                  color: Colors.black,
-                                  size: 25.0,
-                                ),
-                                StatefulBuilder(builder: (context, innerstate) {
-                                  return Slider(
-                                    min: 0,
-                                    max: 1,
-                                    inactiveColor: Colors.grey.shade400,
-                                    activeColor: Colors.green,
-                                    value: playerpro.volume,
-                                    onChanged: (value) {
-                                      playerpro.changeVolume(value.toDouble());
-                                      innerstate(() {});
-                                    },
-                                  );
-                                }),
-                              ],
-                            ),
-                          )
-                        ]);
-                  },
+                  ontap: playerbox.read('isplaying')
+                      ? () {
+                          print('menu build');
+                          showMenu(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              // elevation: 0.0,
+                              color: Colors.grey.shade300,
+                              context: context,
+                              position: RelativeRect.fromLTRB(
+                                  MediaQuery.of(context).size.width * 0.01,
+                                  MediaQuery.of(context).size.height * 0.85,
+                                  10,
+                                  0.0),
+                              items: [
+                                PopupMenuItem(
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        FontAwesomeIcons.volumeLow,
+                                        color: Colors.black,
+                                        size: 25.0,
+                                      ),
+                                      StatefulBuilder(
+                                          builder: (context, innerstate) {
+                                        return Slider(
+                                          min: 0,
+                                          max: 1,
+                                          inactiveColor: Colors.grey.shade400,
+                                          activeColor: Colors.green,
+                                          value: playerpro.volume,
+                                          onChanged: (value) {
+                                            playerpro
+                                                .changeVolume(value.toDouble());
+                                            innerstate(() {});
+                                          },
+                                        );
+                                      }),
+                                    ],
+                                  ),
+                                )
+                              ]);
+                        }
+                      : null,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.05,

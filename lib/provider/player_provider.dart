@@ -68,24 +68,32 @@ class AudioPlayerProvider with ChangeNotifier {
         await _player.setReleaseMode(ReleaseMode.release);
         playerbox.write('isplaying', false);
       } else {
-        await _player.setReleaseMode(ReleaseMode.release);
+        await _player.setReleaseMode(ReleaseMode.stop);
         playerbox.write('isplaying', false);
         for (var i = 0; i < songsList.length; i++) {
           if (songsList[i]['id'] == currentId.toString()) {
-            if (i < songsList.length - 1) {
-              print(songsList[i + 1]['song_mp3']);
-              playfromAsset(songsList[i + 1]['song_mp3'],
-                  songslist: songsList,
-                  issingle: isSingle,
-                  currentid: songsList[i + 1]['id']);
-            } else {
-              // print(songsList[0]['song_mp3']);
-              // playfromAsset(songsList[0]['song_mp3'],
-              //     songslist: songsList,
-              //     issingle: isSingle,
-              //     currentid: songsList[0]['id']);
-              await _player.setReleaseMode(ReleaseMode.stop);
+            if (currentId == songsList[songsList.length - 1]['id']) {
+              await _player.setReleaseMode(ReleaseMode.release);
               playerbox.write('isplaying', false);
+              stopAudio();
+            } else {
+              if (i < songsList.length - 1) {
+                print(songsList[i + 1]['song_mp3']);
+                print('matched id: ${songsList[i + 1]['id']}');
+
+                playfromAsset(songsList[i + 1]['song_mp3'],
+                    songslist: songsList,
+                    issingle: isSingle,
+                    currentid: songsList[i + 1]['id']);
+              } else {
+                // print(songsList[0]['song_mp3']);
+                // playfromAsset(songsList[0]['song_mp3'],
+                //     songslist: songsList,
+                //     issingle: isSingle,
+                //     currentid: songsList[0]['id']);
+                await _player.setReleaseMode(ReleaseMode.stop);
+                playerbox.write('isplaying', false);
+              }
             }
           }
         }
@@ -117,7 +125,6 @@ class AudioPlayerProvider with ChangeNotifier {
           });
       _player.onDurationChanged.listen((Duration d) {
         setMaxDuration(d.inSeconds.toDouble());
-        print('Max duration: ${d.abs()}');
         setDuration(d.toString().split('.')[0]);
         // setDuration('${d.inHours}:${d.inMinutes}:${d.inSeconds.floor()}');
       });
