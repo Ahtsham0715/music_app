@@ -21,18 +21,30 @@ class MusicPlayerUi extends StatefulWidget {
 class _MusicPlayerUiState extends State<MusicPlayerUi> {
   final TextEditingController _search = TextEditingController();
 
-  ValueNotifier<String> songName = ValueNotifier('');
-  ValueNotifier<String> artistName = ValueNotifier('');
-  ValueNotifier<String> songImage = ValueNotifier('');
+  // ValueNotifier<String> songName = ValueNotifier('');
+  // ValueNotifier<String> artistName = ValueNotifier('');
+  // ValueNotifier<String> songImage = ValueNotifier('');
 
   var args = Get.arguments;
   double _slidervalue = 0.0;
   // dynamic playerprovider;
   @override
   void initState() {
-    songName.value = args['song_name'].toString();
-    songImage.value = args['music_img'].toString();
-    artistName.value = args['artist'].toString();
+    Provider.of<AudioPlayerProvider>(context, listen: false)
+        .setSongName(args['song_name'].toString());
+    Provider.of<AudioPlayerProvider>(context, listen: false)
+        .setSongImage(args['music_img'].toString());
+    Provider.of<AudioPlayerProvider>(context, listen: false)
+        .setArtistName(args['artist'].toString());
+    // songName.value =
+    //     Provider.of<AudioPlayerProvider>(context, listen: false).songname;
+    // songImage.value =
+    //     Provider.of<AudioPlayerProvider>(context, listen: false).songimage;
+    // artistName.value =
+    //     Provider.of<AudioPlayerProvider>(context, listen: false).artistname;
+    // songName.value = args['song_name'].toString();
+    // songImage.value = args['music_img'].toString();
+    // artistName.value = args['artist'].toString();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<AudioPlayerProvider>(context, listen: false).setPlaying(true);
       // Provider.of<AudioPlayerProvider>(context, listen: false).setPlaying(true);
@@ -135,64 +147,54 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                   width: args['isAsset'] || args['issingle']
                       ? MediaQuery.of(context).size.width
                       : MediaQuery.of(context).size.width * 0.5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        width: MediaQuery.of(context).size.width * 0.25,
-                        padding: const EdgeInsets.all(2.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black, width: 2.0),
-                            borderRadius: BorderRadius.circular(5.0)),
-                        child: args['isAsset']
-                            ? Image.asset('assets/logo.png')
-                            : ValueListenableBuilder(
-                                valueListenable: songImage,
-                                builder: (context, val, _) {
-                                  return Image.network(
-                                    songImage.value.toString(),
-                                    fit: BoxFit.fill,
-                                  );
-                                }),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: ValueListenableBuilder(
-                            valueListenable: songName,
-                            builder: (context, val, _) {
-                              return Text(
-                                songName.value.toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: font_family_bold,
+                  child: Consumer<AudioPlayerProvider>(
+                      builder: (context, playerpro, _) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          padding: const EdgeInsets.all(2.0),
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.black, width: 2.0),
+                              borderRadius: BorderRadius.circular(5.0)),
+                          child: args['isAsset']
+                              ? Image.asset('assets/logo.png')
+                              : Image.network(
+                                  playerpro.songimage,
+                                  fit: BoxFit.fill,
                                 ),
-                              );
-                            }),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: ValueListenableBuilder(
-                            valueListenable: artistName,
-                            builder: (context, val, _) {
-                              return Text(
-                                args['isAsset']
-                                    ? 'Unknown'
-                                    : artistName.value.toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  fontFamily: font_family,
-                                ),
-                              );
-                            }),
-                      ),
-                    ],
-                  ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            playerpro.songname,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: font_family_bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Text(
+                            args['isAsset'] ? 'Unknown' : playerpro.artistname,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: font_family,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
                 ),
                 args['isAsset'] || args['issingle']
                     ? const Center()
@@ -519,12 +521,15 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                               if (songs[i]['id'] == args['song_id']) {
                                 if (i >= 1) {
                                   args['music_img'] = songs[i - 1]['music_img'];
-                                  songImage.value = songs[i - 1]['music_img'];
+                                  playerpro
+                                      .setSongImage(songs[i - 1]['music_img']);
                                   args['song_mp3'] = songs[i - 1]['song_mp3'];
                                   args['song_name'] = songs[i - 1]['song_name'];
-                                  songName.value = songs[i - 1]['song_name'];
+                                  playerpro
+                                      .setSongName(songs[i - 1]['song_name']);
                                   args['artist'] = songs[i - 1]['artist'];
-                                  artistName.value = songs[i - 1]['artist'];
+                                  playerpro
+                                      .setArtistName(songs[i - 1]['artist']);
                                   args['song_id'] = songs[i - 1]['id'];
                                   args['isAsset']
                                       ? playerprovider.playfromAsset(
@@ -573,12 +578,15 @@ class _MusicPlayerUiState extends State<MusicPlayerUi> {
                               if (songs[i]['id'] == args['song_id']) {
                                 if (i < songs.length - 1) {
                                   args['music_img'] = songs[i + 1]['music_img'];
-                                  songImage.value = songs[i + 1]['music_img'];
+                                  playerpro
+                                      .setSongImage(songs[i + 1]['music_img']);
                                   args['song_mp3'] = songs[i + 1]['song_mp3'];
                                   args['song_name'] = songs[i + 1]['song_name'];
-                                  songName.value = songs[i + 1]['song_name'];
+                                  playerpro
+                                      .setSongName(songs[i + 1]['song_name']);
                                   args['artist'] = songs[i + 1]['artist'];
-                                  artistName.value = songs[i + 1]['artist'];
+                                  playerpro
+                                      .setArtistName(songs[i + 1]['artist']);
                                   args['song_id'] = songs[i + 1]['id'];
                                   // setState(() {});
 

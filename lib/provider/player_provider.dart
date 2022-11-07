@@ -13,11 +13,32 @@ class AudioPlayerProvider with ChangeNotifier {
   dynamic _seekpos = 0.0;
   dynamic _seekpossec = 0.0;
   double _volume = 0.3;
+  String _songimage = '';
+  String _songname = '';
+  String _artistname = '';
 
   get isplaying => _isplaying;
+  get songimage => _songimage;
+  get songname => _songname;
+  get artistname => _artistname;
 
   setPlaying(bool value) {
     _isplaying = value;
+    notifyListeners();
+  }
+
+  setSongName(String value) {
+    _songname = value;
+    notifyListeners();
+  }
+
+  setSongImage(String value) {
+    _songimage = value;
+    notifyListeners();
+  }
+
+  setArtistName(String value) {
+    _artistname = value;
     notifyListeners();
   }
 
@@ -80,7 +101,9 @@ class AudioPlayerProvider with ChangeNotifier {
               if (i < songsList.length - 1) {
                 print(songsList[i + 1]['song_mp3']);
                 print('matched id: ${songsList[i + 1]['id']}');
-
+                setSongImage(songsList[i + 1]['music_img']);
+                setSongName(songsList[i + 1]['song_name']);
+                setArtistName(songsList[i + 1]['artist']);
                 playfromAsset(songsList[i + 1]['song_mp3'],
                     songslist: songsList,
                     issingle: isSingle,
